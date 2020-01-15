@@ -1,5 +1,5 @@
 # ScentGraph
 
-ScentGraph is a project for full stack course. The plan is to use React and TypeScript for the FrontEnd, Node for the backend and Neo4J graph database that uses Cypher queries.
+ScentGraph is a project for Helsinki University FullStack course. The plan is to use React and TypeScript for the front end, Node for the backend and Neo4J for graph database. The database queries will be done using Cypher.
 
-In ScentGraph users can add and pick scents for their collections. The scents will belong to various categories, and can be described by having certain notes. The relations of scent families can be visualized in a graph form.
+In ScentGraph users can add scents to the database and pick them for their collections. The scents can belong to various categories, and can be described by having certain notes. The relations of users and scents, different scent categories and their notes can be visualized in a graph form.
