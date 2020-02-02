@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": ",",
+    "paths": {
+      "*": ["node_modules/*", "node_modules/@types/*", "src/server/*"]
+    },
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "lib": ["es5", "es6", "es7"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true
+  },
+  "include": ["src/server/**/*ts"]
+}

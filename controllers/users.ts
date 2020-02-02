@@ -3,43 +3,46 @@ const usersRouter = require('express').Router()
 const bcrypt = require('bcryptjs')
 const neode = require('neode')
 import { Request, Response } from 'express'
+const User = require('..models/user')
 
 export const postUser: any = async (request: Request, response: Response) => {
     try {
         const body = request.body
         const instance = new neode.fromEnv()
 
-        instance.model('User', {
-            user_id: {
-                type: 'uuid',
-                primary: true,
-            },
-            username: {
-                type: 'string',
-            },
-            passwordHash: {
-                type: 'string',
-            },
-            name: {
-                type: 'string',
-                index: true,
-            },
-            has: {
-                type: 'relationship',
-                relationship: 'HAS',
-                direction: 'out',
-                properties: {
-                    since: {
-                        type: 'localdatetime',
-                        default: () => new Date,
-                    },
-                },
-            },
-            createdAt: {
-                type: 'datetime',
-                default: () => new Date,
-            }
-        })
+        instance.model('User', User)
+
+        // instance.model('User', {
+        //     user_id: {
+        //         type: 'uuid',
+        //         primary: true,
+        //     },
+        //     username: {
+        //         type: 'string',
+        //     },
+        //     passwordHash: {
+        //         type: 'string',
+        //     },
+        //     name: {
+        //         type: 'string',
+        //         index: true,
+        //     },
+        //     has: {
+        //         type: 'relationship',
+        //         relationship: 'HAS',
+        //         direction: 'out',
+        //         properties: {
+        //             since: {
+        //                 type: 'localdatetime',
+        //                 default: () => new Date,
+        //             },
+        //         },
+        //     },
+        //     createdAt: {
+        //         type: 'datetime',
+        //         default: () => new Date,
+        //     }
+        // })
 
         const saltRounds = 10
 
