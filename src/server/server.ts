@@ -4,6 +4,7 @@ import * as path from 'path'
 import * as http from 'http'
 import * as bodyParser from 'body-parser'
 import { ServerConfig } from './config'
+import { configureRoutes } from './routes'
 
 export async function startServer(
     config: ServerConfig,
@@ -15,6 +16,7 @@ export async function startServer(
     console.log(`Public files served from ${publicFilesPath}`)
     app.use(express.static(publicFilesPath))
 
+    configureRoutes(app, driver)
     const server = app.listen(config.serverPort)
     console.log(`Server listening on port ${config.serverPort}`)
     return server
