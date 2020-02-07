@@ -54,7 +54,7 @@ export function configureUserRoutes(
           return res.status(400).json({ error: 'Password must be at least 8 characters long.' })
         }
         const existingUser = await instance.cypher('MATCH (user:User {username:{username}}) return user.username', req.body)
-        if (existingUser) {
+        if (existingUser.records.length>0) {
           return res.status(400).json({ error: 'Username must be unique.' })
         }
   
