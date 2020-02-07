@@ -1,7 +1,4 @@
 import * as neo4j from "neo4j-driver"
-// if (process.env.NODE_ENV !== "production") {
-//     require('dotenv').config()
-//   }
 
 export interface ServerConfig {
   env: string
