@@ -6,7 +6,8 @@ export default async () => {
     
     const envParams = {
         SERVER_PORT: '8000',
-        NEO4J_URS: 'bolt://localhost:7687'
+        NEO4J_URS: 'bolt://localhost:7687',
+        API_URL: 'http://localhost:5000'
     }
     process.env = {...process.env, ...envParams}
     const config = loadServerConfig()

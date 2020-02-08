@@ -9,6 +9,7 @@ describe (`server config`, () => {
             env: 'test',
             serverPort: 8000,
             publicPath: '../..dist',
+            apiUrl: 'http://localhost:5000',
             neo4jUrl: 'bolt://localhost:7687'
         })
     })
