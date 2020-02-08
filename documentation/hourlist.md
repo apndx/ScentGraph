@@ -7,4 +7,5 @@
 | 20.1. | 6 | User creation to Neo4J, also some hours of not very fruitful typescript configuration |
 | 2.2. | 7 | TypeScript configurations to work. User router refactoring. Response needs still some work. |
 | 7.2. | 3 | Error-handling to user route, starting user route testing |
+| 8.2. |  |  |
 | all |  20 | | 

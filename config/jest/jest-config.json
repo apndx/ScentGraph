@@ -1,0 +1,24 @@
+{
+    "moduleDirectories": [
+        "src",
+        "node_modules"
+    ],
+    "transform": {
+        ".ts": "ts-jest"
+    },
+    "testRegex": "(/src/.*|\\.(test))\\.test.ts$",
+    "moduleFileExtensions": [
+        "js",
+        "ts"
+    ],
+    "rootDir": "../../",
+    "preset": "ts-jest",
+    "testMatch": null,
+    "globalSetup": "./config/jest/jest-setup.ts",
+    "globalTeardown": "./config/jest/jest-teardown.ts",
+    "globals": {
+        "ts-jest": {
+            "tsConfig": "./config/tsconfig-test.json"
+        }
+    }
+}
