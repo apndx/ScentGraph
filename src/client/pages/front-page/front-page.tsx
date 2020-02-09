@@ -13,5 +13,4 @@ export class FrontPage extends React.PureComponent<DEFAULT_PROPS, EMPTY_STATE> {
             </div>
         )
     }
-
 }
