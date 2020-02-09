@@ -3,5 +3,6 @@ export enum ClientRoutePath {
 }
 
 export function getClientRoute(path: ClientRoutePath): string {
+    console.log('PATH')
     return path
 }
