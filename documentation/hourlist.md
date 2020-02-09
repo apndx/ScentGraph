@@ -8,4 +8,5 @@
 | 2.2. | 7 | TypeScript configurations to work. User router refactoring. Response needs still some work. |
 | 7.2. | 3 | Error-handling to user route, starting user route testing |
 | 8.2. | 6 | Starting client configurations |
-| all |  26 | | 
+| 9.2. | 2,5 | User creation form, starting nav-bar |
+| all |  28,5 | | 

@@ -1,8 +1,8 @@
 export enum ClientRoutePath {
-    FrontPage = '/'
+    FrontPage = '/',
+    UserCreation = '/newUser'
 }
 
 export function getClientRoute(path: ClientRoutePath): string {
-    console.log('PATH')
     return path
 }
