@@ -9,4 +9,5 @@
 | 7.2. | 3 | Error-handling to user route, starting user route testing |
 | 8.2. | 6 | Starting client configurations |
 | 9.2. | 3 | User creation form, starting nav-bar |
-| all |  29 | | 
+| 11.2. | 4,5 | Navbar and links, React bootstrap styles, logo, favicon. Client route refresh needs to be fixed. |
+| all |  33,5 | | 

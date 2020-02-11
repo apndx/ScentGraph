@@ -2,6 +2,7 @@ import * as React from 'react'
 import { DEFAULT_PROPS } from '../../utils'
 import { create } from '../../services/users'
 import { ClientUser } from '../../data-classes'
+import { Form, Button } from 'react-bootstrap'
 
 interface UserCreateState {
   name: string,
@@ -47,42 +48,74 @@ export class UserCreate extends React.PureComponent<DEFAULT_PROPS, UserCreateSta
 
   public render(): JSX.Element {
     return (
-      <div>
+      <div className='container'>
         <h2>Add a new user</h2>
         <form onSubmit={this.onSubmit}>
-          <div>
-            Name
-              <input
+          <Form.Group>
+
+            <Form.Label> Name </Form.Label>
+            <Form.Control
               type="text"
               name="name"
               value={this.state.name}
               onChange={(event) => { this.setState({ name: event.target.value }) }}
+              id='name'
             />
-          </div>
-          <div>
-            Username
-              <input
+
+            <Form.Label> Username </Form.Label>
+            <Form.Control
               type="text"
               name="username"
               value={this.state.username}
               onChange={(event) => { this.setState({ username: event.target.value }) }}
+              id='username'
             />
-          </div>
-          <div>
-            Password
-              <input
+
+            <Form.Label> Password </Form.Label>
+            <Form.Control
               type="password"
               name="password"
               value={this.state.password}
               onChange={(event) => { this.setState({ password: event.target.value }) }}
+              id='password'
             />
-          </div>
-          <button
-            disabled={this.isDisabled()}>save</button>
+
+            <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>
+
+            {/* <div>
+              Name
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={(event) => { this.setState({ name: event.target.value }) }}
+              />
+            </div>
+            <div>
+              Username
+              <input
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={(event) => { this.setState({ username: event.target.value }) }}
+              />
+            </div>
+            <div>
+              Password
+              <input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={(event) => { this.setState({ password: event.target.value }) }}
+              />
+            </div>
+            <button
+              disabled={this.isDisabled()}>save</button> */}
+          </Form.Group>
         </form>
+
+
       </div>
     )
   }
 }
-
-

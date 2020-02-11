@@ -13,7 +13,9 @@ export class FrontPage extends React.PureComponent<DEFAULT_PROPS, EMPTY_STATE> {
         <div>
           <NavBarLayout />
         </div>
-        <h1>ScentGraph</h1>
+        <div className='container'>
+          <h1>ScentGraph</h1>
+        </div>
       </div>
     )
   }

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { Navbar } from 'react-bootstrap'
-import { withRouter } from 'react-router'  
+import { Navbar, Nav } from 'react-bootstrap'
+import { withRouter } from 'react-router'
+import logo from '../../assets/eye.jpg'
 
 interface NavBarLayoutProps {
   history: any,
@@ -31,12 +32,32 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, NavBarLayoutSt
 
   public render(): JSX.Element {
     return (
-      <Navbar bg='dark' variant='dark'>
-        <div style={this.state.navStyle}>
-          <Link style={this.state.padding} to="/">Front page</Link>
-          <Link style={this.state.padding} to="/newUser">Add a user</Link>
-        </div>
+      <div >
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Brand>
+          <img
+            src={logo}
+            width='60'
+            height='60'
+            className='d-inline-block align-top'
+            alt='Helsingin Yliopisto'
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            
+            <Nav.Link href='#' as='span'>
+              <Link className='text-info' style={this.state.padding} to='/'>Front page</Link>
+            </Nav.Link>
+
+            <Nav.Link href='#' as='span'>
+              <Link className='text-info' style={this.state.padding} to='/newUser'>Add a user</Link>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
+    </div>
     )
   }
 
