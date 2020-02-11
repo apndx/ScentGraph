@@ -1,14 +1,21 @@
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar } from 'react-bootstrap'
-import { DEFAULT_PROPS } from '../../utils'
+import { withRouter } from 'react-router'  
+
+interface NavBarLayoutProps {
+  history: any,
+  location: any,
+  match: any
+}
+
 
 interface NavBarLayoutState {
   padding: any,
   navStyle: any
 }
 
-export class NavBarLayout extends React.PureComponent<DEFAULT_PROPS, NavBarLayoutState> {
+class NavBarLayout extends React.PureComponent<NavBarLayoutProps, NavBarLayoutState> {
   public state: NavBarLayoutState
   constructor(props) {
     super(props)
@@ -35,7 +42,4 @@ export class NavBarLayout extends React.PureComponent<DEFAULT_PROPS, NavBarLayou
 
 }
 
-
-
-
-
+export default withRouter(NavBarLayout)

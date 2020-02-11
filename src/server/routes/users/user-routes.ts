@@ -15,7 +15,7 @@ export function configureUserRoutes(
     async (req: express.Request, res: express.Response) => {
 
       const instance = new neode.fromEnv()
-      
+
       instance.model("User", {
         user_id: {
           type: "uuid",
@@ -50,14 +50,14 @@ export function configureUserRoutes(
       })
 
       try {
-        if(req.body.password.length<8) {
+        if (req.body.password.length < 8) {
           return res.status(400).json({ error: 'Password must be at least 8 characters long.' })
         }
         const existingUser = await instance.cypher('MATCH (user:User {username:{username}}) return user.username', req.body)
-        if (existingUser.records.length>0) {
+        if (existingUser.records.length > 0) {
           return res.status(400).json({ error: 'Username must be unique.' })
         }
-  
+
         const saltRounds = 10
 
         bcrypt
@@ -72,15 +72,14 @@ export function configureUserRoutes(
               })
             ])
               .then(([user]) => {
-                console.log(`User ${user.properties().name} created`);
-                return user.properties().name
+                console.log(`User ${user.properties().name} created`)
+                res.send(user.properties().name)
               })
               .catch((e: any) => {
                 console.log("Error :(", e, e.details); // eslint-disable-line no-console
               })
               .then(() => instance.close())
           })
-
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'something went wrong...' })
