@@ -81,40 +81,8 @@ export class UserCreate extends React.PureComponent<DEFAULT_PROPS, UserCreateSta
             />
 
             <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>
-
-            {/* <div>
-              Name
-              <input
-                type="text"
-                name="name"
-                value={this.state.name}
-                onChange={(event) => { this.setState({ name: event.target.value }) }}
-              />
-            </div>
-            <div>
-              Username
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={(event) => { this.setState({ username: event.target.value }) }}
-              />
-            </div>
-            <div>
-              Password
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={(event) => { this.setState({ password: event.target.value }) }}
-              />
-            </div>
-            <button
-              disabled={this.isDisabled()}>save</button> */}
           </Form.Group>
         </form>
-
-
       </div>
     )
   }
