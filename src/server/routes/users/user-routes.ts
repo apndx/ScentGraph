@@ -14,7 +14,10 @@ export function configureUserRoutes(
     `${USERS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
 
-      const instance = new neode.fromEnv()
+      const instance = new neode(
+        process.env.GRAPHENEDB_BOLT_URL, 
+        process.env.GRAPHENEDB_BOLT_USER, 
+        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       instance.model("User", {
         user_id: {
