@@ -16,7 +16,7 @@ export async function startServer(
     console.log(`Public files served from ${publicFilesPath}`)
     app.use(express.static(publicFilesPath))
 
-    configureRoutes(app, driver)
+    configureRoutes(app, driver, config)
     const server = app.listen(config.serverPort)
     console.log(`Server listening on port ${config.serverPort}`)
     return server
