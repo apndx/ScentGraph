@@ -3,3 +3,4 @@ build:
     web: Dockerfile
   config:
     NODE_ENV: production  
+    PORT: 3000

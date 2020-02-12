@@ -5,7 +5,7 @@ import { configureNeo4jDriver } from '../../src/server/config'
 export default async () => {
     
     const envParams = {
-        SERVER_PORT: '8000',
+        PORT: '8000',
         NEO4J_URS: 'bolt://localhost:7687',
         API_URL: 'http://localhost:5000'
     }
