@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ",",
     "paths": {
-      "*": ["node_modules/*", "node_modules/@types/*", "src/server/*"]
+      "*": ["node_modules/*", "node_modules/@types/*", "src/server/*"],
     },
     "sourceMap": true,
     "noImplicitAny": true,
@@ -12,7 +12,8 @@
     "lib": ["es5", "es6", "es7"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "declaration": true
+    "declaration": true,
+    "types": ["node"]
   },
   "include": ["src/server/**/*ts"]
 }
