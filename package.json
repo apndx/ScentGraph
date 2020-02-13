@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ScentGraph is a project for Helsinki University FullStack course. The plan is to use React and TypeScript for the front end, Node for the backend and Neo4J for graph database. The database queries will be done using Cypher.",
   "scripts": {
+    "postinstall": "npm run build-client",
     "start": "npm run start-server",
     "build-client": "parcel build ./src/client/index.html",
     "start-server": "ts-node -r dotenv/config --project ./config/tsconfig-server.json ./src/server/index.ts",
@@ -50,7 +51,8 @@
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "parcel-bundler": "^1.12.4"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",
