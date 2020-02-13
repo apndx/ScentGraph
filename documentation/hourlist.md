@@ -10,4 +10,5 @@
 | 8.2. | 6 | Starting client configurations |
 | 9.2. | 3 | User creation form, starting nav-bar |
 | 11.2. | 4,5 | Navbar and links, React bootstrap styles, logo, favicon. Client route refresh needs to be fixed. |
-| all |  33,5 | | 
+| 12.2. | 5 | Route not found fix. Heroku configurations started. |
+| all |  38,5 | | 
