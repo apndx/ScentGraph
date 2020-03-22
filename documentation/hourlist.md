@@ -11,4 +11,6 @@
 | 9.2. | 3 | User creation form, starting nav-bar |
 | 11.2. | 4,5 | Navbar and links, React bootstrap styles, logo, favicon. Client route refresh needs to be fixed. |
 | 12.2. | 5 | Route not found fix. Heroku configurations started. |
-| all |  38,5 | | 
+| 13.2. | 2,5 | Heroku configured, users can be saved to Graphene database, new version of logo |
+| 22.3. | 3,5 | Server route and rest request for login, rest request for add user, additions to README |
+| all |  44,5 | | 
