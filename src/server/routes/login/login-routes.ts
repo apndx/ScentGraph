@@ -8,7 +8,6 @@ export function configureLoginRoutes(
   apiPath: string
 ): void {
   const LOGIN_PATH = `${apiPath}/login`
-console.log('LOGIN PATH', LOGIN_PATH )
   app.post(
     LOGIN_PATH,
     async (req: express.Request, res: express.Response) => {

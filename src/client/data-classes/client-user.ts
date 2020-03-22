@@ -1,5 +1,5 @@
 export interface ClientUser{
-    name: string,
+    name?: string,
     username: string,
     password: string,
     token?: string
