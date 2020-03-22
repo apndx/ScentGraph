@@ -12,51 +12,16 @@ console.log('LOGIN PATH', LOGIN_PATH )
   app.post(
     LOGIN_PATH,
     async (req: express.Request, res: express.Response) => {
-      console.log('LOGIN')
+
       const body = req.body
       const instance = new neode(
         process.env.GRAPHENEDB_BOLT_URL,
         process.env.GRAPHENEDB_BOLT_USER,
         process.env.GRAPHENEDB_BOLT_PASSWORD)
 
-      instance.model("User", {
-        user_id: {
-          type: "uuid",
-          primary: true
-        },
-        username: {
-          type: "string",
-          index: true
-        },
-        passwordHash: {
-          type: "string"
-        },
-        name: {
-          type: "string",
-          index: true
-        },
-        has: {
-          type: "relationship",
-          relationship: "HAS",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            }
-          }
-        },
-        createdAt: {
-          type: "datetime",
-          default: () => new Date()
-        }
-      })
-
       try {
-
         const result = await instance.cypher('MATCH (user:User {username:{username}}) return user', req.body)
         const loginUser = result.records[0].get('user')
-        
         const passwordCorrect = loginUser === null ? false :
           await bcrypt.compare(body.password, loginUser.properties.passwordHash)
 
