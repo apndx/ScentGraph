@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import { ClientRoutePath } from './routes'
-import { FrontPage, UserCreate } from './pages'
+import { FrontPage, UserCreate, Login, Logout } from './pages'
 import 'bootstrap/dist/css/bootstrap.css'
 
 class App extends React.Component {
@@ -12,6 +12,8 @@ class App extends React.Component {
         <Route path={ClientRoutePath.FrontPage} component={FrontPage} />
         <Switch>
           <Route exact path={ClientRoutePath.UserCreation} component={UserCreate} />
+          <Route exact path={ClientRoutePath.Login} component={Login} />
+          <Route exact path={ClientRoutePath.Logout} component={Logout} />
         </Switch>
       </BrowserRouter>
     )

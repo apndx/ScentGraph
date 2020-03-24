@@ -12,5 +12,7 @@
 | 11.2. | 4,5 | Navbar and links, React bootstrap styles, logo, favicon. Client route refresh needs to be fixed. |
 | 12.2. | 5 | Route not found fix. Heroku configurations started. |
 | 13.2. | 2,5 | Heroku configured, users can be saved to Graphene database, new version of logo |
-| 22.3. | 3,5 | Server route and rest request for login, rest request for add user, additions to README |
-| all |  44,5 | | 
+| 22.3. | 7,5 | Server route and rest request for login, started client login and logout |
+| 23.3. | 1 | Fixing nav bar rendering, considering briefly using redux for state handling |
+| 24.3. | 1 | Nav bar rendering fix finished |
+| all |  50,5 | | 
