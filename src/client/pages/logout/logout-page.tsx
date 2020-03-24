@@ -33,19 +33,19 @@ export class Logout extends React.PureComponent<LogoutProps, LogoutState> {
 
   private async logOut(): Promise<void> {
     try {
-      console.log('LOGGING OUT')
-      console.log('SEZ', SessionStorageItem.Authorization)
       sessionStorage.removeItem(SessionStorageItem.Authorization)
-      console.log('SEZ', SessionStorageItem.Authorization)
-      this.props.history.push(ClientRoutePath.FrontPage)
+      this.props.history.push({
+        pathname: ClientRoutePath.FrontPage,
+        state: {
+          loginUser: null
+        }
+      })
     } catch (e) {
-      this.setState({ errorMessage: 'Logout was not successful'})
+      this.setState({ errorMessage: 'Logout was not successful' })
     }
   }
 
   public render(): JSX.Element {
-    return (
-      <></>
-    )
+    return (<></>)
   }
 }

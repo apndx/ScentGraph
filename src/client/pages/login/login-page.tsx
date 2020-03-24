@@ -21,7 +21,7 @@ export class Login extends React.PureComponent<DEFAULT_PROPS, LoginState> {
   }
 
   isDisabled(): boolean {
-    return this.state && ( this.state.username ==='' || this.state.password === '')
+    return this.state && (this.state.username === '' || this.state.password === '')
   }
 
   onSubmit = (event) => {
@@ -35,7 +35,12 @@ export class Login extends React.PureComponent<DEFAULT_PROPS, LoginState> {
       .then(response => {
         console.log(`Welcome ${response.name}!`)
         this.setState({ username: '', password: '' })
-        this.props.history.push('/')
+        this.props.history.push({
+          pathname: '/',
+          state: {
+            loginUser: response
+          }
+        })
       })
       .catch(success => {
         console.log(`something went wrong on login page..`)
