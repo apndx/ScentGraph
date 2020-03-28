@@ -14,5 +14,7 @@
 | 13.2. | 2,5 | Heroku configured, users can be saved to Graphene database, new version of logo |
 | 22.3. | 7,5 | Server route and rest request for login, started client login and logout |
 | 23.3. | 1 | Fixing nav bar rendering, considering briefly using redux for state handling |
-| 24.3. | 1 | Nav bar rendering fix finished |
-| all |  50,5 | | 
+| 24.3. | 1,5 | Nav bar rendering fix finished, heroku login fixed with secret |
+| 25.3. | 0,5 | Sketching shema |
+| 28.3. | 1,5 | Route to add scent, additions to user creation |
+| all |  53 | | 

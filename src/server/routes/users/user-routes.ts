@@ -43,7 +43,22 @@ export function configureUserRoutes(
             since: {
               type: "localdatetime",
               default: () => new Date()
+            },
+            width: {
+              type: "number",
+              default: 50
             }
+          }
+        },
+        belongs: {
+          type: "relationship",
+          relationship: "BELONGS",
+          direction: "in",
+          properties: {
+            since: {
+              type: "localdatetime",
+              default: () => new Date()
+            },
           }
         },
         createdAt: {
