@@ -1,14 +1,14 @@
 import * as express from "express"
 const neode = require("neode")
 
-export function configureScentRoutes(
+export function configureSeasonRoutes(
   app: express.Application,
   apiPath: string
 ): void {
-  const SCENTS_PATH = `${apiPath}/scents`
+  const ADMIN_DETAILS_PATH = `${apiPath}/season`
 
   app.post(
-    `${SCENTS_PATH}/add`,
+    `${ADMIN_DETAILS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
 
       const instance = new neode(
@@ -16,12 +16,12 @@ export function configureScentRoutes(
         process.env.GRAPHENEDB_BOLT_USER,
         process.env.GRAPHENEDB_BOLT_PASSWORD)
 
-      instance.model("Scent", {
-        scent_id: {
+      instance.model("Season", {
+        time_id: {
           type: "uuid",
           primary: true
         },
-        scentname: {
+        seasonname: {
           type: "string",
           index: true
         },
@@ -33,10 +33,6 @@ export function configureScentRoutes(
             since: {
               type: "localdatetime",
               default: () => new Date()
-            },
-            width: {
-              type: "number",
-              default: 50
             }
           }
         },
@@ -48,6 +44,10 @@ export function configureScentRoutes(
             since: {
               type: "localdatetime",
               default: () => new Date()
+            },
+            width: {
+              type: "number",
+              default: 50
             }
           }
         },
@@ -58,22 +58,14 @@ export function configureScentRoutes(
       })
 
       try {
-        if (req.body.scentname.length < 1) {
-          return res.status(400).json({ error: 'Empty name is not allowed.' })
-        }
-        const existingScent = await instance.cypher('MATCH (scent:Scent {scentname:{scentname}}) return scent.scentname', req.body)
-        if (existingScent.records.length > 0) {
-          return res.status(400).json({ error: 'Scentname must be unique.' })
-        }
-
         Promise.all([
-          instance.create("Scent", {
-            scentname: req.body.scentname
+          instance.create("Season", {
+            seasonname: req.body.seasonname
           })
         ])
-          .then(([scent]) => {
-            console.log(`Scent ${scent.properties().scentname} created`)
-            res.status(200).send(scent.properties())
+          .then(([season]) => {
+            console.log(`Season ${season.properties().seasonname} created`)
+            res.status(200).send(season.properties())
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
@@ -81,8 +73,34 @@ export function configureScentRoutes(
           .then(() => instance.close())
       } catch (e) {
         console.log(e)
-        res.status(500).json({ error: 'Something went wrong in scent creation' })
+        res.status(500).json({ error: 'Something went wrong in creating a season' })
       }
     }
   )
+
+  app.delete(
+    `${ADMIN_DETAILS_PATH}/delete`,
+    async (req: express.Request, res: express.Response) => {
+
+      const instance = new neode(
+        process.env.GRAPHENEDB_BOLT_URL,
+        process.env.GRAPHENEDB_BOLT_USER,
+        process.env.GRAPHENEDB_BOLT_PASSWORD)
+
+      try {
+        await instance.cypher('MATCH (season:Season {seasonname:{seasonname}}) DELETE season', req.body)
+          .then(() => {
+            res.status(200).send('Season deleted')
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong in deleting a season' })
+      }
+    }
+  )
+
 }
