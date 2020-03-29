@@ -15,6 +15,7 @@
 | 22.3. | 7,5 | Server route and rest request for login, started client login and logout |
 | 23.3. | 1 | Fixing nav bar rendering, considering briefly using redux for state handling |
 | 24.3. | 1,5 | Nav bar rendering fix finished, heroku login fixed with secret |
-| 25.3. | 0,5 | Sketching shema |
+| 25.3. | 0,5 | Sketching schema |
 | 28.3. | 1,5 | Route to add scent, additions to user creation |
-| all |  53 | | 
+| 29.3. | 2,5 | Admin routes to add and delete scent details |
+| all |  55,5 | | 

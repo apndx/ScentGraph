@@ -35,9 +35,24 @@ export function configureUserRoutes(
           type: "string",
           index: true
         },
+        role: {
+          type: "string",
+          default: "user"
+        },
         has: {
           type: "relationship",
           relationship: "HAS",
+          direction: "out",
+          properties: {
+            since: {
+              type: "localdatetime",
+              default: () => new Date()
+            },
+          }
+        },
+        likes: {
+          type: "relationship",
+          relationship: "LIKES",
           direction: "out",
           properties: {
             since: {
