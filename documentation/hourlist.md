@@ -17,5 +17,5 @@
 | 24.3. | 1,5 | Nav bar rendering fix finished, heroku login fixed with secret |
 | 25.3. | 0,5 | Sketching schema |
 | 28.3. | 1,5 | Route to add scent, additions to user creation |
-| 29.3. | 2,5 | Admin routes to add and delete scent details |
-| all |  55,5 | | 
+| 29.3. | 4,5 | Admin routes to add and delete scent details, user role and delete routes |
+| all |  57,5 | | 

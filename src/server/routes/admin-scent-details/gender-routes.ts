@@ -1,8 +1,8 @@
 import * as express from "express"
-const neode = require("neode")
 
 export function configureGenderRoutes(
   app: express.Application,
+  instance: any,
   apiPath: string
 ): void {
   const ADMIN_DETAILS_PATH = `${apiPath}/gender`
@@ -10,11 +10,6 @@ export function configureGenderRoutes(
   app.post(
     `${ADMIN_DETAILS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
-
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       instance.model("Gender", {
         gender_id: {
@@ -81,11 +76,6 @@ export function configureGenderRoutes(
   app.delete(
     `${ADMIN_DETAILS_PATH}/delete`,
     async (req: express.Request, res: express.Response) => {
-
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       try {
         await instance.cypher('MATCH (gender:Gender {gendername:{gendername}}) DELETE gender', req.body)

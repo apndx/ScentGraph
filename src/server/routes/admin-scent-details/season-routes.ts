@@ -1,8 +1,8 @@
 import * as express from "express"
-const neode = require("neode")
 
 export function configureSeasonRoutes(
   app: express.Application,
+  instance: any,
   apiPath: string
 ): void {
   const ADMIN_DETAILS_PATH = `${apiPath}/season`
@@ -10,11 +10,6 @@ export function configureSeasonRoutes(
   app.post(
     `${ADMIN_DETAILS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
-
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       instance.model("Season", {
         time_id: {
@@ -82,11 +77,6 @@ export function configureSeasonRoutes(
     `${ADMIN_DETAILS_PATH}/delete`,
     async (req: express.Request, res: express.Response) => {
 
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
-
       try {
         await instance.cypher('MATCH (season:Season {seasonname:{seasonname}}) DELETE season', req.body)
           .then(() => {
@@ -102,5 +92,4 @@ export function configureSeasonRoutes(
       }
     }
   )
-
 }
