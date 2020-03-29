@@ -1,8 +1,8 @@
 import * as express from "express"
-const neode = require("neode")
 
 export function configureCategoryRoutes(
   app: express.Application,
+  instance: any,
   apiPath: string
 ): void {
   const ADMIN_DETAILS_PATH = `${apiPath}/category`
@@ -10,11 +10,6 @@ export function configureCategoryRoutes(
   app.post(
     `${ADMIN_DETAILS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
-
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       instance.model("Category", {
         category_id: {
@@ -93,11 +88,6 @@ export function configureCategoryRoutes(
     `${ADMIN_DETAILS_PATH}/delete`,
     async (req: express.Request, res: express.Response) => {
 
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
-
       try {
         await instance.cypher('MATCH (category:Category {categoryname:{categoryname}}) DELETE category', req.body)
           .then(() => {
@@ -113,5 +103,4 @@ export function configureCategoryRoutes(
       }
     }
   )
-
 }

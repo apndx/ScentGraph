@@ -1,8 +1,8 @@
 import * as express from "express"
-const neode = require("neode")
 
 export function configureScentRoutes(
   app: express.Application,
+  instance: any,
   apiPath: string
 ): void {
   const SCENTS_PATH = `${apiPath}/scents`
@@ -11,10 +11,6 @@ export function configureScentRoutes(
     `${SCENTS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
 
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       instance.model("Scent", {
         scent_id: {

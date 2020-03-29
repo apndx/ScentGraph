@@ -1,11 +1,9 @@
 import * as express from "express"
-import * as neo4j from "neo4j-driver"
 const bcrypt = require("bcryptjs")
-const neode = require("neode")
 
 export function configureUserRoutes(
   app: express.Application,
-  driver: neo4j.Driver,
+  instance: any,
   apiPath: string
 ): void {
   const USERS_PATH = `${apiPath}/users`
@@ -13,11 +11,6 @@ export function configureUserRoutes(
   app.post(
     `${USERS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
-
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL, 
-        process.env.GRAPHENEDB_BOLT_USER, 
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       instance.model("User", {
         user_id: {
@@ -119,4 +112,48 @@ export function configureUserRoutes(
       }
     }
   )
+
+  app.delete(
+    `${USERS_PATH}/delete`,
+    async (req: express.Request, res: express.Response) => {
+
+      try {
+        await instance.cypher('MATCH (user:User {username:{username}}) DELETE user', req.body)
+          .then(() => {
+            res.status(200).send('User deleted')
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong in deleting a user' })
+      }
+    }
+  )
+
+  app.put(
+    `${USERS_PATH}/role`,
+    async (req: express.Request, res: express.Response) => {
+      try {
+        const existingUser = await instance.cypher('MATCH (user:User {username:{username}}) return user.username', req.body)
+        if (existingUser.records.length < 1) {
+          return res.status(400).json({ error: 'User not found' })
+        } else {
+          await instance.cypher(
+            `MERGE (user:User {username:{username}})
+            ON MATCH SET user.role = user.role
+            return user.username`, req.body)
+            .then(() => {
+              res.status(200).send(`User ${req.body.username} is now ${req.body.role}`)
+            })
+        }
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong in changing user role' })
+      }
+    }
+  )
+
 }

@@ -1,10 +1,10 @@
 import * as express from "express"
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcryptjs")
-const neode = require("neode")
 
 export function configureLoginRoutes(
   app: express.Application,
+  instance: any,
   apiPath: string
 ): void {
   const LOGIN_PATH = `${apiPath}/login`
@@ -13,10 +13,6 @@ export function configureLoginRoutes(
     async (req: express.Request, res: express.Response) => {
 
       const body = req.body
-      const instance = new neode(
-        process.env.GRAPHENEDB_BOLT_URL,
-        process.env.GRAPHENEDB_BOLT_USER,
-        process.env.GRAPHENEDB_BOLT_PASSWORD)
 
       try {
         const result = await instance.cypher('MATCH (user:User {username:{username}}) return user', req.body)
