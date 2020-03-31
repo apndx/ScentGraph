@@ -1,4 +1,5 @@
 import * as express from "express"
+import { checkAdmin } from '../../middleware'
 
 export function configureGenderRoutes(
   app: express.Application,
@@ -8,7 +9,7 @@ export function configureGenderRoutes(
   const ADMIN_DETAILS_PATH = `${apiPath}/gender`
 
   app.post(
-    `${ADMIN_DETAILS_PATH}/add`,
+    `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
       instance.model("Gender", {

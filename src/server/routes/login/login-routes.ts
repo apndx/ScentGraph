@@ -25,9 +25,10 @@ export function configureLoginRoutes(
         }
 
         const username = loginUser.properties.username
-        const id = loginUser.properties.user_id
+        const user_id = loginUser.properties.user_id
         const name = loginUser.properties.name
-        const userForToken = { username, id }
+        const role = loginUser.properties.role
+        const userForToken = { username, user_id, role }
         const token = jwt.sign(userForToken, process.env.SECRET)
         res.status(200).send({ token, username, name })
 

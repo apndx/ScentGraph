@@ -1,4 +1,5 @@
 import * as express from "express"
+import { checkAdmin } from '../../middleware'
 
 export function configureTimeOfDayRoutes(
   app: express.Application,
@@ -8,7 +9,7 @@ export function configureTimeOfDayRoutes(
   const ADMIN_DETAILS_PATH = `${apiPath}/time`
 
   app.post(
-    `${ADMIN_DETAILS_PATH}/add`,
+    `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
       instance.model("TimeOfDay", {

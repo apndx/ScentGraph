@@ -1,4 +1,5 @@
 import * as express from "express"
+import { checkLogin } from '../../middleware'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -8,9 +9,8 @@ export function configureScentRoutes(
   const SCENTS_PATH = `${apiPath}/scents`
 
   app.post(
-    `${SCENTS_PATH}/add`,
+    `${SCENTS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
-
 
       instance.model("Scent", {
         scent_id: {
