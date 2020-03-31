@@ -18,4 +18,5 @@
 | 25.3. | 0,5 | Sketching schema |
 | 28.3. | 1,5 | Route to add scent, additions to user creation |
 | 29.3. | 4,5 | Admin routes to add and delete scent details, user role and delete routes |
-| all |  57,5 | | 
+| 31.3. | 1,5 | Authorizing middleware for scent and admin routes |
+| all |  59 | |
