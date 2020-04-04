@@ -1,6 +1,7 @@
 export enum ClientRoutePath {
     FrontPage = '/',
     UserCreation = '/newUser',
+    AdminTools = '/adminTools',
     Login = '/login',
     Logout = '/logout'
 }

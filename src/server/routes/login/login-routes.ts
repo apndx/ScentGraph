@@ -1,6 +1,7 @@
 import * as express from "express"
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcryptjs")
+import { Token, ClientUser } from '../../../common/data-classes'
 
 export function configureLoginRoutes(
   app: express.Application,
@@ -28,9 +29,11 @@ export function configureLoginRoutes(
         const user_id = loginUser.properties.user_id
         const name = loginUser.properties.name
         const role = loginUser.properties.role
-        const userForToken = { username, user_id, role }
+        const user: ClientUser = { username, name, role }
+        const userForToken: Token = { username, user_id, role }
         const token = jwt.sign(userForToken, process.env.SECRET)
-        res.status(200).send({ token, username, name })
+
+        res.status(200).send({ token, user })
 
       } catch (e) {
         console.log(e)

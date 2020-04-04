@@ -34,6 +34,7 @@ export class Logout extends React.PureComponent<LogoutProps, LogoutState> {
   private async logOut(): Promise<void> {
     try {
       sessionStorage.removeItem(SessionStorageItem.Authorization)
+      sessionStorage.removeItem(SessionStorageItem.LoginUser)
       this.props.history.push({
         pathname: ClientRoutePath.FrontPage,
         state: {

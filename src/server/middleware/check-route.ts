@@ -10,7 +10,7 @@ export const getTokenFrom = (request: express.Request) => {
   }
 
 
-export  const authenticateToken = (req: express.Request) => {
+export const authenticateToken = (req: express.Request) => {
     const token = getTokenFrom(req)
     const decodedToken = jwt.verify(token,  process.env.SECRET)
   
