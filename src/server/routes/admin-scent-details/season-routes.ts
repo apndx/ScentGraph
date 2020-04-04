@@ -56,12 +56,12 @@ export function configureSeasonRoutes(
       try {
         Promise.all([
           instance.create("Season", {
-            seasonname: req.body.seasonname
+            seasonname: req.body.itemName
           })
         ])
           .then(([season]) => {
             console.log(`Season ${season.properties().seasonname} created`)
-            res.status(200).send(season.properties())
+            res.status(200).send(season.properties().seasonname)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
@@ -79,7 +79,7 @@ export function configureSeasonRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (season:Season {seasonname:{seasonname}}) DELETE season', req.body)
+        await instance.cypher('MATCH (season:Season {seasonname:{itemName}}) DELETE season', req.body)
           .then(() => {
             res.status(200).send('Season deleted')
           })

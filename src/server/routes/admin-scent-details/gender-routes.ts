@@ -56,12 +56,12 @@ export function configureGenderRoutes(
       try {
         Promise.all([
           instance.create("Gender", {
-            gendername: req.body.gendername
+            gendername: req.body.itemName
           })
         ])
           .then(([gender]) => {
             console.log(`Gender ${gender.properties().gendername} created`)
-            res.status(200).send(gender.properties())
+            res.status(200).send(gender.properties().gendername)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
@@ -79,7 +79,7 @@ export function configureGenderRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (gender:Gender {gendername:{gendername}}) DELETE gender', req.body)
+        await instance.cypher('MATCH (gender:Gender {gendername:{itemName}}) DELETE gender', req.body)
           .then(() => {
             res.status(200).send('Gender deleted')
           })

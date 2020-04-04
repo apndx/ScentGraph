@@ -9,10 +9,9 @@ export const getTokenFrom = (request: express.Request) => {
     return null
   }
 
-
-export  const authenticateToken = (req: express.Request) => {
+export const authenticateToken = (req: express.Request) => {
     const token = getTokenFrom(req)
-    const decodedToken = jwt.verify(token,  process.env.SECRET)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
   
     if (!token || !decodedToken.user_id) {
       return null

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { DEFAULT_PROPS } from '../../utils'
-import { create } from '../../services/users'
-import { ClientUser } from '../../data-classes'
+import { createUser } from '../../services/users'
+import { ClientUser } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
 
 interface UserCreateState {
@@ -32,7 +32,7 @@ export class UserCreate extends React.PureComponent<DEFAULT_PROPS, UserCreateSta
       password: this.state.password
     }
 
-    create(userObject)
+    createUser(userObject)
       .then(response => {
         console.log(`user added: ' ${response.body} ' `)
         this.setState({

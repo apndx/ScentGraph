@@ -57,12 +57,12 @@ export function configureTimeOfDayRoutes(
 
         Promise.all([
           instance.create("TimeOfDay", {
-            timename: req.body.timename
+            timename: req.body.itemName
           })
         ])
           .then(([time]) => {
             console.log(`Time of day ${time.properties().timename} created`)
-            res.status(200).send(time.properties())
+            res.status(200).send(time.properties().timename)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
@@ -80,7 +80,7 @@ export function configureTimeOfDayRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (time:TimeOfDay {timename:{timename}}) DELETE time', req.body)
+        await instance.cypher('MATCH (time:TimeOfDay {timename:{itemName}}) DELETE time', req.body)
           .then(() => {
             res.status(200).send('Time of day deleted')
           })

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { SessionStorageItem } from '../utils'
 const baseUrl = '/api/users'
 
-export const create = async (newObject) => {
+export const createUser = async (newObject) => {
     const config = {
      headers: { 'Authorization': sessionStorage.getItem(SessionStorageItem.Authorization) }
     }
