@@ -1,18 +1,16 @@
 import * as React from 'react'
-import { DEFAULT_PROPS, SessionStorageItem } from '../../utils'
+import { SessionStorageItem } from '../../utils'
 import { createItem } from '../../services'
-import { AdminContent, ClientUser } from '../../../common/data-classes'
+import { AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
 
 interface AdminToolsProps {
   history: any,
   location: any,
-  match: any,
-  loginUser: ClientUser
+  match: any
 }
 
 interface AdminToolsState {
-  loginUser: ClientUser
   itemName: string,
   label: string,
   type: string
@@ -22,61 +20,45 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
   constructor(props) {
     super(props)
     this.state = {
-      loginUser: null,
       itemName: '',
       label: '',
       type: ''
     }
   }
 
-  componentDidMount() {
-    const loggedUserJSON = window.sessionStorage.getItem(SessionStorageItem.LoginUser)
-    console.log('LOG', loggedUserJSON)
-    if (loggedUserJSON) {
-      const loginUser = JSON.parse(loggedUserJSON)
-      this.setState({loginUser})
-    }  
-  } 
-
   handleChange(event) {
-    const name = event.target.name
-    const value = event.target.value
-    console.log(name, value)
-    this.setState({ type: value })
-    console.log(this.state)
+    this.setState({ type: event.target.value.toLowerCase() })
   }
-
 
   isDisabled(): boolean {
     return this.state && (this.state.itemName.length < 3 || this.state.type === '')
   }
 
-  onSubmit = (event) => {
-
-    event.preventDefault()
-
-    console.log('EVENT', event)
-
-    // const adminContent: AdminContent = {
-    //   itemName: this.state.itemName,
-    //   label: this.state.label,
-    //   type: this.state.type
-    // }
-
-    // createItem(adminContent)
-    //   .then(response => {
-    //     console.log(`admin item added: ' ${response.body} ' `)
-    //     this.setState({
-    //       itemName: '', label: '', type: ''
-    //     })
-    //     this.props.history.push('/')
-    //   })
-    //   .catch(success => {
-    //     console.log(`something went wrong on admin item creation..`)
-    //   })
-
+  isAdmin(): boolean {
+    return window.sessionStorage.getItem(SessionStorageItem.LoginRole) === 'admin'
   }
 
+  onSubmit = (event) => {
+    event.preventDefault()
+    const adminContent: AdminContent = {
+      itemName: this.state.itemName,
+      ...(this.state.label &&{label: this.state.label}),
+      type: this.state.type
+    }
+
+    createItem(adminContent)
+      .then(response => {
+        console.log(`admin item added: ${this.state.type} '${response}' `)
+        this.setState({
+          itemName: '', label: '', type: ''
+        })
+        this.props.history.push('/')
+      })
+      .catch(success => {
+        console.log(`something went wrong on admin item creation..`)
+      })
+
+  }
 
 
   public render(): JSX.Element {
@@ -92,7 +74,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
               placeholder="select"
               onChange={(event) => { this.handleChange(event) }}>
               <option>Season</option>
-              <option>Time of Day</option>
+              <option>Time</option>
               <option>Gender</option>
               <option>Category</option>
             </Form.Control>
@@ -106,7 +88,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
               onChange={(event) => { this.setState({ itemName: event.target.value }) }}
               id='itemName' />
           </Form.Group>
-          {this.state.type === 'Category' &&
+          {this.state.type === 'category' &&
             <Form.Group>
               <Form.Label> Label </Form.Label>
               <Form.Control

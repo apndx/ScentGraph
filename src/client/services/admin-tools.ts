@@ -5,7 +5,7 @@ const baseUrl = '/api/'
 export const createItem = async (newObject) => {
     const path = `${baseUrl}${newObject.type}`
     const config = {
-     headers: { 'Authorization': sessionStorage.getItem(SessionStorageItem.Authorization) }
+     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
     }
   
     const response = await axios.post(`${path}/add`, newObject, config)

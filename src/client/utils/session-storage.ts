@@ -1,4 +1,5 @@
 export enum SessionStorageItem {
     Authorization = 'authorization',
-    LoginUser = 'loginUser'
+    LoginUser = 'loginUser',
+    LoginRole = 'loginRole'
 }

@@ -35,13 +35,11 @@ export class Login extends React.PureComponent<DEFAULT_PROPS, LoginState> {
       .then(response => {
         console.log(`Welcome ${response.user.name}!`)
         this.setState({ username: '', password: '' })
-        window.sessionStorage.setItem(SessionStorageItem.LoginUser, JSON.stringify(response.user))
+        window.sessionStorage.setItem(SessionStorageItem.LoginRole, response.user.role)
+        window.sessionStorage.setItem(SessionStorageItem.LoginUser, response.user.username)
         window.sessionStorage.setItem(SessionStorageItem.Authorization, response.token)
         this.props.history.push({
-          pathname: '/',
-          state: {
-            loginUser: response.user
-          }
+          pathname: '/'
         })
       })
       .catch(success => {

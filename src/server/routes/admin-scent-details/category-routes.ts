@@ -59,20 +59,20 @@ export function configureCategoryRoutes(
 
       try {
 
-        const existingCategory = await instance.cypher('MATCH (category:Category {categoryname:{categoryname}}) return category.categoryname', req.body)
+        const existingCategory = await instance.cypher('MATCH (category:Category {categoryname:{itemName}}) return category.categoryname', req.body)
         if (existingCategory.records.length > 0) {
           return res.status(400).json({ error: 'Category must be unique.' })
         }
 
         Promise.all([
           instance.create("Category", {
-            categoryname: req.body.categoryname,
+            categoryname: req.body.itemName,
             label: req.body.label
           })
         ])
           .then(([category]) => {
             console.log(`Category ${category.properties().categoryname} created`)
-            res.status(200).send(category.properties())
+            res.status(200).send(category.properties().categoryname)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
@@ -90,7 +90,7 @@ export function configureCategoryRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (category:Category {categoryname:{categoryname}}) DELETE category', req.body)
+        await instance.cypher('MATCH (category:Category {categoryname:{itemName}}) DELETE category', req.body)
           .then(() => {
             res.status(200).send('Category deleted')
           })

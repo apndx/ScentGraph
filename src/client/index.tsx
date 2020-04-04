@@ -34,7 +34,9 @@ class App extends React.Component {
   }
 
 
+  
   public render(): JSX.Element {
+
     return (
       <BrowserRouter >
         <Route path={ClientRoutePath.FrontPage} component={FrontPage} />
