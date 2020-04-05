@@ -1,5 +1,6 @@
 import * as express from "express"
 import { checkLogin } from '../../middleware'
+import { scent } from '../../models'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -12,46 +13,7 @@ export function configureScentRoutes(
     `${SCENTS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Scent", {
-        scent_id: {
-          type: "uuid",
-          primary: true
-        },
-        scentname: {
-          type: "string",
-          index: true
-        },
-        has: {
-          type: "relationship",
-          relationship: "HAS",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-            width: {
-              type: "number",
-              default: 50
-            }
-          }
-        },
-        belongs: {
-          type: "relationship",
-          relationship: "BELONGS",
-          direction: "in",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            }
-          }
-        },
-        createdAt: {
-          type: "datetime",
-          default: () => new Date()
-        }
-      })
+      instance.model("Scent", scent)
 
       try {
         if (req.body.scentname.length < 1) {

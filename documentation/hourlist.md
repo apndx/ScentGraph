@@ -20,4 +20,5 @@
 | 29.3. | 4,5 | Admin routes to add and delete scent details, user role and delete routes |
 | 31.3. | 1,5 | Authorizing middleware for scent and admin routes |
 | 4.4. | 8,5 | Admin tool page and form for client, refactoring nav bar and login state |
-| all |  67,5 | |
+| 5.4. | 2,5 | Admin state to Heroku user, testing feature in Heroku, note and brand models, model refactoring |
+| all |  70 | |
