@@ -1,6 +1,7 @@
 import * as express from "express"
 import { checkLogin } from '../../middleware'
-import { scent } from '../../models'
+import { scent, brand } from '../../models'
+import { ScentToCreate } from '../../../common/data-classes'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -13,30 +14,40 @@ export function configureScentRoutes(
     `${SCENTS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
+      const scentToBe: ScentToCreate = req.body.scentToCreate
+      //const notes: string[] = req.body.scentToCreate.notes
+
       instance.model("Scent", scent)
+      instance.model("Brand", brand)
 
       try {
-        if (req.body.scentname.length < 1) {
+        if (req.body.scentToCreate.scentname.length < 1) {
           return res.status(400).json({ error: 'Empty name is not allowed.' })
         }
-        const existingScent = await instance.cypher('MATCH (scent:Scent {scentname:{scentname}}) return scent.scentname', req.body)
+        const existingScent = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
+        -[:BELONGS]->(brand:Brand {brandname:{brandname}})
+        return scent.scentname`, scentToBe)
         if (existingScent.records.length > 0) {
-          return res.status(400).json({ error: 'Scentname must be unique.' })
+          return res.status(400).json({ error: 'Scent must be unique.' })
         }
-
         Promise.all([
-          instance.create("Scent", {
-            scentname: req.body.scentname
-          })
+          instance.merge("Brand", { brandname: scentToBe.brandname }),
+          instance.create("Scent", { scentname: scentToBe.scentname })
         ])
-          .then(([scent]) => {
-            console.log(`Scent ${scent.properties().scentname} created`)
-            res.status(200).send(scent.properties())
-          })
-          .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
-          })
-          .then(() => instance.close())
+        .then(async ([scent]: any) => {
+          await instance.cypher(`MATCH (scent:Scent),(brand:Brand)
+          WHERE scent.scentname = $scentname AND brand.brandname = $brandname
+          CREATE (scent)-[belongs:BELONGS]->(brand)-[has:HAS]->(scent)
+          RETURN type(belongs), type(has), scent`, scentToBe)
+        })
+            .then(([scent]: any) => {
+              console.log(`Scent ${scent.properties().scentname} created`)
+              res.status(200).send(scent.properties())
+            })
+            .catch((e: any) => {
+              console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            })
+            .then(() => instance.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in scent creation' })

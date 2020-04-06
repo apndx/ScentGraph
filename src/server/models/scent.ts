@@ -7,6 +7,12 @@ export const scent = {
     type: "string",
     index: true
   },
+  description: {
+    type: "string"
+  },
+  url: {
+    type: "string"
+  },
   has: {
     type: "relationship",
     relationship: "HAS",

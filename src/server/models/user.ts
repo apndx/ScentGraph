@@ -27,6 +27,9 @@ export const user = {
         type: "localdatetime",
         default: () => new Date()
       },
+      description: {
+        type: "string"
+      }
     }
   },
   likes: {
