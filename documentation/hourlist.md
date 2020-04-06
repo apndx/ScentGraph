@@ -21,4 +21,5 @@
 | 31.3. | 1,5 | Authorizing middleware for scent and admin routes |
 | 4.4. | 8,5 | Admin tool page and form for client, refactoring nav bar and login state |
 | 5.4. | 2,5 | Admin state to Heroku user, testing feature in Heroku, note and brand models, model refactoring |
-| all |  70 | |
+| 6.4. | 3 | Crate scent dataclass, add scent now takes a brand name and creates a relation |
+| all |  73 | |
