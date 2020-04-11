@@ -22,5 +22,5 @@
 | 4.4. | 8,5 | Admin tool page and form for client, refactoring nav bar and login state |
 | 5.4. | 2,5 | Admin state to Heroku user, testing feature in Heroku, note and brand models, model refactoring |
 | 6.4. | 3 | Create scent dataclass, add scent now takes a brand name and creates a relation |
-| 11.4. | 2 | Unique constraints to DB, DB documentation |
-| all |  75 | |
+| 11.4. | 5 | Unique constraints to DB, DB documentation, scent to have relations to time, gender, season and category |
+| all |  78 | |
