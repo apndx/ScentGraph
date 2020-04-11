@@ -1,6 +1,6 @@
 import * as express from "express"
 import { checkLogin } from '../../middleware'
-import { scent, brand } from '../../models'
+import { scent, brand, timeOfDay } from '../../models'
 import { ScentToCreate } from '../../../common/data-classes'
 
 export function configureScentRoutes(
@@ -19,6 +19,7 @@ export function configureScentRoutes(
 
       instance.model("Scent", scent)
       instance.model("Brand", brand)
+      instance.model("TimeOfDay", timeOfDay)
 
       try {
         if (req.body.scentToCreate.scentname.length < 1) {
@@ -32,22 +33,23 @@ export function configureScentRoutes(
           return res.status(400).json({ error: 'Scent must be unique.' })
         }
         Promise.all([
-          instance.merge("Brand", { brandname: scentToBe.brandname }),
+          //   instance.merge("Brand", { brandname: scentToBe.brandname }),
           instance.merge("Scent", { scentname: scentToBe.scentname })
         ])
-          .then(async ([scent]: any) => {
-            await instance.cypher(`MATCH (scent:Scent),(brand:Brand)
-          WHERE scent.scentname = $scentname AND brand.brandname = $brandname
-          MERGE (scent)-[belongs:BELONGS]->(brand)-[has:HAS]->(scent)
-          RETURN type(belongs), type(has), scent`, scentToBe)
-              //  })
-              //  .then(([scent]: any) => {
-              .then(() => {
-                // console.log(`Scent ${scent.properties().scentname} created`)
-                console.log(`Scent created`)
-                res.status(200).send('scent created')
-              })
+        //   .then(async ([scent]: any) => {
+        await instance.cypher(`
+            MATCH (scent:Scent{scentname:$scentname})
+            MATCH (time:TimeOfDay{timename:$timename})
+            MERGE (scent)-[belongs:BELONGS]->(time)-[has:HAS]->(scent)
+            RETURN type(belongs), type(has), scent`, scentToBe)
+          //  })
+          //  .then(([scent]: any) => {
+          .then(() => {
+            // console.log(`Scent ${scent.properties().scentname} created`)
+            console.log(`Scent created`)
+            res.status(200).send('scent created')
           })
+          // })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
           })

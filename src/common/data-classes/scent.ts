@@ -7,6 +7,6 @@ export interface ScentToCreate {
     seasonname?: string,
     gendername?: string,
     categoryname?: string,
-    timeOfDayName?: string,
+    timeName?: string,
     noteNames?: string[]
 }
