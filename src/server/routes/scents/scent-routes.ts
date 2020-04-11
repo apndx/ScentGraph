@@ -28,23 +28,25 @@ export function configureScentRoutes(
         -[:BELONGS]->(brand:Brand {brandname:{brandname}})
         return scent.scentname`, scentToBe)
         if (existingScent.records.length > 0) {
+          console.log('EXISTING', existingScent.records)
           return res.status(400).json({ error: 'Scent must be unique.' })
         }
-        // Promise.all([
-        //   instance.merge("Brand", { brandname: scentToBe.brandname }),
-        //   instance.merge("Scent", { scentname: scentToBe.scentname })
-        // ])
-      //   .then(async ([scent]: any) => {
+        Promise.all([
+          instance.merge("Brand", { brandname: scentToBe.brandname }),
+          instance.merge("Scent", { scentname: scentToBe.scentname })
+        ])
+          .then(async ([scent]: any) => {
             await instance.cypher(`MATCH (scent:Scent),(brand:Brand)
           WHERE scent.scentname = $scentname AND brand.brandname = $brandname
           MERGE (scent)-[belongs:BELONGS]->(brand)-[has:HAS]->(scent)
           RETURN type(belongs), type(has), scent`, scentToBe)
-        //  })
-        //  .then(([scent]: any) => {
-          .then(() => {
-       // console.log(`Scent ${scent.properties().scentname} created`)
-       console.log(`Scent created`)
-            res.status(200).send('scent created')
+              //  })
+              //  .then(([scent]: any) => {
+              .then(() => {
+                // console.log(`Scent ${scent.properties().scentname} created`)
+                console.log(`Scent created`)
+                res.status(200).send('scent created')
+              })
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console

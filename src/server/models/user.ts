@@ -58,6 +58,17 @@ export const user = {
       },
     }
   },
+  added: {
+    type: "relationship",
+    relationship: "ADDED",
+    direction: "out",
+    properties: {
+      since: {
+        type: "localdatetime",
+        default: () => new Date()
+      },
+    }
+  },
   createdAt: {
     type: "datetime",
     default: () => new Date()
