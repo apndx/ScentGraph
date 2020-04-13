@@ -14,7 +14,7 @@ export function configureScentRoutes(
     `${SCENTS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      const scentToBe: ScentToCreate = req.body.scentToCreate
+      const scentToBe: ScentToCreate = req.body
       //const notes: string[] = req.body.scentToCreate.notes
 
       instance.model("Scent", scent)
@@ -25,7 +25,7 @@ export function configureScentRoutes(
       instance.model("Category", category)
 
       try {
-        if (req.body.scentToCreate.scentname.length < 1) {
+        if (scentToBe.scentname.length < 1) {
           return res.status(400).json({ error: 'Empty name is not allowed.' })
         }
         const existingScent = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
@@ -55,11 +55,11 @@ export function configureScentRoutes(
             MATCH (season:Season{seasonname:$seasonname})
             MERGE (scent)-[belongs:BELONGS]->(season)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
-            await instance.cypher(`
-            MATCH (scent:Scent{scentname:$scentname})
-            MATCH (category:Category{categoryname:$categoryname})
-            MERGE (scent)-[belongs:BELONGS]->(category)-[has:HAS]->(scent)
-            RETURN type(belongs), type(has), scent`, scentToBe)
+            // await instance.cypher(`
+            // MATCH (scent:Scent{scentname:$scentname})
+            // MATCH (category:Category{categoryname:$categoryname})
+            // MERGE (scent)-[belongs:BELONGS]->(category)-[has:HAS]->(scent)
+            // RETURN type(belongs), type(has), scent`, scentToBe)
           //  })
            // .then(([scent]: any) => {
           .then(() => {

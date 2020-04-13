@@ -34,4 +34,3 @@ export const brand = {
       default: () => new Date()
     }
   }
-  
