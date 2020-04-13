@@ -23,4 +23,5 @@
 | 5.4. | 2,5 | Admin state to Heroku user, testing feature in Heroku, note and brand models, model refactoring |
 | 6.4. | 3 | Create scent dataclass, add scent now takes a brand name and creates a relation |
 | 11.4. | 5 | Unique constraints to DB, DB documentation, scent to have relations to time, gender, season and category |
-| all |  78 | |
+| 13.4. | 2,5 | Form for scent creation: scent has a name, and relations to time, season and gender |
+| all |  80,5 | |

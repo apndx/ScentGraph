@@ -6,7 +6,6 @@ import { EMPTY_STATE, DEFAULT_PROPS } from '../../utils'
 export class FrontPage extends React.PureComponent<DEFAULT_PROPS, EMPTY_STATE> {
   constructor(props) {
     super(props)
-
   }
 
   public render(): JSX.Element {

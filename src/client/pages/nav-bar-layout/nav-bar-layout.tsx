@@ -41,6 +41,10 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>
+              <Link className='text-info' style={this.padding} to='/scentCreate'>Create a Scent</Link>
+            </Nav.Link>
+
+            <Nav.Link href='#' as='span'>
               <Link className='text-info' style={this.padding} to='/logout'>Logout</Link>
             </Nav.Link>
 

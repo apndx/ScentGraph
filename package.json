@@ -57,7 +57,6 @@
     "typescript": "^3.7.5"
   },
   "devDependencies": {
-    "@types/diff": "^4.0.2",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.2",
     "@types/jest": "^25.1.2",
