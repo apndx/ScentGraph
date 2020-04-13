@@ -1,5 +1,5 @@
 import * as express from "express"
-import { checkAdmin } from '../../middleware'
+import { checkAdmin, checkLogin } from '../../middleware'
 import { category } from '../../models'
 
 export function configureCategoryRoutes(
@@ -10,7 +10,7 @@ export function configureCategoryRoutes(
   const ADMIN_DETAILS_PATH = `${apiPath}/category`
 
   app.post(
-    `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
+    `${ADMIN_DETAILS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
       instance.model("Category", category)
@@ -39,6 +39,30 @@ export function configureCategoryRoutes(
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in creating a category' })
+      }
+    }
+  )
+
+  app.get(
+    `${ADMIN_DETAILS_PATH}/all`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model('Category', category)
+
+      try {
+        await instance.all('Category')
+          .then((collection: any) => {
+            console.log(`The amount of categories: ${collection.length} `)
+            console.log(collection)
+            res.status(200).send(collection.properties())
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching categories' })
       }
     }
   )
