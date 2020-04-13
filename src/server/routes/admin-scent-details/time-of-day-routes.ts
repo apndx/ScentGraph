@@ -1,5 +1,6 @@
 import * as express from "express"
 import { checkAdmin } from '../../middleware'
+import { timeOfDay } from '../../models'
 
 export function configureTimeOfDayRoutes(
   app: express.Application,
@@ -12,49 +13,9 @@ export function configureTimeOfDayRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("TimeOfDay", {
-        time_id: {
-          type: "uuid",
-          primary: true
-        },
-        timename: {
-          type: "string",
-          index: true
-        },
-        has: {
-          type: "relationship",
-          relationship: "HAS",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            }
-          }
-        },
-        belongs: {
-          type: "relationship",
-          relationship: "BELONGS",
-          direction: "in",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-            width: {
-              type: "number",
-              default: 50
-            }
-          }
-        },
-        createdAt: {
-          type: "datetime",
-          default: () => new Date()
-        }
-      })
+      instance.model("TimeOfDay", timeOfDay)
 
       try {
-
         Promise.all([
           instance.create("TimeOfDay", {
             timename: req.body.itemName
@@ -76,7 +37,7 @@ export function configureTimeOfDayRoutes(
   )
 
   app.delete(
-    `${ADMIN_DETAILS_PATH}/delete`,
+    `${ADMIN_DETAILS_PATH}/delete`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
       try {

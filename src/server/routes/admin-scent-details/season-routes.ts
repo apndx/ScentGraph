@@ -1,5 +1,6 @@
 import * as express from "express"
 import { checkAdmin } from '../../middleware'
+import { season } from '../../models'
 
 export function configureSeasonRoutes(
   app: express.Application,
@@ -12,46 +13,7 @@ export function configureSeasonRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Season", {
-        time_id: {
-          type: "uuid",
-          primary: true
-        },
-        seasonname: {
-          type: "string",
-          index: true
-        },
-        has: {
-          type: "relationship",
-          relationship: "HAS",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            }
-          }
-        },
-        belongs: {
-          type: "relationship",
-          relationship: "BELONGS",
-          direction: "in",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-            width: {
-              type: "number",
-              default: 50
-            }
-          }
-        },
-        createdAt: {
-          type: "datetime",
-          default: () => new Date()
-        }
-      })
+      instance.model("Season", season)
 
       try {
         Promise.all([
@@ -75,7 +37,7 @@ export function configureSeasonRoutes(
   )
 
   app.delete(
-    `${ADMIN_DETAILS_PATH}/delete`,
+    `${ADMIN_DETAILS_PATH}/delete`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
       try {

@@ -1,4 +1,6 @@
 import * as express from "express"
+import { checkAdmin } from '../../middleware'
+import { user } from '../../models'
 const bcrypt = require("bcryptjs")
 
 export function configureUserRoutes(
@@ -12,68 +14,7 @@ export function configureUserRoutes(
     `${USERS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("User", {
-        user_id: {
-          type: "uuid",
-          primary: true
-        },
-        username: {
-          type: "string",
-          index: true
-        },
-        passwordHash: {
-          type: "string"
-        },
-        name: {
-          type: "string",
-          index: true
-        },
-        role: {
-          type: "string",
-          default: "user"
-        },
-        has: {
-          type: "relationship",
-          relationship: "HAS",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-          }
-        },
-        likes: {
-          type: "relationship",
-          relationship: "LIKES",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-            width: {
-              type: "number",
-              default: 50
-            }
-          }
-        },
-        belongs: {
-          type: "relationship",
-          relationship: "BELONGS",
-          direction: "in",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-          }
-        },
-        createdAt: {
-          type: "datetime",
-          default: () => new Date()
-        }
-      })
+      instance.model("User", user)
 
       try {
         if (req.body.password.length < 8) {
@@ -134,7 +75,7 @@ export function configureUserRoutes(
   )
 
   app.put(
-    `${USERS_PATH}/role`,
+    `${USERS_PATH}/role`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
       try {
         const existingUser = await instance.cypher('MATCH (user:User {username:{username}}) return user.username', req.body)

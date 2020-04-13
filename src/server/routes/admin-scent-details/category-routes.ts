@@ -1,5 +1,6 @@
 import * as express from "express"
 import { checkAdmin } from '../../middleware'
+import { category } from '../../models'
 
 export function configureCategoryRoutes(
   app: express.Application,
@@ -12,50 +13,7 @@ export function configureCategoryRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Category", {
-        category_id: {
-          type: "uuid",
-          primary: true
-        },
-        categoryname: {
-          type: "string",
-          index: true
-        },
-        label: {
-          type: "string",
-          index: true
-        },
-        has: {
-          type: "relationship",
-          relationship: "HAS",
-          direction: "out",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            }
-          }
-        },
-        belongs: {
-          type: "relationship",
-          relationship: "BELONGS",
-          direction: "in",
-          properties: {
-            since: {
-              type: "localdatetime",
-              default: () => new Date()
-            },
-            width: {
-              type: "number",
-              default: 50
-            }
-          }
-        },
-        createdAt: {
-          type: "datetime",
-          default: () => new Date()
-        }
-      })
+      instance.model("Category", category)
 
       try {
 
@@ -86,7 +44,7 @@ export function configureCategoryRoutes(
   )
 
   app.delete(
-    `${ADMIN_DETAILS_PATH}/delete`,
+    `${ADMIN_DETAILS_PATH}/delete`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
       try {

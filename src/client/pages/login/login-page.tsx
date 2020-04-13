@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DEFAULT_PROPS, SessionStorageItem } from '../../utils'
+import { DEFAULT_PROPS } from '../../utils'
 import { login } from '../../services/login'
 import { ClientUser } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
@@ -35,9 +35,6 @@ export class Login extends React.PureComponent<DEFAULT_PROPS, LoginState> {
       .then(response => {
         console.log(`Welcome ${response.user.name}!`)
         this.setState({ username: '', password: '' })
-        window.sessionStorage.setItem(SessionStorageItem.LoginRole, response.user.role)
-        window.sessionStorage.setItem(SessionStorageItem.LoginUser, response.user.username)
-        window.sessionStorage.setItem(SessionStorageItem.Authorization, response.token)
         this.props.history.push({
           pathname: '/'
         })
