@@ -24,5 +24,5 @@
 | 6.4. | 3 | Create scent dataclass, add scent now takes a brand name and creates a relation |
 | 11.4. | 5 | Unique constraints to DB, DB documentation, scent to have relations to time, gender, season and category |
 | 13.4. | 2,5 | Form for scent creation: scent has a name, and relations to time, season and gender |
-| 14.4. | 0,5 | Route to get all categories, result still needs some modification |
-| all |  81 | |
+| 14.4. | 1,5 | Route to get all categories, returns a list of categorynames |
+| all |  82 | |

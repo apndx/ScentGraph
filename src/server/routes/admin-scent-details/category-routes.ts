@@ -1,6 +1,7 @@
 import * as express from "express"
 import { checkAdmin, checkLogin } from '../../middleware'
 import { category } from '../../models'
+import { getCategoryName } from './route-helpers'
 
 export function configureCategoryRoutes(
   app: express.Application,
@@ -48,13 +49,15 @@ export function configureCategoryRoutes(
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Category', category)
-
+      const categories: string[] = []
       try {
-        await instance.all('Category')
-          .then((collection: any) => {
-            console.log(`The amount of categories: ${collection.length} `)
-            console.log(collection)
-            res.status(200).send(collection.properties())
+        const result = await instance.cypher('MATCH (category:Category) RETURN category')
+          .then((result: any) => {
+            result.records.map((row: any) => {
+              categories.push(getCategoryName(row.get('category')))
+            })
+            console.log(categories)
+            res.status(200).send(categories)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console

@@ -1,0 +1,162 @@
+[
+  {
+    "identity": { "low": 100, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 3, "high": 0 },
+        "day": { "low": 29, "high": 0 },
+        "hour": { "low": 17, "high": 0 },
+        "minute": { "low": 46, "high": 0 },
+        "second": { "low": 46, "high": 0 },
+        "nanosecond": { "low": 298000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Woody aromatic",
+      "label": "WOODY",
+      "category_id": "5ed0833b-48b8-46c7-81ce-64de4d08a05d"
+    }
+  },
+  {
+    "identity": { "low": 104, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 5, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 12, "high": 0 },
+        "second": { "low": 46, "high": 0 },
+        "nanosecond": { "low": 314000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Woody Aquatic",
+      "label": "WOODY",
+      "category_id": "62ab4808-0ff4-48fb-819b-be94d39ad92d"
+    }
+  },
+  {
+    "identity": { "low": 105, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 5, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 14, "high": 0 },
+        "second": { "low": 27, "high": 0 },
+        "nanosecond": { "low": 443000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Woody  Chypre",
+      "label": "WOODY",
+      "category_id": "2f9defc7-4a78-405f-98d7-f831169ef4f7"
+    }
+  },
+  {
+    "identity": { "low": 106, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 5, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 23, "high": 0 },
+        "second": { "low": 52, "high": 0 },
+        "nanosecond": { "low": 434000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Woody Spicy",
+      "label": "WOODY",
+      "category_id": "50d47ead-6180-4dcd-b395-7f7eef61e98a"
+    }
+  },
+  {
+    "identity": { "low": 125, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 5, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 15, "high": 0 },
+        "second": { "low": 52, "high": 0 },
+        "nanosecond": { "low": 271000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Woody Floral Musk",
+      "label": "WOODY",
+      "category_id": "e091bb61-0f9d-4f0f-afb9-1fdfb81fbb3b"
+    }
+  },
+  {
+    "identity": { "low": 131, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 12, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 31, "high": 0 },
+        "second": { "low": 6, "high": 0 },
+        "nanosecond": { "low": 88000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Oriental Vanilla",
+      "label": "ORIENTAL",
+      "category_id": "bda4eeb5-d1c4-41d7-b155-c8bca11c90c0"
+    }
+  },
+  {
+    "identity": { "low": 133, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 12, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 45, "high": 0 },
+        "second": { "low": 31, "high": 0 },
+        "nanosecond": { "low": 392000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Floral Fruity",
+      "label": "FLORAL",
+      "category_id": "36c7fd57-e568-4b28-a4d3-f7bc07fe1973"
+    }
+  },
+  {
+    "identity": { "low": 158, "high": 0 },
+    "labels": ["Category"],
+    "properties": {
+      "createdAt": {
+        "year": { "low": 2020, "high": 0 },
+        "month": { "low": 4, "high": 0 },
+        "day": { "low": 12, "high": 0 },
+        "hour": { "low": 0, "high": 0 },
+        "minute": { "low": 52, "high": 0 },
+        "second": { "low": 0, "high": 0 },
+        "nanosecond": { "low": 985000000, "high": 0 },
+        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
+        "timeZoneId": null
+      },
+      "categoryname": "Oriental Floral",
+      "label": "ORIENTAL",
+      "category_id": "d42845ca-abd8-4144-97d7-95845c633b1a"
+    }
+  }
+]
