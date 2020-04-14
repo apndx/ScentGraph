@@ -60,7 +60,6 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       gendername: this.state.gendername,
       timename: this.state.timename
     }
-    console.log('SUBMIT SCENT', scentToCreate)
 
     createScent(scentToCreate)
       .then(response => {
