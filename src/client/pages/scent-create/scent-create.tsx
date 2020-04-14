@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createScent } from '../../services'
+import { createScent, getAll } from '../../services'
 import { ScentToCreate } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
 
@@ -19,7 +19,10 @@ interface ScentCreateState {
   description?: string,
   url?: string,
   addedusername?: string,
-  notenames?: string[]
+  notenames?: string[],
+  allBrands: string[],
+  allNotes: string[],
+  allCategories: string[]
 }
 
 export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCreateState> {
@@ -30,8 +33,20 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       brandname: '',
       seasonname: '',
       gendername: '',
-      timename: ''
+      timename: '',
+      allBrands: [],
+      allNotes: [],
+      allCategories: []
     }
+  }
+
+  componentDidMount() {
+    getAll('brand').then(allBrands => this.setState({ allBrands }))
+    getAll('note').then(allNotes => this.setState({ allNotes }))
+    getAll('category').then(allCategories => this.setState({ allCategories }))
+    console.log(this.state.allBrands)
+    console.log(this.state.allNotes)
+    console.log(this.state.allCategories)
   }
 
   handleSeasonChange(event) {
