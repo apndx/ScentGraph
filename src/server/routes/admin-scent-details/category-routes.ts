@@ -2,6 +2,7 @@ import * as express from "express"
 import { checkAdmin, checkLogin } from '../../middleware'
 import { category } from '../../models'
 import { getName } from '../route-helpers'
+import { ScentItem } from '../../../common/data-classes'
 
 export function configureCategoryRoutes(
   app: express.Application,
@@ -49,7 +50,7 @@ export function configureCategoryRoutes(
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Category', category)
-      const categories: string[] = []
+      const categories: ScentItem[] = []
       try {
         const result = await instance.cypher('MATCH (category:Category) RETURN category')
           .then((result: any) => {
