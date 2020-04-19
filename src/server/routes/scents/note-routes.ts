@@ -2,6 +2,7 @@ import * as express from "express"
 import { checkLogin } from '../../middleware'
 import { note } from '../../models'
 import { getName } from '../../routes'
+import { ScentItem } from '../../../common/data-classes'
 
 export function configureNoteRoutes(
   app: express.Application,
@@ -43,7 +44,7 @@ export function configureNoteRoutes(
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Note', note)
-      const notes: string[] = []
+      const notes: ScentItem[] = []
       try {
         const result = await instance.cypher('MATCH (note:Note) RETURN note')
           .then((result: any) => {
