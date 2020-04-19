@@ -40,13 +40,16 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
     }
   }
 
-  componentDidMount() {
-    getAll('brand').then(allBrands => this.setState({ allBrands }))
-    getAll('note').then(allNotes => this.setState({ allNotes }))
-    getAll('category').then(allCategories => this.setState({ allCategories }))
-    console.log(this.state.allBrands)
-    console.log(this.state.allNotes)
-    console.log(this.state.allCategories)
+  public async componentDidMount() {
+      await getAll('category').then(response => {
+        this.setState({ allCategories: response.body })
+      })  
+      await getAll('brand').then(response => {
+        this.setState({ allBrands: response.body })
+      })  
+      await getAll('note').then(response => {
+        this.setState({ allNotes: response.body })
+      })
   }
 
   handleSeasonChange(event) {
