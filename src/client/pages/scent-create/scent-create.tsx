@@ -22,9 +22,9 @@ interface ScentCreateState {
   url?: string,
   addedusername?: string,
   notenames?: string[],
-  allBrands: string[],
-  allNotes: string[],
-  allCategories: string[]
+  allBrands: ScentItem[],
+  allNotes: ScentItem[],
+  allCategories: ScentItem[]
 }
 
 export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCreateState> {
@@ -73,7 +73,11 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   isDisabled(): boolean {
     return this.state && (this.state.scentname === '' ||
     this.state.brandname === '') ||
-    !this.state.allCategories.includes(this.state.categoryname)
+    (this.state.allCategories && !(this.categoryNames(this.state.allCategories)).includes(this.state.categoryname))
+  }
+
+  categoryNames(items: ScentItem[]): string[] {
+    return this.state.allCategories.map(item => item.name)
   }
 
   onSubmit = (event) => {
@@ -90,7 +94,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
 
     createScent(scentToCreate)
       .then(response => {
-        console.log(`scent added: ${this.state.scentname} '${response}' `)
+        console.log(`scent added: ${this.state.scentname}`)
         this.setState({
           scentname: '',
           brandname: '',
