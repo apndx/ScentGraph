@@ -60,6 +60,11 @@ export function configureScentRoutes(
             MATCH (category:Category{categoryname:$categoryname})
             MERGE (scent)-[belongs:BELONGS]->(category)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
+            await instance.cypher(`
+            MATCH (scent:Scent{scentname:$scentname})
+            MATCH (brand:Brand{brandname:$brandname})
+            MERGE (scent)-[belongs:BELONGS]->(brand)-[has:HAS]->(scent)
+            RETURN type(belongs), type(has), scent`, scentToBe)
            // .then(([scent]: any) => {
           .then(() => {
             // console.log(`Scent ${scent.properties().scentname} created`)

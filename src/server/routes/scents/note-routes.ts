@@ -18,6 +18,11 @@ export function configureNoteRoutes(
       instance.model("Note", note)
 
       try {
+        const existingNote = await instance.cypher('MATCH (note:Note {notename:{itemName}}) return note.notename', req.body)
+        if (existingNote.records.length > 0) {
+          return res.status(400).json({ error: 'Note must be unique.' })
+        }
+
         Promise.all([
           instance.create("Note", {
             notename: req.body.itemName

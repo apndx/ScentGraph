@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { createScent, getAll } from '../../services'
-import { ScentToCreate, ScentItem } from '../../../common/data-classes'
+import { createScent, getAll, createItem } from '../../services'
+import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
 import { matchInput } from '../../utils'
@@ -72,8 +72,8 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
 
   isDisabled(): boolean {
     return this.state && (this.state.scentname === '' ||
-    this.state.brandname === '') ||
-    (this.state.allCategories && !(this.categoryNames(this.state.allCategories)).includes(this.state.categoryname))
+      this.state.brandname === '') ||
+      (this.state.allCategories && !(this.categoryNames(this.state.allCategories)).includes(this.state.categoryname))
   }
 
   categoryNames(items: ScentItem[]): string[] {
@@ -91,26 +91,31 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       timename: this.state.timename,
       categoryname: this.state.categoryname
     }
-
-    createScent(scentToCreate)
+    const adminContent: AdminContent = {
+      itemName: this.state.brandname,
+      type: 'brand'
+    }
+    createItem(adminContent)
       .then(response => {
-        console.log(`scent added: ${this.state.scentname}`)
-        this.setState({
-          scentname: '',
-          brandname: '',
-          seasonname: '',
-          gendername: '',
-          timename: '',
-          categoryname: ''
-        })
-        this.props.history.push('/')
+        console.log(response)
+        createScent(scentToCreate)
+          .then(response => {
+            console.log(`scent added: ${this.state.scentname}`)
+            this.setState({
+              scentname: '',
+              brandname: '',
+              seasonname: '',
+              gendername: '',
+              timename: '',
+              categoryname: ''
+            })
+            this.props.history.push('/')
+          })
       })
       .catch(success => {
         console.log(`something went wrong in scent creation..`)
       })
-
   }
-
 
   public render(): JSX.Element {
     return (
