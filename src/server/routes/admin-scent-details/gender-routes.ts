@@ -16,6 +16,12 @@ export function configureGenderRoutes(
       instance.model("Gender", gender)
 
       try {
+
+        const existingGender = await instance.cypher('MATCH (gender:Gender {gendername:{itemName}}) return gender.gendername', req.body)
+        if (existingGender.records.length > 0) {
+          return res.status(400).json({ error: 'Gender must be unique.' })
+        }
+
         Promise.all([
           instance.create("Gender", {
             gendername: req.body.itemName

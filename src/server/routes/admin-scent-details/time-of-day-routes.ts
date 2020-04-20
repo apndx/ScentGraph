@@ -16,6 +16,10 @@ export function configureTimeOfDayRoutes(
       instance.model("TimeOfDay", timeOfDay)
 
       try {
+        const existingTime = await instance.cypher('MATCH (time:TimeOfDay {timename:{itemName}}) return time.timename', req.body)
+        if (existingTime.records.length > 0) {
+          return res.status(400).json({ error: 'Time of day must be unique.' })
+        }
         Promise.all([
           instance.create("TimeOfDay", {
             timename: req.body.itemName

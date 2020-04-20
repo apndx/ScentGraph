@@ -18,6 +18,12 @@ export function configureBrandRoutes(
       instance.model("Brand", brand)
 
       try {
+
+        const existingBrand = await instance.cypher('MATCH (brand:Brand {brandname:{itemName}}) return brand.brandname', req.body)
+        if (existingBrand.records.length > 0) {
+          return res.status(400).json({ error: 'Brand must be unique.' })
+        }
+
         Promise.all([
           instance.create("Brand", {
             brandname: req.body.itemName
