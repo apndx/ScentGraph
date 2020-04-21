@@ -27,5 +27,5 @@
 | 14.4. | 3,5 | Route to get all categories, brands or notes, returns a list of names. Routes for brand and note creation, starting adding these to client side as well |
 | 19.4. | 4,5| Fixing rendering bug, fetching all categories, notes and brands for scent creation, autofill form for category, relation to category added |
 | 20.4. | 2| Brand is created, and the relation to brand. Better error handling for admin items, brand and note. |
-| 21.4. | 2| In scent creation brand can be chosen from a list or added if not found. The relation of user who added the scent is saved with the scent  |
-| all |  92,5 | |
+| 21.4. | 3,5| In scent creation brand can be chosen from a list or added if not found. The relation of user who added the scent is saved with the scent. Starting all scents of a category route. |
+| all |  94 | |

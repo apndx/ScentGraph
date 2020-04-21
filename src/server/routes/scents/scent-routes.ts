@@ -94,4 +94,46 @@ export function configureScentRoutes(
       }
     }
   )
+
+  app.get(
+    `${SCENTS_PATH}/allFromCategory/:category`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model("Scent", scent)
+      instance.model("Category", category)
+      instance.model("Brand", brand)
+      instance.model("Season", season)
+      instance.model("TimeOfDay", timeOfDay)
+      instance.model("Gender", gender)
+      console.log('REQS', req.params)
+      const params = {categoryname: req.params.category}
+      //const nodes: ScentItem[] = []
+      try {
+        const result = await instance.cypher(`MATCH (scent:Scent)
+        -[belcategory:BELONGS]->(category:Category {categoryname:{categoryname}})
+        MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
+        MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+        MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+        MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+        return scent, category, brand, season, time, gender,
+        belcategory, belbrand, belseason, beltime, belgender`, params)
+          .then((result: any) => {
+            console.log(result.records)
+            // result.records.map((row: any) => {
+            //   brands.push(getName(row.get('brand')))
+            // })
+            // console.log(brands)
+            // res.status(200).send(brands)
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching scents' })
+      }
+    }
+  )
+
 }
