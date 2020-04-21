@@ -1,6 +1,6 @@
 import * as express from "express"
-import { checkLogin } from '../../middleware'
-import { scent, brand, timeOfDay, gender, season, category } from '../../models'
+import { checkLogin, authenticateToken } from '../../middleware'
+import { scent, brand, timeOfDay, gender, season, category, user } from '../../models'
 import { ScentToCreate } from '../../../common/data-classes'
 
 export function configureScentRoutes(
@@ -14,7 +14,13 @@ export function configureScentRoutes(
     `${SCENTS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      const scentToBe: ScentToCreate = req.body
+      const username = authenticateToken(req).username
+
+      const scentToBe: ScentToCreate = {
+        ...req.body,
+        username
+      }
+
       //const notes: string[] = req.body.scentToCreate.notes
 
       instance.model("Scent", scent)
@@ -23,6 +29,7 @@ export function configureScentRoutes(
       instance.model("Gender", gender)
       instance.model("Season", season)
       instance.model("Category", category)
+      instance.model("User", user)
 
       try {
         if (scentToBe.scentname.length < 1) {
@@ -45,27 +52,32 @@ export function configureScentRoutes(
             MERGE (scent:Scent{scentname:$scentname})
             MERGE (scent)-[belongs:BELONGS]->(time)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
-            await instance.cypher(`
+        await instance.cypher(`
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (gender:Gender{gendername:$gendername})
             MERGE (scent)-[belongs:BELONGS]->(gender)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
-            await instance.cypher(`
+        await instance.cypher(`
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (season:Season{seasonname:$seasonname})
             MERGE (scent)-[belongs:BELONGS]->(season)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
-            await instance.cypher(`
+        await instance.cypher(`
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (category:Category{categoryname:$categoryname})
             MERGE (scent)-[belongs:BELONGS]->(category)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
-            await instance.cypher(`
+        await instance.cypher(`
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (brand:Brand{brandname:$brandname})
             MERGE (scent)-[belongs:BELONGS]->(brand)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
-           // .then(([scent]: any) => {
+        await instance.cypher(`
+            MATCH (scent:Scent{scentname:$scentname})
+            MATCH (user:User{username:$username})
+            MERGE (user)-[added:ADDED]->(scent)
+            RETURN type(added), scent`, scentToBe)
+          // .then(([scent]: any) => {
           .then(() => {
             // console.log(`Scent ${scent.properties().scentname} created`)
             console.log(`Scent created`)
@@ -78,7 +90,7 @@ export function configureScentRoutes(
           .then(() => instance.close())
       } catch (e) {
         console.log(e)
-        res.status(500).json({ error: 'Something went wrong in scent creation' })
+        res.status(500).json({ error: `Something went wrong in scent creation: ${e.details}` })
       }
     }
   )
