@@ -77,10 +77,14 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   }
 
   categoryNames(items: ScentItem[]): string[] {
-    return this.state.allCategories.map(item => item.name)
+    return items.map(item => item.name)
   }
 
-  onSubmit = (event) => {
+  brandNames(items: ScentItem[]): string[] {
+    return items.map(item => item.name)
+  }
+
+  onSubmit = async (event) => {
     event.preventDefault()
 
     const scentToCreate: ScentToCreate = {
@@ -91,31 +95,47 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       timename: this.state.timename,
       categoryname: this.state.categoryname
     }
-    const adminContent: AdminContent = {
-      itemName: this.state.brandname,
-      type: 'brand'
-    }
-    createItem(adminContent)
-      .then(response => {
-        console.log(response)
-        createScent(scentToCreate)
-          .then(response => {
-            console.log(`scent added: ${this.state.scentname}`)
-            this.setState({
-              scentname: '',
-              brandname: '',
-              seasonname: '',
-              gendername: '',
-              timename: '',
-              categoryname: ''
+
+    if (!this.brandNames(this.state.allBrands).includes(this.state.brandname)) {
+      const newBrand: AdminContent = {
+        itemName: this.state.brandname,
+        type: 'brand'
+      }
+      createItem(newBrand)
+        .then(response => {
+          console.log(response)
+          createScent(scentToCreate)
+            .then(response => {
+              this.afterScentCreation()
             })
-            this.props.history.push('/')
-          })
-      })
-      .catch(success => {
-        console.log(`something went wrong in scent creation..`)
-      })
+        })
+        .catch(success => {
+          console.log(`something went wrong in scent creation..`)
+        })
+    } else {
+      createScent(scentToCreate)
+        .then(response => {
+          this.afterScentCreation()
+        })
+        .catch(success => {
+          console.log(`something went wrong in scent creation..`)
+        })
+    }
   }
+
+  private afterScentCreation() {
+    console.log(`scent added: ${this.state.scentname}`)
+    this.setState({
+      scentname: '',
+      brandname: '',
+      seasonname: '',
+      gendername: '',
+      timename: '',
+      categoryname: ''
+    })
+    this.props.history.push('/')
+  }
+
 
   public render(): JSX.Element {
     return (
@@ -131,16 +151,6 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               onChange={(event) => { this.setState({ scentname: event.target.value }) }}
               id='scentname' />
           </Form.Group>
-          <Form.Group>
-            <Form.Label> Brand name </Form.Label>
-            <Form.Control
-              type="text"
-              name="brandname"
-              value={this.state.brandname}
-              onChange={(event) => { this.setState({ brandname: event.target.value }) }}
-              id='brandname' />
-          </Form.Group>
-
           <Form.Group controlId="scentForm.SeasonSelect">
             <Form.Label> Choose Season </Form.Label>
             <Form.Control
@@ -188,6 +198,29 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               shouldItemRender={matchInput}
               onChange={(event, value) => this.setState({ categoryname: value })}
               onSelect={value => this.setState({ categoryname: value })}
+              renderMenu={children => (
+                <div className="menu">
+                  {children}
+                </div>
+              )}
+              renderItem={(item, isHighlighted) => (
+                <div
+                  className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
+                  key={item.id}
+                >{item.name}</div>
+              )}
+            />}
+          <p>Select or add Brand:</p>
+          {this.state.allBrands &&
+            <Autocomplete
+              value={this.state.brandname}
+              inputProps={{ id: 'brand-autocomplete' }}
+              wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+              items={this.state.allBrands}
+              getItemValue={(item: ScentItem) => item.name}
+              shouldItemRender={matchInput}
+              onChange={(event, value) => this.setState({ brandname: value })}
+              onSelect={value => this.setState({ brandname: value })}
               renderMenu={children => (
                 <div className="menu">
                   {children}
