@@ -8,7 +8,8 @@ export interface ScentToCreate {
   gendername?: string,
   categoryname?: string,
   timename?: string,
-  notenames?: string[]
+  notenames?: string[],
+  username?: string
 }
 
 export interface ScentItem {
