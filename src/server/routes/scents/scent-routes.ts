@@ -1,7 +1,8 @@
 import * as express from "express"
 import { checkLogin, authenticateToken } from '../../middleware'
 import { scent, brand, timeOfDay, gender, season, category, user } from '../../models'
-import { ScentToCreate } from '../../../common/data-classes'
+import { ScentToCreate, GraphNodeOut, GraphEdgeOut } from '../../../common/data-classes'
+import { nodeConverter, edgeConverter } from '../route-helpers'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -94,4 +95,60 @@ export function configureScentRoutes(
       }
     }
   )
+
+  app.get(
+    `${SCENTS_PATH}/allFromCategory/:category`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model("Scent", scent)
+      instance.model("Category", category)
+      instance.model("Brand", brand)
+      instance.model("Season", season)
+      instance.model("TimeOfDay", timeOfDay)
+      instance.model("Gender", gender)
+      console.log('REQS', req.params)
+      const params = { categoryname: req.params.category }
+      const nodes: GraphNodeOut[] = []
+      const edges: GraphEdgeOut[] = []
+
+      try {
+        const result = await instance.cypher(`MATCH (scent:Scent)
+        -[belcategory:BELONGS]->(category:Category {categoryname:{categoryname}})
+        MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
+        MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+        MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+        MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+        return scent, category, brand, season, time, gender,
+        belcategory, belbrand, belseason, beltime, belgender`, params)
+          .then((result: any) => {
+            console.log(result.records)
+            result.records.map((row: any) => {
+              nodes.push(nodeConverter(row.get('scent')))
+              nodes.push(nodeConverter(row.get('category')))
+              nodes.push(nodeConverter(row.get('brand')))
+              nodes.push(nodeConverter(row.get('season')))
+              nodes.push(nodeConverter(row.get('time')))
+              nodes.push(nodeConverter(row.get('gender')))
+              edges.push(edgeConverter(row.get('belcategory')))
+              edges.push(edgeConverter(row.get('belbrand')))
+              edges.push(edgeConverter(row.get('belseason')))
+              edges.push(edgeConverter(row.get('beltime')))
+              edges.push(edgeConverter(row.get('belgender')))
+
+              console.log(row.get('belgender'))
+            })
+            console.log(nodes, edges)
+            res.status(200).send({ nodes, edges })
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching scents' })
+      }
+    }
+  )
+
 }

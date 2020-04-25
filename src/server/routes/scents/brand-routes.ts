@@ -44,7 +44,6 @@ export function configureBrandRoutes(
     }
   )
 
-
   app.get(
     `${SCENT_DETAILS_PATH}/all`, checkLogin,
     async (req: express.Request, res: express.Response) => {
