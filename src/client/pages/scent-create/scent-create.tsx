@@ -46,15 +46,12 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   public async componentDidMount() {
     await getAll('category').then(response => {
       this.setState({ allCategories: response })
-      console.log(response)
     })
     await getAll('brand').then(response => {
       this.setState({ allBrands: response })
-      console.log(response)
     })
     await getAll('note').then(response => {
       this.setState({ allNotes: response })
-      console.log(response)
     })
   }
 
