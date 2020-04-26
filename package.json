@@ -55,13 +55,13 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "vis-react": "^0.5.1"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.2",
     "@types/node": "^13.7.1",
-    "@types/react": "^16.9.19",
     "@types/react-autocomplete": "^1.8.5",
     "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^5.1.3",

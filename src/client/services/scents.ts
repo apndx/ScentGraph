@@ -20,7 +20,7 @@ export const getAll = async (type: string) => {
   return response.data
 }
 
-export const scentsFromCategory = async (category: string) => {
+export const getScentsFromCategory = async (category: string) => {
   const path = `${baseUrl}scents/allFromCategory${category}`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }

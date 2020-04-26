@@ -46,7 +46,7 @@ export function configureCategoryRoutes(
   )
 
   app.get(
-    `${ADMIN_DETAILS_PATH}/all`, checkLogin,
+    `${ADMIN_DETAILS_PATH}/all`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Category', category)

@@ -16,7 +16,6 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
   public padding: any
   constructor(props) {
     super(props)
-    this.padding = { padding: 10 }
   }
 
   isLogged() {
@@ -36,20 +35,16 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
 
             <Nav.Link href='#' as='span'>
               {this.isAdmin() ?
-                <Link className='text-info' style={this.padding} to='/adminTools'>Add an item</Link>
+                <Link className='text-info' to='/adminTools'>Add an item</Link>
                 : <em></em>}
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>
-              <Link className='text-info' style={this.padding} to='/scentCreate'>Create a Scent</Link>
+              <Link className='text-info' to='/scentCreate'>Create a Scent</Link>
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>
-              <Link className='text-info' style={this.padding} to='/scentsFromCategory'>Show Scents</Link>
-            </Nav.Link>
-
-            <Nav.Link href='#' as='span'>
-              <Link className='text-info' style={this.padding} to='/logout'>Logout</Link>
+              <Link className='text-info' to='/logout'>Logout</Link>
             </Nav.Link>
 
           </Nav>
@@ -66,11 +61,11 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
           <Nav className="mr-auto">
 
             <Nav.Link href='#' as='span'>
-              <Link className='text-info' style={this.padding} to='/newUser'>Add a user</Link>
+              <Link className='text-info' to='/newUser'>Add a user</Link>
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>
-              <Link className='text-info' style={this.padding} to='/login'>Login</Link>
+              <Link className='text-info' to='/login'>Login</Link>
             </Nav.Link>
 
           </Nav>
@@ -96,7 +91,7 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
       <div>
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
           <Navbar.Brand>
-            <Link className='front-page' style={this.padding} to='/'>
+            <Link className='front-page' to='/'>
               <img
                 src={logo}
                 width='60'
@@ -106,6 +101,11 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
               />
             </Link>
           </Navbar.Brand>
+
+          <Nav.Link href='#' as='span'>
+            <Link className='text-info' to='/scentsFromCategory'>Show Scents</Link>
+          </Nav.Link>
+
           {this.noLogin()}  {this.userLogged()}
         </Navbar>
       </div>
