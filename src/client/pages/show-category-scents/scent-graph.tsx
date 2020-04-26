@@ -49,7 +49,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
         hierarchical: false
       },
       edges: {
-        color: '767676',
+        color: '#48808f',
         arrows: {
           to: {
             enabled: true
@@ -72,6 +72,16 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   }
 
   public async componentDidMount() {
+    this.graphUpdate()
+  }
+
+  public async componentDidUpdate(prevProps: ScentGraphProps) {
+    if (this.props.categorynameToGraph !== prevProps.categorynameToGraph) {
+      this.graphUpdate()
+    }
+  }
+
+  private async graphUpdate() {
     try {
       this.setState({ loading: true })
       const graph: GraphResult = await getScentsFromCategory(this.props.categorynameToGraph)
@@ -88,6 +98,8 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       })
     }
   }
+
+
 
   private getNetwork = data => {
     this.setState({ network: data })

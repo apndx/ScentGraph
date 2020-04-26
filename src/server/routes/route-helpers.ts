@@ -74,3 +74,7 @@ export function edgeConverter(edge: GraphEdgeIn): GraphEdgeOut {
     title: edge.type
   })
 }
+
+export function isNotNull(item: any): boolean {
+  return item !== null
+}

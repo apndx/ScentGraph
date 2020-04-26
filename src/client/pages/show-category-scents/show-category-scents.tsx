@@ -91,7 +91,7 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
         {this.state.categorynameToGraph &&
           <ScentGraph
             containerId={'category-scents'}
-            backgroundColor={'#d9d9d9'}
+            backgroundColor={'#e8e8de'}
             categorynameToGraph={this.state.categorynameToGraph}
           />
         }

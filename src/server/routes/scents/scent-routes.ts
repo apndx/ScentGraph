@@ -1,8 +1,14 @@
 import * as express from "express"
 import { checkLogin, authenticateToken } from '../../middleware'
 import { scent, brand, timeOfDay, gender, season, category, user } from '../../models'
-import { ScentToCreate, GraphNodeOut, GraphEdgeOut, GraphNodeIn } from '../../../common/data-classes'
-import { nodeConverter, edgeConverter, isUniqueNode } from '../route-helpers'
+import {
+  ScentToCreate,
+  GraphNodeOut,
+  GraphEdgeOut,
+  GraphNodeIn,
+  GraphEdgeIn
+} from '../../../common/data-classes'
+import { nodeConverter, edgeConverter, isUniqueNode, isNotNull } from '../route-helpers'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -107,7 +113,7 @@ export function configureScentRoutes(
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
       console.log('REQS', req.body)
-      const categoryname =  req.body.categoryname.toLowerCase()
+      const categoryname = req.body.categoryname.toLowerCase()
       const params = { categoryname: categoryname }
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
@@ -152,12 +158,27 @@ export function configureScentRoutes(
                 nodes.push(nodeConverter(gender))
               }
 
-              edges.push(edgeConverter(row.get('belcategory')))
-              edges.push(edgeConverter(row.get('belbrand')))
-              edges.push(edgeConverter(row.get('belseason')))
-              edges.push(edgeConverter(row.get('beltime')))
-              edges.push(edgeConverter(row.get('belgender')))
+              const belongsToCategory: GraphEdgeIn = row.get('belcategory') || null
+              const belongsToBrand: GraphEdgeIn = row.get('belbrand') || null
+              const belongsToSeason: GraphEdgeIn = row.get('belseason') || null
+              const belongsToTime: GraphEdgeIn = row.get('beltime') || null
+              const belongsToGender: GraphEdgeIn = row.get('belgender') || null
 
+              if (isNotNull(belongsToCategory)) {
+                edges.push(edgeConverter(belongsToCategory))
+              }
+              if (isNotNull(belongsToBrand)) {
+                edges.push(edgeConverter(belongsToBrand))
+              }
+              if (isNotNull(belongsToSeason)) {
+                edges.push(edgeConverter(belongsToSeason))
+              }
+              if (isNotNull(belongsToTime)) {
+                edges.push(edgeConverter(belongsToTime))
+              }
+              if (isNotNull(belongsToGender)) {
+                edges.push(edgeConverter(belongsToGender))
+              }
             })
             console.log(nodes, edges)
             res.status(200).send({ nodes, edges })
