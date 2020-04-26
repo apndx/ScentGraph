@@ -4,6 +4,7 @@ import { ScentItem } from '../../../common/data-classes'
 import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
 import { Button } from 'react-bootstrap'
+import { ScentGraph } from './scent-graph'
 
 interface ShowCategoryScentsState {
   errorMessage?: string,
@@ -87,6 +88,13 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
             <Button disabled={this.isDisabled()} variant="outline-info" type="submit">show</Button>
           </div>
         </form>
+        {this.state.categorynameToGraph &&
+          <ScentGraph
+            containerId={'category-scents'}
+            backgroundColor={'#d9d9d9'}
+            categorynameToGraph={this.state.categorynameToGraph}
+          />
+        }
       </div>
     )
   }

@@ -72,8 +72,52 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   }
 
   public async componentDidMount() {
-    
+    try {
+      this.setState({ loading: true })
+      const graph: GraphResult = await getScentsFromCategory(this.props.categorynameToGraph)
+      this.setState({
+        options: this.options,
+        graph,
+        loading: false
+      })
+    } catch (e) {
+      const errorMessage = (e instanceof DOMException) ? 'Failed to load graph' : e.toString()
+      this.setState({
+        loading: false,
+        errorMessage
+      })
+    }
   }
 
+  private getNetwork = data => {
+    this.setState({ network: data })
+  }
+
+  public render() {
+    return (
+      <div>
+        {this.renderGraph()}
+      </div>
+    )
+  }
+
+  private renderGraph(): JSX.Element {
+    const { backgroundColor } = this.props
+    const { windowWidth, windowHeight } = this.state
+    return (
+      (!this.state.errorMessage && !this.state.loading && Object.entries(this.state.graph).length !== 0 &&
+        <Graph graph={this.state.graph}
+          style={{
+            width: `${windowWidth}px`,
+            height: `${windowHeight * 0.8}px`,
+            backgroundColor: `${backgroundColor}`
+          }}
+          options={this.state.options}
+          events={this.events}
+          getNetwork={this.getNetwork}
+        />
+      )
+    )
+  }
 
 }

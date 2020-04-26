@@ -31,6 +31,10 @@ export function getName(node: GraphNodeIn): ScentItem {
   }
 }
 
+export function isUniqueNode(nodes: GraphNodeOut[], node: any): boolean {
+  return node && nodes.filter(n => n.id === toSmallInteger(node.identity)).length === 0
+}
+
 export function toSmallInteger(numberToConvert: NeoInteger): number {
   return neo4j.int(numberToConvert).toNumber()
 }
@@ -38,7 +42,7 @@ export function toSmallInteger(numberToConvert: NeoInteger): number {
 export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
   return ({
     id: toSmallInteger(node.identity),
-    label: node.labels[0],
+    label: extractName(node.properties),
     title: extractName(node.properties),
     group: node.labels[0],
     properties: node.properties,

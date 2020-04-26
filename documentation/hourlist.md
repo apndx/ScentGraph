@@ -29,5 +29,5 @@
 | 20.4. | 2| Brand is created, and the relation to brand. Better error handling for admin items, brand and note. |
 | 21.4. | 3,5| In scent creation brand can be chosen from a list or added if not found. The relation of user who added the scent is saved with the scent. Starting all scents of a category route. |
 | 25.4. | 2| All scents from category result is converted in scent route to fit visualisation |
-| 26.4. | 2,5| Page to choose the category to view the scents from. Starting visualisation. |
-| all |  98,5 | |
+| 26.4. | 3,5| Page to choose the category to view the scents from. Starting visualisation. |
+| all |  99,5 | |
