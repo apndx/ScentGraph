@@ -96,8 +96,8 @@ export function configureScentRoutes(
     }
   )
 
-  app.get(
-    `${SCENTS_PATH}/allFromCategory/:category`,
+  app.post(
+    `${SCENTS_PATH}/allFromCategory`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model("Scent", scent)
@@ -106,19 +106,20 @@ export function configureScentRoutes(
       instance.model("Season", season)
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
-      console.log('REQS', req.params)
-      const categoryname =  req.params.category.toLocaleLowerCase()
+      console.log('REQS', req.body)
+      const categoryname =  req.body.categoryname.toLowerCase()
       const params = { categoryname: categoryname }
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
 
       try {
         const result = await instance.cypher(`MATCH (scent:Scent)
-        -[belcategory:BELONGS]->(category:Category {categoryname:{categoryname}})
+        -[belcategory:BELONGS]->(category:Category)
         MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
         MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
         MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
         MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+        WHERE toLower(category.categoryname) = toLower({categoryname})
         return scent, category, brand, season, time, gender,
         belcategory, belbrand, belseason, beltime, belgender`, params)
           .then((result: any) => {
