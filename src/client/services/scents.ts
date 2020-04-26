@@ -19,3 +19,12 @@ export const getAll = async (type: string) => {
   const response = await axios.get(`${path}/all`, config)
   return response.data
 }
+
+export const scentsFromCategory = async (category: string) => {
+  const path = `${baseUrl}scents/allFromCategory${category}`
+  const config = {
+    headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
+  }
+  const response = await axios.get(`${path}`, config)
+  return response.data
+}

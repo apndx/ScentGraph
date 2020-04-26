@@ -2,7 +2,15 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import { ClientRoutePath } from './routes'
-import { FrontPage, UserCreate, Login, Logout, AdminTools, ScentCreate } from './pages'
+import {
+  FrontPage,
+  UserCreate,
+  Login,
+  Logout,
+  AdminTools,
+  ScentCreate,
+  ShowCategoryScents
+} from './pages'
 import 'bootstrap/dist/css/bootstrap.css'
 import { SessionStorageItem } from '../client/utils'
 
@@ -42,6 +50,7 @@ class App extends React.Component {
         <Route path={ClientRoutePath.FrontPage} component={FrontPage} />
         <Switch>
           <Route exact path={ClientRoutePath.ScentCreation} component={ScentCreate} />
+          <Route exact path={ClientRoutePath.ShowCategoryScents} component={ShowCategoryScents} />
           <Route exact path={ClientRoutePath.UserCreation} component={UserCreate} />
           <Route exact path={ClientRoutePath.AdminTools} component={AdminTools} />
           <Route exact path={ClientRoutePath.Login} component={Login} />
