@@ -20,11 +20,22 @@ export const getAll = async (type: string) => {
   return response.data
 }
 
-export const scentsFromCategory = async (category: string) => {
-  const path = `${baseUrl}scents/allFromCategory${category}`
+// export const getScentsFromCategory = async (category: string) => {
+//   const path = `${baseUrl}scents/allFromCategory/${category}`
+//   const config = {
+//     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
+//   }
+//   const response = await axios.get(`${path}`, config)
+//   return response.data
+// }
+
+
+export const getScentsFromCategory = async (categoryname: string) => {
+  const path = `${baseUrl}scents/allFromCategory`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
-  const response = await axios.get(`${path}`, config)
+  const categoryObject = {categoryname: categoryname}
+  const response = await axios.post(`${path}`, categoryObject, config)
   return response.data
 }

@@ -1,8 +1,14 @@
 import * as express from "express"
 import { checkLogin, authenticateToken } from '../../middleware'
 import { scent, brand, timeOfDay, gender, season, category, user } from '../../models'
-import { ScentToCreate, GraphNodeOut, GraphEdgeOut } from '../../../common/data-classes'
-import { nodeConverter, edgeConverter } from '../route-helpers'
+import {
+  ScentToCreate,
+  GraphNodeOut,
+  GraphEdgeOut,
+  GraphNodeIn,
+  GraphEdgeIn
+} from '../../../common/data-classes'
+import { nodeConverter, edgeConverter, isUniqueNode, isNotNull } from '../route-helpers'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -96,8 +102,8 @@ export function configureScentRoutes(
     }
   )
 
-  app.get(
-    `${SCENTS_PATH}/allFromCategory/:category`, checkLogin,
+  app.post(
+    `${SCENTS_PATH}/allFromCategory`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model("Scent", scent)
@@ -106,36 +112,73 @@ export function configureScentRoutes(
       instance.model("Season", season)
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
-      console.log('REQS', req.params)
-      const params = { categoryname: req.params.category }
+      console.log('REQS', req.body)
+      const categoryname = req.body.categoryname.toLowerCase()
+      const params = { categoryname: categoryname }
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
 
       try {
         const result = await instance.cypher(`MATCH (scent:Scent)
-        -[belcategory:BELONGS]->(category:Category {categoryname:{categoryname}})
+        -[belcategory:BELONGS]->(category:Category)
         MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
         MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
         MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
         MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+        WHERE toLower(category.categoryname) = toLower({categoryname})
         return scent, category, brand, season, time, gender,
         belcategory, belbrand, belseason, beltime, belgender`, params)
           .then((result: any) => {
             console.log(result.records)
             result.records.map((row: any) => {
-              nodes.push(nodeConverter(row.get('scent')))
-              nodes.push(nodeConverter(row.get('category')))
-              nodes.push(nodeConverter(row.get('brand')))
-              nodes.push(nodeConverter(row.get('season')))
-              nodes.push(nodeConverter(row.get('time')))
-              nodes.push(nodeConverter(row.get('gender')))
-              edges.push(edgeConverter(row.get('belcategory')))
-              edges.push(edgeConverter(row.get('belbrand')))
-              edges.push(edgeConverter(row.get('belseason')))
-              edges.push(edgeConverter(row.get('beltime')))
-              edges.push(edgeConverter(row.get('belgender')))
 
-              console.log(row.get('belgender'))
+              const scent: GraphNodeIn = row.get('scent') || null
+              const category: GraphNodeIn = row.get('category') || null
+              const brand: GraphNodeIn = row.get('brand') || null
+              const season: GraphNodeIn = row.get('season') || null
+              const time: GraphNodeIn = row.get('time') || null
+              const gender: GraphNodeIn = row.get('gender') || null
+
+              if (isUniqueNode(nodes, scent)) {
+                nodes.push(nodeConverter(scent))
+              }
+              if (isUniqueNode(nodes, category)) {
+                nodes.push(nodeConverter(category))
+              }
+              if (isUniqueNode(nodes, brand)) {
+                nodes.push(nodeConverter(brand))
+              }
+              if (isUniqueNode(nodes, season)) {
+                nodes.push(nodeConverter(season))
+              }
+              if (isUniqueNode(nodes, time)) {
+                nodes.push(nodeConverter(time))
+              }
+              if (isUniqueNode(nodes, gender)) {
+                nodes.push(nodeConverter(gender))
+              }
+
+              const belongsToCategory: GraphEdgeIn = row.get('belcategory') || null
+              const belongsToBrand: GraphEdgeIn = row.get('belbrand') || null
+              const belongsToSeason: GraphEdgeIn = row.get('belseason') || null
+              const belongsToTime: GraphEdgeIn = row.get('beltime') || null
+              const belongsToGender: GraphEdgeIn = row.get('belgender') || null
+
+              if (isNotNull(belongsToCategory)) {
+                edges.push(edgeConverter(belongsToCategory))
+              }
+              if (isNotNull(belongsToBrand)) {
+                edges.push(edgeConverter(belongsToBrand))
+              }
+              if (isNotNull(belongsToSeason)) {
+                edges.push(edgeConverter(belongsToSeason))
+              }
+              if (isNotNull(belongsToTime)) {
+                edges.push(edgeConverter(belongsToTime))
+              }
+              if (isNotNull(belongsToGender)) {
+                edges.push(edgeConverter(belongsToGender))
+              }
             })
             console.log(nodes, edges)
             res.status(200).send({ nodes, edges })
