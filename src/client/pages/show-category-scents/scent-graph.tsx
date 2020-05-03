@@ -2,6 +2,7 @@ import * as React from 'react'
 import Graph from 'vis-react'
 import { getScentsFromCategory } from '../../services'
 import { GraphResult } from '../../../common/data-classes'
+import { groupStyles } from './group-styles'
 
 export interface ScentGraphState {
   errorMessage?: string,
@@ -60,7 +61,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
         shape: 'dot',
         size: 20
       },
-      groups: {},
+      groups: groupStyles,
       physics: {
         enabled: true,
         barnesHut: {

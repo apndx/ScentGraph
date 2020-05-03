@@ -30,5 +30,5 @@
 | 21.4. | 3,5| In scent creation brand can be chosen from a list or added if not found. The relation of user who added the scent is saved with the scent. Starting all scents of a category route. |
 | 25.4. | 2| All scents from category result is converted in scent route to fit visualisation |
 | 26.4. | 5| Page to choose the category to view the scents from. Visualisation to show scents of category in a graph. |
-| 3.5. | 1 | Heroku student dyno application and db cleanup. Graph canvas resizing. |
+| 3.5. | 1 | Heroku student dyno application and db cleanup. Graph canvas resizing. Node colors. |
 | all |  102 | |
