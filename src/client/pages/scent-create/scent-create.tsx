@@ -137,7 +137,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   public render(): JSX.Element {
     return (
       <div className='container'>
-        <h2>Add an item</h2>
+        <h2>Add a Scent</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>
             <Form.Label> Scent name </Form.Label>

@@ -35,12 +35,12 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
 
             <Nav.Link href='#' as='span'>
               {this.isAdmin() ?
-                <Link className='text-info' to='/adminTools'>Add an item</Link>
+                <Link className='text-info' to='/adminTools'>Admin tools</Link>
                 : <em></em>}
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>
-              <Link className='text-info' to='/scentCreate'>Create a Scent</Link>
+              <Link className='text-info' to='/addScent'>Add a Scent</Link>
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>
