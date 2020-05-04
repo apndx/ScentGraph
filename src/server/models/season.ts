@@ -1,5 +1,5 @@
 export const season = {
-  time_id: {
+  season_id: {
     type: "uuid",
     primary: true
   },
