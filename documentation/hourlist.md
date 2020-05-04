@@ -30,5 +30,6 @@
 | 21.4. | 3,5| In scent creation brand can be chosen from a list or added if not found. The relation of user who added the scent is saved with the scent. Starting all scents of a category route. |
 | 25.4. | 2| All scents from category result is converted in scent route to fit visualisation |
 | 26.4. | 5| Page to choose the category to view the scents from. Visualisation to show scents of category in a graph. |
-| 3.5. | 1 | Heroku student dyno application and db cleanup. Graph canvas resizing. Node colors. |
-| all |  102 | |
+| 3.5. | 4 | Heroku student dyno application and db cleanup. Graph canvas resizing. Node colors. Naming changes, considering CI options and Travis. |
+| 4.5. | 4,5 | Travis configuration, Neo4J service for Travis. Route add and delete tests for season routes. |
+| all |  109,5 | |

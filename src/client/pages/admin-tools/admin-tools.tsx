@@ -64,7 +64,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
   public render(): JSX.Element {
     return (
       <div className='container'>
-        <h2>Add an item</h2>
+        <h2>Add an item for scent creation</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group controlId="adminForm.TypeSelect">
             <Form.Label> Choose Item type </Form.Label>

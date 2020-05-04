@@ -1,7 +1,7 @@
 export enum ClientRoutePath {
     FrontPage = '/',
     UserCreation = '/newUser',
-    ScentCreation = '/scentCreate',
+    ScentCreation = '/addScent',
     ShowCategoryScents = '/scentsFromCategory',
     AdminTools = '/adminTools',
     Login = '/login',

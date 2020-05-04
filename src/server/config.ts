@@ -25,7 +25,7 @@ export function configureNeo4jDriver(
   password: any
 ): neo4j.Driver {
   const driver = neo4j.driver(url, neo4j.auth.basic(username, password))
-  return driver;
+  return driver
 }
 
 export function configureNeode(
