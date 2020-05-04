@@ -26,6 +26,7 @@ export async function startServer(
 export function stopServer(
     server: http.Server,
     driver: neo4j.Driver,
+    neodeInstance: any
 ) {
     console.log('Shutting down server')
     driver.close()

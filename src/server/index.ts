@@ -20,6 +20,6 @@ const neodeInstance = configureNeode(neodeUrl, neodeUser, neodePass)
 const server = startServer(config, driver, neodeInstance)
 server.then(instance => {
   process.on("SIGINT", async () => {
-    stopServer(instance, driver)
+    stopServer(instance, driver, neodeInstance)
   })
 })
