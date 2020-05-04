@@ -31,4 +31,5 @@
 | 25.4. | 2| All scents from category result is converted in scent route to fit visualisation |
 | 26.4. | 5| Page to choose the category to view the scents from. Visualisation to show scents of category in a graph. |
 | 3.5. | 4 | Heroku student dyno application and db cleanup. Graph canvas resizing. Node colors. Naming changes, considering CI options and Travis. |
-| all |  105 | |
+| 4.5. | 3,5 | Travis configuration. Route add and delete tests for season routes. |
+| all |  108,5 | |

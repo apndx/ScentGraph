@@ -27,7 +27,7 @@ export function configureSeasonRoutes(
         ])
           .then(([season]) => {
             console.log(`Season ${season.properties().seasonname} created`)
-            res.status(200).send(season.properties().seasonname)
+            res.status(200).send(`Season ${season.properties().seasonname} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
