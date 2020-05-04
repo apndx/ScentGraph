@@ -25,4 +25,4 @@ yarn-error.log*
 dist/
 
 # combination of travis and neo4j is still in progress
-
+.travis.yml
