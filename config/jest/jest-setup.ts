@@ -20,7 +20,7 @@ export default async () => {
     // @ts-ignore
     global.__NEO4J_DRIVER__ = neoDriver
     // @ts-ignore
-    global.__NEODE_INSTANCE__ =  neodeInstance
+    global.__NEODE_INSTANCE__ = neodeInstance
     // @ts-ignore
     global.__EXPRESS_SERVER__ = await startServer(config, neoDriver, neodeInstance)
 }
