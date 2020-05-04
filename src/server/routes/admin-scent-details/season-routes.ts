@@ -32,7 +32,6 @@ export function configureSeasonRoutes(
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
           })
-          .then(() => instance.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in creating a season' })
