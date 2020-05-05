@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Graph from 'vis-react'
-import { getScentsFromCategory } from '../../services'
-import { GraphResult } from '../../../common/data-classes'
+import { getScentsFrom } from '../../services'
+import { GraphResult, AdminContent } from '../../../common/data-classes'
 import { groupStyles } from './group-styles'
 
 export interface ScentGraphState {
@@ -96,7 +96,9 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   private async graphUpdate() {
     try {
       this.setState({ loading: true })
-      const graph: GraphResult = await getScentsFromCategory(this.props.categorynameToGraph)
+
+      const item: AdminContent = { type: 'Category', itemName: this.props.categorynameToGraph}
+      const graph: GraphResult = await getScentsFrom(item)
       this.setState({
         options: this.options,
         graph,

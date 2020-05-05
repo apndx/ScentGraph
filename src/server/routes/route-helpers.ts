@@ -4,7 +4,8 @@ import {
   ScentItem,
   NeoInteger,
   GraphNodeOut,
-  GraphEdgeOut
+  GraphEdgeOut,
+  AdminContent
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
 
@@ -77,4 +78,27 @@ export function edgeConverter(edge: GraphEdgeIn): GraphEdgeOut {
 
 export function isNotNull(item: any): boolean {
   return item !== null
+}
+
+export function paramsForScentGraph(item: AdminContent): any {
+  const type = item.type.toLowerCase()
+  const value = item.itemName.toLowerCase()
+  const key= `${type}name`
+  let params: any = {}
+  params[key] = value
+  return params
+}
+
+export function getScentFromCypher(item: AdminContent): string {
+  const type = item.type.toLowerCase()
+  const name = `${type}name`
+  return `
+    MATCH (scent:Scent) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
+    MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+    MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+    MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+    WHERE toLower(${type}.${name}) = toLower({${name}})
+    return scent, category, brand, season, time, gender,
+    belcategory, belbrand, belseason, beltime, belgender`
 }

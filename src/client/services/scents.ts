@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { SessionStorageItem, errorHandler } from '../utils'
+import { AdminContent } from '../../common/data-classes'
 
 const baseUrl = '/api/'
 
@@ -29,14 +30,13 @@ export const getAll = async (type: string) => {
   }
 }
 
-export const getScentsFromCategory = async (categoryname: string) => {
-  const path = `${baseUrl}scents/allFromCategory`
+export const getScentsFrom = async (item: AdminContent) => {
+  const path = `${baseUrl}scents/allFrom`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
-  const categoryObject = { categoryname: categoryname }
   try {
-    const response = await axios.post(`${path}`, categoryObject, config)
+    const response = await axios.post(`${path}`, item, config)
     return response.data
   } catch (error) {
     errorHandler(error)
