@@ -41,8 +41,17 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
   }
 
   isDisabled(): boolean {
-    return this.state.name === '' ||
-      (this.state.allCategories && !(this.getNames(this.state.allCategories)).includes(this.state.name))
+    return this.state.type === 'category' ? !this.isOneOfTheCategories() : !this.isOneOfTheBrands()
+  }
+
+  isOneOfTheCategories(): boolean {
+    return this.state.name !== '' && this.state.type === 'category' &&
+      this.state.allCategories && (this.getNames(this.state.allCategories)).includes(this.state.name)
+  }
+
+  isOneOfTheBrands(): boolean {
+    return this.state.name !== '' && this.state.type === 'brand' &&
+      this.state.allBrands && (this.getNames(this.state.allBrands)).includes(this.state.name)
   }
 
   getNames(items: ScentItem[]): string[] {
@@ -71,8 +80,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
         <Notification message={this.state.message} />
         <h2>Show all scents from a
           <> {' '}
-            <Button variant="outline-success" onClick={(e) => this.handleClick('category')}>Category</Button>{' '}
-            <Button variant="outline-dark" onClick={(e) => this.handleClick('brand')}>Brand</Button>
+            <Button variant="outline-success" onClick={() => this.handleClick('category')}>Category</Button>{' '}
+            <Button variant="outline-dark" onClick={() => this.handleClick('brand')}>Brand</Button>
           </>
         </h2>
 
@@ -110,7 +119,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
           <ScentGraph
             containerId={'category-scents'}
             backgroundColor={'#e4e6e1'}
-            categorynameToGraph={this.state.nameToGraph}
+            nameToGraph={this.state.nameToGraph}
+            type={this.state.type}
           />
         }
       </div>

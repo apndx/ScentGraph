@@ -19,7 +19,8 @@ export interface ScentGraphState {
 export interface ScentGraphProps {
   containerId: string
   backgroundColor: string
-  categorynameToGraph?: string
+  nameToGraph?: string
+  type?: string
 }
 
 export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
@@ -80,7 +81,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   }
 
   public async componentDidUpdate(prevProps: ScentGraphProps) {
-    if (this.props.categorynameToGraph !== prevProps.categorynameToGraph) {
+    if (this.props.nameToGraph !== prevProps.nameToGraph) {
       this.graphUpdate()
     }
   }
@@ -97,7 +98,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     try {
       this.setState({ loading: true })
 
-      const item: AdminContent = { type: 'Category', itemName: this.props.categorynameToGraph}
+      const item: AdminContent = { type: this.props.type, itemName: this.props.nameToGraph }
       const graph: GraphResult = await getScentsFrom(item)
       this.setState({
         options: this.options,
