@@ -13,8 +13,6 @@ export const login = async (credentials: any) => {
   }
 }
 
-
-
 function handleLoginResponse(status: number, token: string, user: ClientUser) {
   if (status === 200) {
     window.sessionStorage.setItem(SessionStorageItem.LoginRole, user.role)

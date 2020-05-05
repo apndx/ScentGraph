@@ -21,8 +21,12 @@ export const getAll = async (type: string) => {
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
-  const response = await axios.get(`${path}/all`, config)
-  return response.data
+  try {
+    const response = await axios.get(`${path}/all`, config)
+    return response.data
+  } catch (error) {
+    errorHandler(error)
+  }
 }
 
 export const getScentsFromCategory = async (categoryname: string) => {
@@ -31,6 +35,10 @@ export const getScentsFromCategory = async (categoryname: string) => {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
   const categoryObject = { categoryname: categoryname }
-  const response = await axios.post(`${path}`, categoryObject, config)
-  return response.data
+  try {
+    const response = await axios.post(`${path}`, categoryObject, config)
+    return response.data
+  } catch (error) {
+    errorHandler(error)
+  }
 }

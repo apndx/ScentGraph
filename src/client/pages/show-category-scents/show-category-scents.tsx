@@ -5,9 +5,10 @@ import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
 import { Button } from 'react-bootstrap'
 import { ScentGraph } from './scent-graph'
+import Notification from '../../components/notification'
 
 interface ShowCategoryScentsState {
-  errorMessage?: string,
+  message: string,
   categoryname: string,
   categorynameToGraph: string,
   allCategories: ScentItem[]
@@ -19,7 +20,7 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
   constructor(props) {
     super(props)
     this.state = {
-      errorMessage: null,
+      message: '',
       categoryname: '',
       categorynameToGraph: '',
       allCategories: []
@@ -43,7 +44,6 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
 
   onSubmit = async (event) => {
     event.preventDefault()
-
     try {
       if (this.state.categoryname !== '') {
         this.setState({
@@ -51,13 +51,14 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
         })
       }
     } catch (e) {
-      this.setState({ errorMessage: e })
+      this.setState({ message: `Could not show ScentGraph. ${e}` })
     }
   }
 
   public render(): JSX.Element {
     return (
       <div className='container'>
+        <Notification message={this.state.message} />
         <h2>Show all scents from a category</h2>
         <form onSubmit={this.onSubmit}>
           <p>Select Category:</p>
