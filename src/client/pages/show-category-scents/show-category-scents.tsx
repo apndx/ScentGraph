@@ -29,7 +29,6 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
   public async componentDidMount() {
     await getAll('category').then(response => {
       this.setState({ allCategories: response })
-      console.log(response)
     })
   }
 

@@ -62,7 +62,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
         })
       })
       .catch(message => {
-        this.setMessage(message)
+        this.setMessage(`${message}`)
       })
   }
 

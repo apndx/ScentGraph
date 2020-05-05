@@ -32,5 +32,5 @@
 | 26.4. | 5| Page to choose the category to view the scents from. Visualisation to show scents of category in a graph. |
 | 3.5. | 4 | Heroku student dyno application and db cleanup. Graph canvas resizing. Node colors. Naming changes, considering CI options and Travis. |
 | 4.5. | 8 | Travis configuration tests, trying to get Neo4J service or neo4j-docker to work with for Travis. Route add and delete tests for season routes. Reading about different CI tools.|
-| 5.5. | 4,5 | Creating better notification and error handling. Starting from scent creation.|
-| all |  117,5 | |
+| 5.5. | 5 | Creating better notification and error handling. |
+| all |  118 | |

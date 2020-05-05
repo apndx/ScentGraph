@@ -1,23 +1,31 @@
 import * as React from 'react'
-import { DEFAULT_PROPS } from '../../utils'
 import { login } from '../../services/login'
 import { ClientUser } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
+import Notification from '../../components/notification'
 
 interface LoginState {
   username: string,
   password: string,
-  errorMessage?: string
+  message: string
 }
 
-export class Login extends React.PureComponent<DEFAULT_PROPS, LoginState> {
+interface LoginProps {
+  history: any,
+  location: any,
+  match: any
+}
+
+export class Login extends React.PureComponent<LoginProps, LoginState> {
+  private timer
   constructor(props) {
     super(props)
     this.state = {
-      errorMessage: null,
+      message: '',
       username: '',
       password: ''
     }
+    this.timer = null
   }
 
   isDisabled(): boolean {
@@ -36,22 +44,33 @@ export class Login extends React.PureComponent<DEFAULT_PROPS, LoginState> {
         console.log(`Welcome ${response.user.name}!`)
         this.setState({ username: '', password: '' })
         this.props.history.push({
-          pathname: '/'
+          pathname: '/',
+          message: `Welcome ${response.user.name}!`
         })
       })
-      .catch(success => {
-        console.log(`something went wrong on login page..`)
+      .catch(message => {
+        this.setMessage(`${message}`)
       })
+  }
 
+  public componentWillUnmount() {
+    clearTimeout(this.timer)
+  }
+
+  private setMessage(message) {
+    this.setState({ message: message })
+    this.timer = setTimeout(() => {
+      this.setState({ message: '' })
+    }, 20000)
   }
 
   public render(): JSX.Element {
     return (
       <div className='container'>
+        <Notification message={this.state.message} />
         <h2>Login</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>
-
             <Form.Label> Username </Form.Label>
             <Form.Control
               type="text"
