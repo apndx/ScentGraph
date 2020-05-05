@@ -4,6 +4,7 @@ import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-cla
 import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
 import { matchInput } from '../../utils'
+import Notification from '../../components/notification'
 
 interface ScentCreateProps {
   history: any,
@@ -12,6 +13,7 @@ interface ScentCreateProps {
 }
 
 interface ScentCreateState {
+  message: string,
   scentname: string,
   brandname: string,
   seasonname?: string,
@@ -31,6 +33,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   constructor(props) {
     super(props)
     this.state = {
+      message: '',
       scentname: '',
       brandname: '',
       seasonname: '',
@@ -106,22 +109,30 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               this.afterScentCreation()
             })
         })
-        .catch(success => {
-          console.log(`something went wrong in scent creation..`)
+        .catch(message => {
+          this.setMessage(message)
         })
     } else {
       createScent(scentToCreate)
         .then(response => {
           this.afterScentCreation()
         })
-        .catch(success => {
-          console.log(`something went wrong in scent creation..`)
+        .catch(message => {
+          this.setMessage(message)
         })
     }
   }
 
+  private setMessage(message) {
+    this.setState({
+      message: `Something went wrong in scent creation: ${message}`
+    })
+    setTimeout(() => {
+      this.setState({ message: '' })
+    }, 50000)
+  }
+
   private afterScentCreation() {
-    console.log(`scent added: ${this.state.scentname}`)
     this.setState({
       scentname: '',
       brandname: '',
@@ -130,13 +141,17 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       timename: '',
       categoryname: ''
     })
-    this.props.history.push('/')
+    this.props.history.push({
+      pathname: '/',
+      message: `scent added: ${this.state.scentname}`
+    })
   }
 
 
   public render(): JSX.Element {
     return (
       <div className='container'>
+        <Notification message={this.state.message} />
         <h2>Add a Scent</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>
