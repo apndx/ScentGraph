@@ -30,8 +30,7 @@ export function configureBrandRoutes(
           })
         ])
           .then(([brand]) => {
-            console.log(`Brand ${brand.properties().brandname} created`)
-            res.status(200).send(brand.properties().brandname)
+            res.status(200).send(`Brand ${brand.properties().brandname} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console

@@ -3,16 +3,21 @@ import NavBarLayout from '../nav-bar-layout/nav-bar-layout'
 import { EMPTY_STATE } from '../../utils'
 import Notification from '../../components/notification'
 
-interface NavBarLayoutProps {
-  message: string,
+interface FrontPageProps {
   history: any,
-  location: any,
+  location: FrontPageLocation,
   match: any
 }
 
-export class FrontPage extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
+interface FrontPageLocation extends Location {
+  message: string
+}
+
+export class FrontPage extends React.PureComponent<FrontPageProps, EMPTY_STATE> {
+ 
   constructor(props) {
     super(props)
+    console.log('FRONT props msg', this.props.location.message)
   }
 
   public render(): JSX.Element {
@@ -22,7 +27,7 @@ export class FrontPage extends React.PureComponent<NavBarLayoutProps, EMPTY_STAT
           <NavBarLayout />
         </div>
         <div className='container'>
-          <Notification message={this.props.message} />
+          <Notification message={this.props.location.message} />
           <h1>ScentGraph</h1>
         </div>
       </div>
