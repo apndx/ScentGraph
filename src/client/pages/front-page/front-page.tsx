@@ -17,7 +17,6 @@ export class FrontPage extends React.PureComponent<FrontPageProps, EMPTY_STATE> 
  
   constructor(props) {
     super(props)
-    console.log('FRONT props msg', this.props.location.message)
   }
 
   public render(): JSX.Element {
