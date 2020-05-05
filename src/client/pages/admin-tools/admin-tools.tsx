@@ -3,6 +3,7 @@ import { SessionStorageItem } from '../../utils'
 import { createItem } from '../../services'
 import { AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
+import Notification from '../../components/notification'
 
 interface AdminToolsProps {
   history: any,
@@ -11,19 +12,23 @@ interface AdminToolsProps {
 }
 
 interface AdminToolsState {
+  message: string,
   itemName: string,
   label: string,
   type: string
 }
 
 export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsState> {
+  private timer
   constructor(props) {
     super(props)
     this.state = {
+      message: '',
       itemName: '',
       label: '',
       type: ''
     }
+    this.timer = null
   }
 
   handleChange(event) {
@@ -42,28 +47,41 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
     event.preventDefault()
     const adminContent: AdminContent = {
       itemName: this.state.itemName,
-      ...(this.state.label &&{label: this.state.label}),
+      ...(this.state.label && { label: this.state.label }),
       type: this.state.type
     }
 
     createItem(adminContent)
       .then(response => {
-        console.log(`admin item added: ${this.state.type} '${response}' `)
         this.setState({
           itemName: '', label: '', type: ''
         })
-        this.props.history.push('/')
+        this.props.history.push({
+          pathname: '/',
+          message: `Admin item added: ${response}`
+        })
       })
-      .catch(success => {
-        console.log(`something went wrong on admin item creation..`)
+      .catch(message => {
+        this.setMessage(`${message}`)
       })
+  }
 
+  private setMessage(message) {
+    this.setState({ message: message })
+    this.timer = setTimeout(() => {
+      this.setState({ message: '' })
+    }, 20000)
+  }
+
+  public componentWillUnmount() {
+    clearTimeout(this.timer)
   }
 
 
   public render(): JSX.Element {
     return (
       <div className='container'>
+        <Notification message={this.state.message} />
         <h2>Add an item for scent creation</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group controlId="adminForm.TypeSelect">

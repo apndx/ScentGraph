@@ -4,6 +4,7 @@ import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-cla
 import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
 import { matchInput } from '../../utils'
+import Notification from '../../components/notification'
 
 interface ScentCreateProps {
   history: any,
@@ -12,6 +13,7 @@ interface ScentCreateProps {
 }
 
 interface ScentCreateState {
+  message: string,
   scentname: string,
   brandname: string,
   seasonname?: string,
@@ -28,9 +30,11 @@ interface ScentCreateState {
 }
 
 export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCreateState> {
+  private timer
   constructor(props) {
     super(props)
     this.state = {
+      message: '',
       scentname: '',
       brandname: '',
       seasonname: '',
@@ -41,9 +45,11 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       allNotes: [],
       allCategories: []
     }
+    this.timer = null
   }
 
   public async componentDidMount() {
+
     await getAll('category').then(response => {
       this.setState({ allCategories: response })
     })
@@ -53,6 +59,10 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
     await getAll('note').then(response => {
       this.setState({ allNotes: response })
     })
+  }
+
+  public componentWillUnmount() {
+    clearTimeout(this.timer)
   }
 
   handleSeasonChange(event) {
@@ -100,28 +110,35 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       }
       createItem(newBrand)
         .then(response => {
-          console.log(response)
+          this.setMessage(response)
           createScent(scentToCreate)
             .then(response => {
               this.afterScentCreation()
             })
         })
-        .catch(success => {
-          console.log(`something went wrong in scent creation..`)
+        .catch(message => {
+          this.setMessage(`Something went wrong in scent creation: ${message}`)
         })
     } else {
       createScent(scentToCreate)
         .then(response => {
           this.afterScentCreation()
         })
-        .catch(success => {
-          console.log(`something went wrong in scent creation..`)
+        .catch(message => {
+          this.setMessage(`Something went wrong in scent creation: ${message}`)
         })
     }
   }
 
+  private setMessage(message) {
+    this.setState({ message: message })
+    this.timer = setTimeout(() => {
+      this.setState({ message: '' })
+    }, 20000)
+  }
+
   private afterScentCreation() {
-    console.log(`scent added: ${this.state.scentname}`)
+    const scentname = this.state.scentname
     this.setState({
       scentname: '',
       brandname: '',
@@ -130,13 +147,17 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       timename: '',
       categoryname: ''
     })
-    this.props.history.push('/')
+    this.props.history.push({
+      pathname: '/',
+      message: `Scent added: ${scentname}`
+    })
   }
 
 
   public render(): JSX.Element {
     return (
       <div className='container'>
+        <Notification message={this.state.message} />
         <h2>Add a Scent</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>

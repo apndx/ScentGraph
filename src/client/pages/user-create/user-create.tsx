@@ -1,23 +1,33 @@
 import * as React from 'react'
-import { DEFAULT_PROPS } from '../../utils'
 import { createUser } from '../../services/users'
 import { ClientUser } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
+import Notification from '../../components/notification'
 
 interface UserCreateState {
+  message: string,
   name: string,
   username: string,
   password: string
 }
 
-export class UserCreate extends React.PureComponent<DEFAULT_PROPS, UserCreateState> {
+interface UserCreateProps {
+  history: any,
+  location: any,
+  match: any
+}
+
+export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateState> {
+  private timer
   constructor(props) {
     super(props)
     this.state = {
+      message: '',
       name: '',
       username: '',
       password: ''
     }
+    this.timer = null
   }
 
   isDisabled(): boolean {
@@ -34,21 +44,35 @@ export class UserCreate extends React.PureComponent<DEFAULT_PROPS, UserCreateSta
 
     createUser(userObject)
       .then(response => {
-        console.log(`user added: ' ${response.body} ' `)
         this.setState({
           name: '', username: '', password: ''
         })
-        this.props.history.push('/')
+        this.props.history.push({
+          pathname: '/',
+          message: `User added: ${response.body}`
+        })
       })
-      .catch(success => {
-        console.log(`something went wrong on user create page..`)
+      .catch(message => {
+        this.setMessage(`${message}`)
       })
 
+  }
+
+  private setMessage(message) {
+    this.setState({ message: message })
+    this.timer = setTimeout(() => {
+      this.setState({ message: '' })
+    }, 20000)
+  }
+
+  public componentWillUnmount() {
+    clearTimeout(this.timer)
   }
 
   public render(): JSX.Element {
     return (
       <div className='container'>
+        <Notification message={this.state.message} />
         <h2>Add a new user</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>

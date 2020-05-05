@@ -2,19 +2,14 @@ import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { SessionStorageItem } from '../../utils'
 import { ClientRoutePath } from '../../routes'
-
-interface LogoutPageLocation extends Location {
-  state: {
-    from?: Location
-  }
-}
+import Notification from '../../components/notification'
 
 interface LogoutProps extends RouteComponentProps<any> {
-  location: LogoutPageLocation
+  history: any
 }
 
 interface LogoutState {
-  errorMessage?: string
+  message: string
 }
 
 export class Logout extends React.PureComponent<LogoutProps, LogoutState> {
@@ -23,7 +18,7 @@ export class Logout extends React.PureComponent<LogoutProps, LogoutState> {
   constructor(props: Readonly<LogoutProps>) {
     super(props)
     this.state = {
-      errorMessage: null
+      message: ''
     }
   }
 
@@ -37,16 +32,17 @@ export class Logout extends React.PureComponent<LogoutProps, LogoutState> {
       sessionStorage.removeItem(SessionStorageItem.LoginUser)
       this.props.history.push({
         pathname: ClientRoutePath.FrontPage,
-        state: {
-          loginUser: null
-        }
+        message: 'See you soon!'
       })
     } catch (e) {
-      this.setState({ errorMessage: 'Logout was not successful' })
+      this.setState({ message: 'Logout was not successful' })
     }
   }
 
-  public render(): JSX.Element {
-    return (<></>)
-  }
+   public render(): JSX.Element {
+     return(
+       <Notification message= {this.state.message}/>
+     )
+   } 
+
 }
