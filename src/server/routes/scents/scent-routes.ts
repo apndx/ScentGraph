@@ -8,7 +8,14 @@ import {
   GraphNodeIn,
   GraphEdgeIn
 } from '../../../common/data-classes'
-import { nodeConverter, edgeConverter, isUniqueNode, isNotNull } from '../route-helpers'
+import {
+  nodeConverter,
+  edgeConverter,
+  isUniqueNode,
+  isNotNull,
+  getScentFromCypher,
+  paramsForScentGraph
+} from '../route-helpers'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -103,7 +110,7 @@ export function configureScentRoutes(
   )
 
   app.post(
-    `${SCENTS_PATH}/allFromCategory`,
+    `${SCENTS_PATH}/allFrom`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model("Scent", scent)
@@ -113,21 +120,14 @@ export function configureScentRoutes(
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
       console.log('REQS', req.body)
-      const categoryname = req.body.categoryname.toLowerCase()
-      const params = { categoryname: categoryname }
+      const cypher: string = getScentFromCypher(req.body)
+      const params = paramsForScentGraph(req.body)
+
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
 
       try {
-        const result = await instance.cypher(`MATCH (scent:Scent)
-        -[belcategory:BELONGS]->(category:Category)
-        MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
-        MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
-        MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
-        MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
-        WHERE toLower(category.categoryname) = toLower({categoryname})
-        return scent, category, brand, season, time, gender,
-        belcategory, belbrand, belseason, beltime, belgender`, params)
+        const result = await instance.cypher(cypher, params)
           .then((result: any) => {
             console.log(result.records)
             result.records.map((row: any) => {
