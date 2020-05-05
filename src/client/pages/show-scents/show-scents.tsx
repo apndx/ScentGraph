@@ -7,23 +7,27 @@ import { Button } from 'react-bootstrap'
 import { ScentGraph } from './scent-graph'
 import Notification from '../../components/notification'
 
-interface ShowCategoryScentsState {
+interface ShowScentsState {
   message: string,
-  categoryname: string,
-  categorynameToGraph: string,
-  allCategories: ScentItem[]
+  name: string,
+  nameToGraph: string,
+  allCategories: ScentItem[],
+  allBrands: ScentItem[],
+  type: string
 }
 
-export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowCategoryScentsState> {
-  public state: ShowCategoryScentsState
+export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsState> {
+  public state: ShowScentsState
 
   constructor(props) {
     super(props)
     this.state = {
       message: '',
-      categoryname: '',
-      categorynameToGraph: '',
-      allCategories: []
+      name: '',
+      nameToGraph: '',
+      allCategories: [],
+      allBrands: [],
+      type: ''
     }
   }
 
@@ -31,23 +35,26 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
     await getAll('category').then(response => {
       this.setState({ allCategories: response })
     })
+    await getAll('brand').then(response => {
+      this.setState({ allBrands: response })
+    })
   }
 
   isDisabled(): boolean {
-    return this.state.categoryname === '' ||
-      (this.state.allCategories && !(this.categoryNames(this.state.allCategories)).includes(this.state.categoryname))
+    return this.state.name === '' ||
+      (this.state.allCategories && !(this.getNames(this.state.allCategories)).includes(this.state.name))
   }
 
-  categoryNames(items: ScentItem[]): string[] {
+  getNames(items: ScentItem[]): string[] {
     return items.map(item => item.name)
   }
 
   onSubmit = async (event) => {
     event.preventDefault()
     try {
-      if (this.state.categoryname !== '') {
+      if (this.state.name !== '') {
         this.setState({
-          categorynameToGraph: this.state.categoryname
+          nameToGraph: this.state.name
         })
       }
     } catch (e) {
@@ -55,23 +62,33 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
     }
   }
 
+  handleClick = (type) => this.setState({ type })
+
   public render(): JSX.Element {
+
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Show all scents from a category</h2>
-        <form onSubmit={this.onSubmit}>
-          <p>Select Category:</p>
-          {this.state.allCategories &&
+        <h2>Show all scents from a
+          <> {' '}
+            <Button variant="outline-success" onClick={(e) => this.handleClick('category')}>Category</Button>{' '}
+            <Button variant="outline-dark" onClick={(e) => this.handleClick('brand')}>Brand</Button>
+          </>
+        </h2>
+
+        {this.state.type !== '' && this.state.allCategories && this.state.allBrands &&
+          <form onSubmit={this.onSubmit}>
+            <p>Select {this.state.type}:</p>
             <Autocomplete
-              value={this.state.categoryname}
+              value={this.state.name}
               inputProps={{ id: 'category-autocomplete' }}
               wrapperStyle={{ position: 'relative', display: 'inline-block' }}
-              items={this.state.allCategories}
+              items={this.state.type === 'category' ?
+                this.state.allCategories : this.state.allBrands}
               getItemValue={(item: ScentItem) => item.name}
               shouldItemRender={matchInput}
-              onChange={(event, value) => this.setState({ categoryname: value })}
-              onSelect={value => this.setState({ categoryname: value })}
+              onChange={(event, value) => this.setState({ name: value })}
+              onSelect={value => this.setState({ name: value })}
               renderMenu={children => (
                 <div className="menu">
                   {children}
@@ -83,16 +100,17 @@ export class ShowCategoryScents extends React.PureComponent<DEFAULT_PROPS, ShowC
                   key={item.id}
                 >{item.name}</div>
               )}
-            />}
-          <div>
-            <Button disabled={this.isDisabled()} variant="outline-info" type="submit">show</Button>
-          </div>
-        </form>
-        {this.state.categorynameToGraph &&
+            />
+            <div>
+              <Button disabled={this.isDisabled()} variant="outline-info" type="submit">show</Button>
+            </div>
+          </form>}
+
+        {this.state.nameToGraph &&
           <ScentGraph
             containerId={'category-scents'}
             backgroundColor={'#e4e6e1'}
-            categorynameToGraph={this.state.categorynameToGraph}
+            categorynameToGraph={this.state.nameToGraph}
           />
         }
       </div>

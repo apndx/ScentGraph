@@ -103,7 +103,7 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
           </Navbar.Brand>
 
           <Nav.Link href='#' as='span'>
-            <Link className='text-info' to='/scentsFromCategory'>Show Scents</Link>
+            <Link className='text-info' to='/showScents'>Show Scents</Link>
           </Nav.Link>
 
           {this.noLogin()}  {this.userLogged()}
