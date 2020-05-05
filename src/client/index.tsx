@@ -9,7 +9,7 @@ import {
   Logout,
   AdminTools,
   ScentCreate,
-  ShowCategoryScents
+  ShowScents
 } from './pages'
 import 'bootstrap/dist/css/bootstrap.css'
 import { SessionStorageItem } from '../client/utils'
@@ -50,7 +50,7 @@ class App extends React.Component {
         <Route path={ClientRoutePath.FrontPage} component={FrontPage} />
         <Switch>
           <Route exact path={ClientRoutePath.ScentCreation} component={ScentCreate} />
-          <Route exact path={ClientRoutePath.ShowCategoryScents} component={ShowCategoryScents} />
+          <Route exact path={ClientRoutePath.ShowCategoryScents} component={ShowScents} />
           <Route exact path={ClientRoutePath.UserCreation} component={UserCreate} />
           <Route exact path={ClientRoutePath.AdminTools} component={AdminTools} />
           <Route exact path={ClientRoutePath.Login} component={Login} />
