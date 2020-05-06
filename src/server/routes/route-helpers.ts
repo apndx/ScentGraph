@@ -5,7 +5,9 @@ import {
   NeoInteger,
   GraphNodeOut,
   GraphEdgeOut,
-  AdminContent
+  AdminContent,
+  NeodeBatchQueryItem,
+  NoteItem
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
 
@@ -83,7 +85,7 @@ export function isNotNull(item: any): boolean {
 export function paramsForScentGraph(item: AdminContent): any {
   const type = item.type.toLowerCase()
   const value = item.itemName.toLowerCase()
-  const key= `${type}name`
+  const key = `${type}name`
   let params: any = {}
   params[key] = value
   return params
@@ -101,4 +103,19 @@ export function getScentFromCypher(item: AdminContent): string {
     WHERE toLower(${type}.${name}) = toLower({${name}})
     return scent, category, brand, season, time, gender,
     belcategory, belbrand, belseason, beltime, belgender`
+}
+
+export function batchHelper(notes: string[]): NeodeBatchQueryItem[] {
+  return notes.map((note: string) => {
+    return {
+      query: `MERGE (note:Note {notename: {notename}}) RETURN note`,
+      params: { notename: note }
+    }
+  })
+}
+
+export function promiseForBatch(instance: any, notes: string[]) {
+  return notes.map((note: string) => {
+    return (instance.create('Note', { notename: note }))
+  })
 }

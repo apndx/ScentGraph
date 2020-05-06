@@ -73,6 +73,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
 
   handleClick = (type) => this.setState({ type })
 
+
   public render(): JSX.Element {
 
     return (
@@ -80,8 +81,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
         <Notification message={this.state.message} />
         <h2>Show all scents from a
           <> {' '}
-            <Button variant="outline-success" onClick={() => this.handleClick('category')}>Category</Button>{' '}
-            <Button variant="outline-dark" onClick={() => this.handleClick('brand')}>Brand</Button>
+            <Button variant="outline-danger" onClick={() => this.handleClick('category')}>Category</Button>{' '}
+            <Button variant="outline-success" onClick={() => this.handleClick('brand')}>Brand</Button>
           </>
         </h2>
 

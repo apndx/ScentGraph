@@ -1,7 +1,7 @@
 import * as express from "express"
 import { checkLogin } from '../../middleware'
 import { note } from '../../models'
-import { getName } from '../../routes'
+import { getName, promiseForBatch } from '../../routes'
 import { ScentItem } from '../../../common/data-classes'
 
 export function configureNoteRoutes(
@@ -38,11 +38,31 @@ export function configureNoteRoutes(
           .then(() => instance.close())
       } catch (e) {
         console.log(e)
-        res.status(500).json({ error: 'Something went wrong in creating a note' })
+        res.status(500).json({ error: `Something went wrong in creating a note, ${e}` })
       }
     }
   )
 
+  app.post(
+    `${SCENT_DETAILS_PATH}/addBatch`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model("Note", note)
+      const queries =  promiseForBatch(instance, req.body)
+
+      try {
+        Promise.all(queries)
+          .then(([notes]) => {
+            console.log(`Notes added`)
+            res.status(200).send(`Notes added`)
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: `Something went wrong in note batch creation, ${e}` })
+      }
+    }
+  )
 
   app.get(
     `${SCENT_DETAILS_PATH}/all`, checkLogin,
