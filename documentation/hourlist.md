@@ -33,4 +33,5 @@
 | 3.5. | 4 | Heroku student dyno application and db cleanup. Graph canvas resizing. Node colors. Naming changes, considering CI options and Travis. |
 | 4.5. | 8 | Travis configuration tests, trying to get Neo4J service or neo4j-docker to work with for Travis. Route add and delete tests for season routes. Reading about different CI tools.|
 | 5.5. | 9,5 | Creating better notification and error handling. More general scent graph route, test for helper. Form to choose graph from category or brand. |
-| all | 122,5 | |
+| 6.5. | 2,5 | Route for creating several notes at a time. Show scent button color change |
+| all | 125 | |

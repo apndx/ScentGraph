@@ -16,3 +16,12 @@ export interface ScentItem {
   id: number,
   name: string
 }
+
+export interface NeodeBatchQueryItem {
+  query: string,
+  params: object
+}
+
+export interface NoteItem  {
+  name: string
+}
