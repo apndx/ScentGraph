@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-classes'
-import { getAll, createItem } from '../../services'
+import { getAll, getScentNotes } from '../../services'
 import Notification from '../../components/notification'
 import Autocomplete from 'react-autocomplete'
 import { matchScentInput } from '../../utils'
@@ -43,6 +43,19 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     await getAll('note').then(response => {
       this.setState({ allNotes: response })
     })
+  }
+
+  public async getNotesForScent() {
+
+    if (this.state.scent !== '') {
+      const scentArray = this.state.scent.split(' - ')
+      const scentItem: ScentItem = {name: scentArray[0], brand: scentArray[1]}
+      await getScentNotes(scentItem).then(response => {
+        this.setState({ scentNotes: response })
+      })
+
+    }
+   
   }
 
 
