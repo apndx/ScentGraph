@@ -3,7 +3,7 @@ import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-cla
 import { getAll, createItem } from '../../services'
 import Notification from '../../components/notification'
 import Autocomplete from 'react-autocomplete'
-import { matchInput } from '../../utils'
+import { matchScentInput } from '../../utils'
 
 interface NoteCreateProps {
 
@@ -14,7 +14,7 @@ interface NoteCreateState {
   allScents: ScentItem[],
   allNotes: ScentItem[],
   newNotes: string[],
-  scentname: string,
+  scent: string,
   scentNotes: string[]
 }
 
@@ -27,7 +27,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     super(props)
     this.state = {
       message: '',
-      scentname: '',
+      scent: '',
       allScents: [],
       allNotes: [],
       newNotes: [],
@@ -49,31 +49,31 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
   public render(): JSX.Element {
     return (
       <div className='container'>
-      <Notification message={this.state.message} />
-      <h2>Add Notes to a Scent</h2>
-      <p>Select Scent:</p>
-      {this.state.allScents &&
-            <Autocomplete
-              value={this.state.scentname}
-              inputProps={{ id: 'scent-autocomplete' }}
-              wrapperStyle={{ position: 'relative', display: 'inline-block' }}
-              items={this.state.allScents}
-              getItemValue={(item: ScentItem) => item.name}
-              shouldItemRender={matchInput}
-              onChange={(event, value) => this.setState({ scentname: value })}
-              onSelect={value => this.setState({ scentname: value })}
-              renderMenu={children => (
-                <div className="menu">
-                  {children}
-                </div>
-              )}
-              renderItem={(item, isHighlighted) => (
-                <div
-                  className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
-                  key={item.id}
-                >{item.name}</div>
-              )}
-            />}
+        <Notification message={this.state.message} />
+        <h2>Add Notes to a Scent</h2>
+        <p>Select Scent:</p>
+        {this.state.allScents &&
+          <Autocomplete
+            value={this.state.scent}
+            inputProps={{ id: 'scent-autocomplete' }}
+            wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+            items={this.state.allScents}
+            getItemValue={(item: ScentItem) => `${item.name} - ${item.brand}`}
+            shouldItemRender={matchScentInput}
+            onChange={(event, value) => this.setState({ scent: value })}
+            onSelect={value => this.setState({ scent: value })}
+            renderMenu={children => (
+              <div className="menu">
+                {children}
+              </div>
+            )}
+            renderItem={(item, isHighlighted) => (
+              <div
+                className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
+                key={item.id}
+              >{item.name} - {item.brand}</div>
+            )}
+          />}
       </div>
     )
   }

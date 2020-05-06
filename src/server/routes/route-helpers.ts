@@ -26,15 +26,26 @@ export function getName(node: GraphNodeIn): ScentItem {
       id: toSmallInteger(node.identity),
       name: node.properties.notename
     }
-  } else if (node.properties.scentname) {
+  } else {
     return {
       id: toSmallInteger(node.identity),
-      name: node.properties.scentname
+      name: ''
     }
   }
-  return {
-    id: toSmallInteger(node.identity),
-    name: ''
+}
+
+export function getScentNameAndBrand(scent: GraphNodeIn, brand: GraphNodeIn): ScentItem {
+  if (scent.properties.scentname && brand.properties.brandname) {
+    return {
+      id: toSmallInteger(scent.identity),
+      name: scent.properties.scentname,
+      brand: brand.properties.brandname
+    }
+  } else {
+    return {
+      id: toSmallInteger(scent.identity),
+      name: ''
+    }
   }
 }
 

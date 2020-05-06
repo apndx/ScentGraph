@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkLogin } from '../../middleware'
 import { brand } from '../../models'
 import { getName } from '../../routes'
@@ -44,7 +44,7 @@ export function configureBrandRoutes(
   )
 
   app.get(
-    `${SCENT_DETAILS_PATH}/all`, checkLogin,
+    `${SCENT_DETAILS_PATH}/all`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Brand', brand)

@@ -14,5 +14,6 @@ export interface ScentToCreate {
 
 export interface ScentItem {
   id: number,
-  name: string
+  name: string,
+  brand?: string
 }

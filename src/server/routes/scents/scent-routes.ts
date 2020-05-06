@@ -16,7 +16,7 @@ import {
   isNotNull,
   getScentFromCypher,
   paramsForScentGraph,
-  getName
+  getScentNameAndBrand
 } from '../route-helpers'
 
 export function configureScentRoutes(
@@ -115,13 +115,15 @@ export function configureScentRoutes(
     `${SCENTS_PATH}/all`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Scent',scent)
+      instance.model('Scent', scent)
+      instance.model("Brand", brand)
       const scents: ScentItem[] = []
       try {
-        const result = await instance.cypher('MATCH (scent:Scent) RETURN scent')
+        const result = await instance.cypher(`MATCH (scent:Scent) 
+          -[belbrand:BELONGS]->(brand:Brand) RETURN scent, brand`)
           .then((result: any) => {
             result.records.map((row: any) => {
-              scents.push(getName(row.get('scent')))
+              scents.push(getScentNameAndBrand(row.get('scent'), row.get('brand')))
             })
             console.log(scents)
             res.status(200).send(scents)
