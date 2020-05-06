@@ -6,7 +6,8 @@ import {
   GraphNodeOut,
   GraphEdgeOut,
   GraphNodeIn,
-  GraphEdgeIn
+  GraphEdgeIn,
+  ScentItem
 } from '../../../common/data-classes'
 import {
   nodeConverter,
@@ -14,7 +15,8 @@ import {
   isUniqueNode,
   isNotNull,
   getScentFromCypher,
-  paramsForScentGraph
+  paramsForScentGraph,
+  getName
 } from '../route-helpers'
 
 export function configureScentRoutes(
@@ -105,6 +107,32 @@ export function configureScentRoutes(
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: `Something went wrong in scent creation: ${e.details}` })
+      }
+    }
+  )
+
+  app.get(
+    `${SCENTS_PATH}/all`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model('Scent',scent)
+      const scents: ScentItem[] = []
+      try {
+        const result = await instance.cypher('MATCH (scent:Scent) RETURN scent')
+          .then((result: any) => {
+            result.records.map((row: any) => {
+              scents.push(getName(row.get('scent')))
+            })
+            console.log(scents)
+            res.status(200).send(scents)
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching scents' })
       }
     }
   )
