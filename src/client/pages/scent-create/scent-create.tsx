@@ -49,7 +49,6 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   }
 
   public async componentDidMount() {
-
     await getAll('category').then(response => {
       this.setState({ allCategories: response })
     })

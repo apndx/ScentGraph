@@ -6,8 +6,7 @@ import {
   GraphNodeOut,
   GraphEdgeOut,
   AdminContent,
-  NeodeBatchQueryItem,
-  NoteItem
+  NeodeBatchQueryItem
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
 
@@ -26,6 +25,11 @@ export function getName(node: GraphNodeIn): ScentItem {
     return {
       id: toSmallInteger(node.identity),
       name: node.properties.notename
+    }
+  } else if (node.properties.scentname) {
+    return {
+      id: toSmallInteger(node.identity),
+      name: node.properties.scentname
     }
   }
   return {
