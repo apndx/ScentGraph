@@ -1,23 +1,21 @@
 import * as React from 'react'
-import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-classes'
-import { getAll, getScentNotes, createItem } from '../../services'
-import Notification from '../../components/notification'
+import { ScentItem, AdminContent } from '../../../common/data-classes'
+import { getAll, getScentNotes, createItem, noteToScent } from '../../services'
+import { Notification, Note } from '../../components'
 import Autocomplete from 'react-autocomplete'
 import { matchScentInput, matchInput } from '../../utils'
-import { Form, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 
 interface NoteCreateProps {
-
 }
 
 interface NoteCreateState {
   message: string,
-  allScents: ScentItem[],
-  allNotes: ScentItem[],
-  newNotes: string[],
   scent: string,
   note: string,
+  allScents: ScentItem[],
+  allNotes: ScentItem[],
   scentNotes: ScentItem[]
 }
 
@@ -29,11 +27,10 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     this.state = {
       message: '',
       scent: '',
+      note: '',
       allScents: [],
       allNotes: [],
-      newNotes: [],
-      scentNotes: [],
-      note: ''
+      scentNotes: []
     }
     this.timer = null
   }
@@ -48,46 +45,62 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     })
   }
 
-  onSubmit = async (event) => {
-    event.preventDefault()
+  public componentWillUnmount() {
+    clearTimeout(this.timer)
+  }
 
+  onScentWasChosen = async (event) => {
+    event.preventDefault()
     const scentArray = this.state.scent.split(' - ')
     const scentItem: ScentItem = { name: scentArray[0], brand: scentArray[1] }
     await getScentNotes(scentItem).then(response => {
       this.setState({ scentNotes: response })
-      console.log(this.state.scentNotes)
     })
-
   }
 
   onNoteAdd = async (event) => {
     event.preventDefault()
-    console.log('NOTE', this.state.note)
+    const scentArray = this.state.scent.split(' - ')
+    const scentItem: ScentItem = {
+      name: scentArray[0],
+      brand: scentArray[1],
+      note: this.state.note
+    }
 
     if (!this.noteNames(this.state.allNotes).includes(this.state.note)) {
       const newNote: AdminContent = {
         itemName: this.state.note,
         type: 'note'
       }
-      //   createItem(newNote)
-      //     .then(response => {
-      //       this.setMessage(response)
-      //       createScent(scentToCreate)
-      //         .then(response => {
-      //           this.afterScentCreation()
-      //         })
-      //     })
-      //     .catch(message => {
-      //       this.setMessage(`Something went wrong in scent creation: ${message}`)
-      //     })
-      // } else {
-      //   createScent(scentToCreate)
-      //     .then(response => {
-      //       this.afterScentCreation()
-      //     })
-      //     .catch(message => {
-      //       this.setMessage(`Something went wrong in scent creation: ${message}`)
-      //     })
+      createItem(newNote)
+        .then(response => {
+          this.setMessage(response)
+          noteToScent(scentItem)
+            .then(response => {
+              this.setMessage(response)
+            })
+            .then(() => {
+              getScentNotes(scentItem).then(response => {
+                this.setState({ scentNotes: response, note: '' })
+              })
+            })
+        })
+        .catch(message => {
+          this.setMessage(`Something went wrong: ${message}`)
+        })
+    } else {
+      noteToScent(scentItem)
+        .then(response => {
+          this.setMessage(response)
+        })
+        .then(() => {
+          getScentNotes(scentItem).then(response => {
+            this.setState({ scentNotes: response, note: '' })
+          })
+        })
+        .catch(message => {
+          this.setMessage(`Something went wrong: ${message}`)
+        })
     }
   }
 
@@ -115,9 +128,9 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Add Notes to a Scent</h2>
-        <p>Select Scent:</p>
-        <form onSubmit={this.onSubmit}>
+        <h2>Attach a Note to a Scent</h2>
+        <p>Select a Scent:</p>
+        <form onSubmit={this.onScentWasChosen}>
           {this.state.allScents &&
             <Autocomplete
               value={this.state.scent}
@@ -146,7 +159,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
           </div>
         </form>
         <p></p>
-        <p>Select Note to Add:</p>
+        <p>Select or add a Note:</p>
         <form onSubmit={this.onNoteAdd}>
           {this.state.allNotes &&
             <Autocomplete
@@ -172,15 +185,16 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
             />}
           <p></p>
           <div>
-            <Button variant="outline-info" type="submit">Add note for scent</Button>
+            <Button variant="outline-info" type="submit">Attach</Button>
           </div>
         </form>
 
         {this.state.scent &&
           <div>
+            <p></p>
             <h3>Notes:</h3>
             {this.state.scentNotes && this.state.scentNotes.length > 0 ?
-              this.state.scentNotes.map(note => { <p>{note}ploo</p> })
+              this.state.scentNotes.map(note => <Note key={note.id} note={note} />)
               : <p>no notes yet</p>
             }
           </div>
@@ -189,4 +203,3 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     )
   }
 }
-

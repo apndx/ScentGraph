@@ -2,7 +2,7 @@ import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { SessionStorageItem } from '../../utils'
 import { ClientRoutePath } from '../../routes'
-import Notification from '../../components/notification'
+import { Notification } from '../../components'
 
 interface LogoutProps extends RouteComponentProps<any> {
   history: any

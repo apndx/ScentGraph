@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const Notification = ({ message }) => {
+export const Notification = ({ message }) => {
   if (message === '') {
     return null
   }
@@ -10,5 +10,3 @@ const Notification = ({ message }) => {
     </div >
   )
 }
-
-export default Notification

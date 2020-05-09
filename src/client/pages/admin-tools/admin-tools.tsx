@@ -3,7 +3,7 @@ import { SessionStorageItem } from '../../utils'
 import { createItem } from '../../services'
 import { AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
-import Notification from '../../components/notification'
+import { Notification} from '../../components'
 
 interface AdminToolsProps {
   history: any,
