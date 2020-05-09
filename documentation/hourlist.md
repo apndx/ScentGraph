@@ -34,4 +34,5 @@
 | 4.5. | 8 | Travis configuration tests, trying to get Neo4J service or neo4j-docker to work with for Travis. Route add and delete tests for season routes. Reading about different CI tools.|
 | 5.5. | 9,5 | Creating better notification and error handling. More general scent graph route, test for helper. Form to choose graph from category or brand. |
 | 6.5. | 6,5 | Route for creating several notes at a time. Show scent button color change. Note adding page fetches all notes and scents, scent can be chosen and existing notes for it fetched. |
-| all | 129 | |
+| 9.5. | 2,5 | Add note to scent form to have note addition input field.|
+| all | 313,5 | |

@@ -111,6 +111,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
                 >{item.name}</div>
               )}
             />
+            <p></p>
             <div>
               <Button disabled={this.isDisabled()} variant="outline-info" type="submit">show</Button>
             </div>

@@ -68,15 +68,6 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
   })
 }
 
-export function extractwtf(properties: any): string {
-  if (Object.keys(properties).some(function (k) {
-    console.log(~k.indexOf("name"))
-    return ~k.indexOf("name")
-  })) {
-  }
-  return ''
-}
-
 export function extractName(properties: any): string {
   const key = Object.keys(properties).find(key => key.includes('name'))
   return key ? properties[key] : ''

@@ -5,7 +5,7 @@ import { ScentItem } from '../../common/data-classes'
 const baseUrl = '/api/'
 
 export const getScentNotes = async (item: ScentItem) => {
-  const path = `${baseUrl}/note`
+  const path = `${baseUrl}note`
     const config = {
       headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
     }

@@ -99,7 +99,7 @@ export function configureNoteRoutes(
       const notes: ScentItem[] = []
       const params = { scentname: req.body.name, brandname: req.body.brand }
       try {
-        const scentAndNotes = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
+        await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
         -[:BELONGS]->(brand:Brand {brandname:{brandname}})
         MATCH (note:Note)-[:BELONGS]->(scent)
         return scent, note`, params)
