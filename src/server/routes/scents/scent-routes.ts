@@ -1,6 +1,6 @@
 import * as express from "express"
 import { checkLogin, authenticateToken } from '../../middleware'
-import { scent, brand, timeOfDay, gender, season, category, user } from '../../models'
+import { scent, brand, timeOfDay, gender, season, category, user, note } from '../../models'
 import {
   ScentToCreate,
   GraphNodeOut,
@@ -37,8 +37,6 @@ export function configureScentRoutes(
         username
       }
 
-      //const notes: string[] = req.body.scentToCreate.notes
-
       instance.model("Scent", scent)
       instance.model("Brand", brand)
       instance.model("TimeOfDay", timeOfDay)
@@ -58,11 +56,6 @@ export function configureScentRoutes(
           console.log('EXISTING', existingScent.records)
           return res.status(400).json({ error: 'Scent must be unique.' })
         }
-        // Promise.all([
-        //   //   instance.merge("Brand", { brandname: scentToBe.brandname }),
-        //   instance.merge("Scent", { scentname: scentToBe.scentname })
-        // ])
-        //   .then(async ([scent]: any) => {
         await instance.cypher(`
             MATCH (time:TimeOfDay{timename:$timename})
             MERGE (scent:Scent{scentname:$scentname})
@@ -93,13 +86,10 @@ export function configureScentRoutes(
             MATCH (user:User{username:$username})
             MERGE (user)-[added:ADDED]->(scent)
             RETURN type(added), scent`, scentToBe)
-          // .then(([scent]: any) => {
           .then(() => {
-            // console.log(`Scent ${scent.properties().scentname} created`)
             console.log(`Scent created`)
             res.status(200).send(`scent created`)
           })
-          // })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
           })
@@ -119,7 +109,7 @@ export function configureScentRoutes(
       instance.model("Brand", brand)
       const scents: ScentItem[] = []
       try {
-        const result = await instance.cypher(`MATCH (scent:Scent) 
+        await instance.cypher(`MATCH (scent:Scent) 
           -[belbrand:BELONGS]->(brand:Brand) RETURN scent, brand`)
           .then((result: any) => {
             result.records.map((row: any) => {
@@ -157,7 +147,7 @@ export function configureScentRoutes(
       const edges: GraphEdgeOut[] = []
 
       try {
-        const result = await instance.cypher(cypher, params)
+        await instance.cypher(cypher, params)
           .then((result: any) => {
             console.log(result.records)
             result.records.map((row: any) => {
@@ -220,6 +210,40 @@ export function configureScentRoutes(
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong when fetching scents' })
+      }
+    }
+  )
+
+  app.post(
+    `${SCENTS_PATH}/addNote`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model("Scent", scent)
+      instance.model("Brand", brand)
+      instance.model("Note", note)
+
+      try {
+        const params = { scentname: req.body.name, brandname: req.body.brand, notename: req.body.note }
+        const scentHasNoteAlready = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
+        -[:BELONGS]->(brand:Brand {brandname:{brandname}})
+        MATCH (note:Note {notename:{notename}})-[:BELONGS]->(scent)
+        return scent, brand, note`, params)
+        if (scentHasNoteAlready.records.length > 0) {
+          console.log('EXISTING', scentHasNoteAlready.records)
+          return res.status(400).json({ error: 'Scent already has this note.' })
+        }
+        await instance.cypher(`
+        MATCH (scent:Scent {scentname:{scentname}})-[belbrand:BELONGS]->(brand:Brand {brandname:{brandname}})
+        MATCH (note:Note{notename:$notename})
+        MERGE (note)-[belongs:BELONGS]->(scent)-[has:HAS]->(note)
+        RETURN type(belongs), type(has), scent, note`, params)
+          .then(() => {
+            console.log(`Note added to scent`)
+            res.status(200).send(`Note added to scent`)
+          })
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: `Something went wrong when adding note to a scent ${e}` })
       }
     }
   )
