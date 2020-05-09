@@ -2,7 +2,7 @@ import * as React from 'react'
 import { login } from '../../services/login'
 import { ClientUser } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
-import Notification from '../../components/notification'
+import { Notification } from '../../components'
 
 interface LoginState {
   username: string,

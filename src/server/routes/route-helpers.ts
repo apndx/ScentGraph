@@ -6,8 +6,7 @@ import {
   GraphNodeOut,
   GraphEdgeOut,
   AdminContent,
-  NeodeBatchQueryItem,
-  NoteItem
+  NeodeBatchQueryItem
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
 
@@ -27,10 +26,26 @@ export function getName(node: GraphNodeIn): ScentItem {
       id: toSmallInteger(node.identity),
       name: node.properties.notename
     }
+  } else {
+    return {
+      id: toSmallInteger(node.identity),
+      name: ''
+    }
   }
-  return {
-    id: toSmallInteger(node.identity),
-    name: ''
+}
+
+export function getScentNameAndBrand(scent: GraphNodeIn, brand: GraphNodeIn): ScentItem {
+  if (scent.properties.scentname && brand.properties.brandname) {
+    return {
+      id: toSmallInteger(scent.identity),
+      name: scent.properties.scentname,
+      brand: brand.properties.brandname
+    }
+  } else {
+    return {
+      id: toSmallInteger(scent.identity),
+      name: ''
+    }
   }
 }
 
@@ -51,15 +66,6 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
     properties: node.properties,
     labels: node.labels
   })
-}
-
-export function extractwtf(properties: any): string {
-  if (Object.keys(properties).some(function (k) {
-    console.log(~k.indexOf("name"))
-    return ~k.indexOf("name")
-  })) {
-  }
-  return ''
 }
 
 export function extractName(properties: any): string {

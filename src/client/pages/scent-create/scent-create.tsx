@@ -4,7 +4,7 @@ import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-cla
 import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
 import { matchInput } from '../../utils'
-import Notification from '../../components/notification'
+import { Notification } from '../../components'
 
 interface ScentCreateProps {
   history: any,
@@ -49,7 +49,6 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
   }
 
   public async componentDidMount() {
-
     await getAll('category').then(response => {
       this.setState({ allCategories: response })
     })
@@ -251,6 +250,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
                 >{item.name}</div>
               )}
             />}
+          <p></p>
           <div>
             <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>
           </div>

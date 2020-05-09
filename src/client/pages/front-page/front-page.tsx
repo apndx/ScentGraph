@@ -1,7 +1,7 @@
 import * as React from 'react'
 import NavBarLayout from '../nav-bar-layout/nav-bar-layout'
 import { EMPTY_STATE } from '../../utils'
-import Notification from '../../components/notification'
+import { Notification } from '../../components'
 
 interface FrontPageProps {
   history: any,

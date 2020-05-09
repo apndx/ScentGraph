@@ -5,7 +5,7 @@ import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
 import { Button } from 'react-bootstrap'
 import { ScentGraph } from './scent-graph'
-import Notification from '../../components/notification'
+import { Notification } from '../../components'
 
 interface ShowScentsState {
   message: string,
@@ -111,6 +111,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
                 >{item.name}</div>
               )}
             />
+            <p></p>
             <div>
               <Button disabled={this.isDisabled()} variant="outline-info" type="submit">show</Button>
             </div>

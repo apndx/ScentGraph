@@ -8,20 +8,12 @@ export interface ScentToCreate {
   gendername?: string,
   categoryname?: string,
   timename?: string,
-  notenames?: string[],
   username?: string
 }
 
 export interface ScentItem {
-  id: number,
-  name: string
-}
-
-export interface NeodeBatchQueryItem {
-  query: string,
-  params: object
-}
-
-export interface NoteItem  {
-  name: string
+  id?: number,
+  name: string,
+  brand?: string,
+  note?: string
 }
