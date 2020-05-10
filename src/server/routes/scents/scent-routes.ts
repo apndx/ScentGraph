@@ -87,8 +87,7 @@ export function configureScentRoutes(
             MERGE (user)-[added:ADDED]->(scent)
             RETURN type(added), scent`, scentToBe)
           .then(() => {
-            console.log(`Scent created`)
-            res.status(200).send(`scent created`)
+            res.status(200).send(`Scent ${scentToBe.scentname} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console

@@ -29,8 +29,7 @@ export function configureNoteRoutes(
           })
         ])
           .then(([note]) => {
-            console.log(`Brand ${note.properties().notename} created`)
-            res.status(200).send(note.properties().notename)
+            res.status(200).send(`Note ${note.properties().notename} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console

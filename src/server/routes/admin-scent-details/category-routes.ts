@@ -31,8 +31,7 @@ export function configureCategoryRoutes(
           })
         ])
           .then(([category]) => {
-            console.log(`Category ${category.properties().categoryname} created`)
-            res.status(200).send(category.properties().categoryname)
+            res.status(200).send(`Category ${category.properties().categoryname} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
