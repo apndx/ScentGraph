@@ -6,7 +6,6 @@ import Autocomplete from 'react-autocomplete'
 import { matchScentInput, matchInput } from '../../utils'
 import { Button } from 'react-bootstrap'
 
-
 interface NoteCreateProps {
 }
 
@@ -16,9 +15,9 @@ interface NoteCreateState {
   note: string,
   allScents: ScentItem[],
   allNotes: ScentItem[],
-  scentNotes: ScentItem[]
+  scentNotes: ScentItem[],
+  notesFetched: boolean
 }
-
 
 export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateState> {
   private timer
@@ -30,11 +29,11 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
       note: '',
       allScents: [],
       allNotes: [],
-      scentNotes: []
+      scentNotes: [],
+      notesFetched: false
     }
     this.timer = null
   }
-
 
   public async componentDidMount() {
     await getAll('scents').then(response => {
@@ -54,7 +53,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     const scentArray = this.state.scent.split(' - ')
     const scentItem: ScentItem = { name: scentArray[0], brand: scentArray[1] }
     await getScentNotes(scentItem).then(response => {
-      this.setState({ scentNotes: response })
+      this.setState({ scentNotes: response, notesFetched: true })
     })
   }
 
@@ -140,7 +139,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
               getItemValue={(item: ScentItem) => `${item.name} - ${item.brand}`}
               shouldItemRender={matchScentInput}
               onChange={(event, value) => this.setState({ scent: value })}
-              onSelect={value => this.setState({ scent: value })}
+              onSelect={value => this.setState({ scent: value, notesFetched: false })}
               renderMenu={children => (
                 <div className="menu">
                   {children}
@@ -189,7 +188,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
           </div>
         </form>
 
-        {this.state.scent &&
+        {this.state.notesFetched &&
           <div>
             <p></p>
             <h3>Notes:</h3>
