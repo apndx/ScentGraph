@@ -15,6 +15,7 @@ import {
   isUniqueNode,
   isUniqueEdge,
   getScentFromCypher,
+  getScentFromNoteCypher,
   paramsForScentGraph,
   getScentNameAndBrand
 } from '../route-helpers'
@@ -138,8 +139,10 @@ export function configureScentRoutes(
       instance.model("Season", season)
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
+      instance.model("Note", gender)
       console.log('REQS', req.body)
-      const cypher: string = getScentFromCypher(req.body)
+      const cypher: string = req.body.type === 'note' ? getScentFromNoteCypher(req.body)
+        : getScentFromCypher(req.body)
       const params = paramsForScentGraph(req.body)
 
       const nodes: GraphNodeOut[] = []
@@ -148,7 +151,6 @@ export function configureScentRoutes(
       try {
         await instance.cypher(cypher, params)
           .then((result: any) => {
-            console.log(result.records)
             result.records.map((row: any) => {
 
               const scent: GraphNodeIn = row.get('scent') || null
@@ -157,7 +159,7 @@ export function configureScentRoutes(
               const season: GraphNodeIn = row.get('season') || null
               const time: GraphNodeIn = row.get('time') || null
               const gender: GraphNodeIn = row.get('gender') || null
-              const note: GraphNodeIn = row.get('note') || null
+              const note: GraphNodeIn = req.body.type === 'note' ? row.get('note') : null
 
               if (isUniqueNode(nodes, scent)) {
                 nodes.push(nodeConverter(scent))
@@ -186,8 +188,7 @@ export function configureScentRoutes(
               const belongsToSeason: GraphEdgeIn = row.get('belseason') || null
               const belongsToTime: GraphEdgeIn = row.get('beltime') || null
               const belongsToGender: GraphEdgeIn = row.get('belgender') || null
-              const hasNote: GraphEdgeIn = row.get('hasnote') || null
-
+              const hasNote: GraphEdgeIn = req.body.type === 'note' ? row.get('hasnote') : null
 
               if (isUniqueEdge(edges, belongsToCategory)) {
                 edges.push(edgeConverter(belongsToCategory))

@@ -88,7 +88,6 @@ const lime = {
   },
 }
 
-
 const coldPink = {
   border: '#48808f',
   background: '#FF99FF',
@@ -98,7 +97,14 @@ const coldPink = {
   },
 }
 
-
+const defaultBlue = {
+  border: '#48808f',
+  background: '#97c2fc',
+  highlight: {
+    border: '#48808f',
+    background: '#d2e5ff'
+  },
+}
 
 export const groupStyles = {
   Scent: {
@@ -118,5 +124,8 @@ export const groupStyles = {
   },
   Category: {
     color: orange
+  },
+  Note: {
+    color: defaultBlue
   }
 }

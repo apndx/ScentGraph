@@ -13,6 +13,7 @@ interface ShowScentsState {
   nameToGraph: string,
   allCategories: ScentItem[],
   allBrands: ScentItem[],
+  allNotes: ScentItem[],
   type: string
 }
 
@@ -27,6 +28,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       nameToGraph: '',
       allCategories: [],
       allBrands: [],
+      allNotes: [],
       type: ''
     }
   }
@@ -38,10 +40,20 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     await getAll('brand').then(response => {
       this.setState({ allBrands: response })
     })
+    await getAll('note').then(response => {
+      this.setState({ allNotes: response })
+    })
   }
 
   isDisabled(): boolean {
-    return this.state.type === 'category' ? !this.isOneOfTheCategories() : !this.isOneOfTheBrands()
+    if (this.state.type === 'category') {
+      return !this.isOneOfTheCategories()
+    } else if (this.state.type === 'brand') {
+      return !this.isOneOfTheBrands()
+    } else if (this.state.type === 'note') {
+      return !this.isOneOfTheNotes()
+    }
+    return true
   }
 
   isOneOfTheCategories(): boolean {
@@ -54,8 +66,24 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       this.state.allBrands && (this.getNames(this.state.allBrands)).includes(this.state.name)
   }
 
+  isOneOfTheNotes(): boolean {
+    return this.state.name !== '' && this.state.type === 'note' &&
+      this.state.allNotes && (this.getNames(this.state.allNotes)).includes(this.state.name)
+  }
+
   getNames(items: ScentItem[]): string[] {
     return items.map(item => item.name)
+  }
+
+  itemListChooser(): ScentItem[] {
+    if (this.state.type === 'category') {
+      return this.state.allCategories
+    } else if (this.state.type === 'brand') {
+      return this.state.allBrands
+    } else if (this.state.type === 'note') {
+      return this.state.allNotes
+    }
+    return []
   }
 
   onSubmit = async (event) => {
@@ -71,7 +99,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     }
   }
 
-  handleClick = (type) => this.setState({ type })
+  handleClick = (type) => this.setState({ type, name: '' })
 
 
   public render(): JSX.Element {
@@ -82,19 +110,19 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
         <h2>Show all scents from a
           <> {' '}
             <Button variant="outline-danger" onClick={() => this.handleClick('category')}>Category</Button>{' '}
-            <Button variant="outline-success" onClick={() => this.handleClick('brand')}>Brand</Button>
+            <Button variant="outline-success" onClick={() => this.handleClick('brand')}>Brand</Button>{' '}
+            <Button variant="outline-primary" onClick={() => this.handleClick('note')}>Note</Button>
           </>
         </h2>
 
-        {this.state.type !== '' && this.state.allCategories && this.state.allBrands &&
+        {this.state.type !== '' && this.state.allCategories && this.state.allBrands &&  this.state.allNotes &&
           <form onSubmit={this.onSubmit}>
             <p>Select {this.state.type}:</p>
             <Autocomplete
               value={this.state.name}
               inputProps={{ id: 'category-autocomplete' }}
               wrapperStyle={{ position: 'relative', display: 'inline-block' }}
-              items={this.state.type === 'category' ?
-                this.state.allCategories : this.state.allBrands}
+              items={this.itemListChooser()}
               getItemValue={(item: ScentItem) => item.name}
               shouldItemRender={matchInput}
               onChange={(event, value) => this.setState({ name: value })}
