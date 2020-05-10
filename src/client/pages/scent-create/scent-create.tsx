@@ -3,7 +3,7 @@ import { createScent, getAll, createItem } from '../../services'
 import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
-import { matchInput } from '../../utils'
+import { matchInput, sortNames } from '../../utils'
 import { Notification } from '../../components'
 
 interface ScentCreateProps {
@@ -50,13 +50,13 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
 
   public async componentDidMount() {
     await getAll('category').then(response => {
-      this.setState({ allCategories: response })
+      this.setState({ allCategories: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
     await getAll('brand').then(response => {
-      this.setState({ allBrands: response })
+      this.setState({ allBrands: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
     await getAll('note').then(response => {
-      this.setState({ allNotes: response })
+      this.setState({ allNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
   }
 

@@ -3,7 +3,7 @@ import { ScentItem, AdminContent } from '../../../common/data-classes'
 import { getAll, getScentNotes, createItem, noteToScent } from '../../services'
 import { Notification, Note } from '../../components'
 import Autocomplete from 'react-autocomplete'
-import { matchScentInput, matchInput } from '../../utils'
+import { matchScentInput, matchInput, sortNames } from '../../utils'
 import { Button } from 'react-bootstrap'
 
 interface NoteCreateProps {
@@ -37,10 +37,10 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
 
   public async componentDidMount() {
     await getAll('scents').then(response => {
-      this.setState({ allScents: response })
+      this.setState({ allScents: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
     await getAll('note').then(response => {
-      this.setState({ allNotes: response })
+      this.setState({ allNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
   }
 
@@ -53,7 +53,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     const scentArray = this.state.scent.split(' - ')
     const scentItem: ScentItem = { name: scentArray[0], brand: scentArray[1] }
     await getScentNotes(scentItem).then(response => {
-      this.setState({ scentNotes: response, notesFetched: true })
+      this.setState({ scentNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }), notesFetched: true })
     })
   }
 
@@ -80,7 +80,9 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
             })
             .then(() => {
               getScentNotes(scentItem).then(response => {
-                this.setState({ scentNotes: response, note: '' })
+                this.setState({
+                  scentNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }), note: ''
+                })
               })
             })
         })
@@ -94,7 +96,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
         })
         .then(() => {
           getScentNotes(scentItem).then(response => {
-            this.setState({ scentNotes: response, note: '' })
+            this.setState({ scentNotes: response .sort((a, b) => { return sortNames(a.name, b.name) }), note: '' })
           })
         })
         .catch(message => {
@@ -193,7 +195,8 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
             <p></p>
             <h3>Notes:</h3>
             {this.state.scentNotes && this.state.scentNotes.length > 0 ?
-              this.state.scentNotes.map(note => <Note key={note.id} note={note} />)
+              this.state.scentNotes
+                .map(note => <Note key={note.id} note={note} />)
               : <p>no notes yet</p>
             }
           </div>
