@@ -133,17 +133,17 @@ export const groupStyles = {
 export const categoryStyle = {
   'backgroundColor': 'transparent',
   'color': 'rgba(238, 95, 83)',
-  'border-color': 'rgba(238, 95, 83)'
+  'borderColor': 'rgba(238, 95, 83)'
 }
 
 export const brandStyle = {
   'backgroundColor': 'transparent',
   'color': 'rgba(65, 112, 96)',
-  'border-color': 'rgba(65, 112, 96)'
+  'borderColor': 'rgba(65, 112, 96)'
 }
 
 export const noteStyle = {
   'backgroundColor': 'transparent',
   'color': 'rgba(151, 194, 252)',
-  'border-color': 'rgba(151, 194, 252)'
+  'borderColor': 'rgba(151, 194, 252)'
 }

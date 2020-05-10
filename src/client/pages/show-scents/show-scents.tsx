@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DEFAULT_PROPS, matchInput } from '../../utils'
+import { DEFAULT_PROPS, matchInput, sortNames } from '../../utils'
 import { ScentItem } from '../../../common/data-classes'
 import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
@@ -36,13 +36,13 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
 
   public async componentDidMount() {
     await getAll('category').then(response => {
-      this.setState({ allCategories: response })
+      this.setState({ allCategories: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
     await getAll('brand').then(response => {
-      this.setState({ allBrands: response })
+      this.setState({ allBrands: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
     await getAll('note').then(response => {
-      this.setState({ allNotes: response })
+      this.setState({ allNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
   }
 
