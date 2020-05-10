@@ -2,7 +2,7 @@ import * as React from 'react'
 import Graph from 'vis-react'
 import { getScentsFrom } from '../../services'
 import { GraphResult, AdminContent } from '../../../common/data-classes'
-import { groupStyles } from './group-styles'
+import { groupStyles } from './show-scent-styles'
 
 export interface ScentGraphState {
   errorMessage?: string,

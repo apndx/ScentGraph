@@ -6,6 +6,7 @@ import Autocomplete from 'react-autocomplete'
 import { Button } from 'react-bootstrap'
 import { ScentGraph } from './scent-graph'
 import { Notification } from '../../components'
+import { categoryStyle, brandStyle, noteStyle } from './show-scent-styles'
 
 interface ShowScentsState {
   message: string,
@@ -109,13 +110,13 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
         <Notification message={this.state.message} />
         <h2>Show all scents from a
           <> {' '}
-            <Button variant="outline-danger" onClick={() => this.handleClick('category')}>Category</Button>{' '}
-            <Button variant="outline-success" onClick={() => this.handleClick('brand')}>Brand</Button>{' '}
-            <Button variant="outline-primary" onClick={() => this.handleClick('note')}>Note</Button>
+            <Button style={categoryStyle} onClick={() => this.handleClick('category')}>Category</Button>{' '}
+            <Button style={brandStyle} onClick={() => this.handleClick('brand')}>Brand</Button>{' '}
+            <Button style={noteStyle} onClick={() => this.handleClick('note')}>Note</Button>
           </>
         </h2>
 
-        {this.state.type !== '' && this.state.allCategories && this.state.allBrands &&  this.state.allNotes &&
+        {this.state.type !== '' && this.state.allCategories && this.state.allBrands && this.state.allNotes &&
           <form onSubmit={this.onSubmit}>
             <p>Select {this.state.type}:</p>
             <Autocomplete
