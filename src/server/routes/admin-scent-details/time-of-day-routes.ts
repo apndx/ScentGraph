@@ -26,8 +26,7 @@ export function configureTimeOfDayRoutes(
           })
         ])
           .then(([time]) => {
-            console.log(`Time of day ${time.properties().timename} created`)
-            res.status(200).send(time.properties().timename)
+            res.status(200).send(`Time of day ${time.properties().timename} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console

@@ -28,8 +28,7 @@ export function configureGenderRoutes(
           })
         ])
           .then(([gender]) => {
-            console.log(`Gender ${gender.properties().gendername} created`)
-            res.status(200).send(gender.properties().gendername)
+            res.status(200).send(`Gender ${gender.properties().gendername} created`)
           })
           .catch((e: any) => {
             console.log("Error :(", e, e.details); // eslint-disable-line no-console
