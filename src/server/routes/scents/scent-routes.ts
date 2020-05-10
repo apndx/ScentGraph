@@ -13,8 +13,9 @@ import {
   nodeConverter,
   edgeConverter,
   isUniqueNode,
-  isNotNull,
+  isUniqueEdge,
   getScentFromCypher,
+  getScentFromNoteCypher,
   paramsForScentGraph,
   getScentNameAndBrand
 } from '../route-helpers'
@@ -138,8 +139,10 @@ export function configureScentRoutes(
       instance.model("Season", season)
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
+      instance.model("Note", gender)
       console.log('REQS', req.body)
-      const cypher: string = getScentFromCypher(req.body)
+      const cypher: string = req.body.type === 'note' ? getScentFromNoteCypher(req.body)
+        : getScentFromCypher(req.body)
       const params = paramsForScentGraph(req.body)
 
       const nodes: GraphNodeOut[] = []
@@ -148,7 +151,6 @@ export function configureScentRoutes(
       try {
         await instance.cypher(cypher, params)
           .then((result: any) => {
-            console.log(result.records)
             result.records.map((row: any) => {
 
               const scent: GraphNodeIn = row.get('scent') || null
@@ -157,6 +159,7 @@ export function configureScentRoutes(
               const season: GraphNodeIn = row.get('season') || null
               const time: GraphNodeIn = row.get('time') || null
               const gender: GraphNodeIn = row.get('gender') || null
+              const note: GraphNodeIn = req.body.type === 'note' ? row.get('note') : null
 
               if (isUniqueNode(nodes, scent)) {
                 nodes.push(nodeConverter(scent))
@@ -176,27 +179,34 @@ export function configureScentRoutes(
               if (isUniqueNode(nodes, gender)) {
                 nodes.push(nodeConverter(gender))
               }
+              if (isUniqueNode(nodes, note)) {
+                nodes.push(nodeConverter(note))
+              }
 
               const belongsToCategory: GraphEdgeIn = row.get('belcategory') || null
               const belongsToBrand: GraphEdgeIn = row.get('belbrand') || null
               const belongsToSeason: GraphEdgeIn = row.get('belseason') || null
               const belongsToTime: GraphEdgeIn = row.get('beltime') || null
               const belongsToGender: GraphEdgeIn = row.get('belgender') || null
+              const hasNote: GraphEdgeIn = req.body.type === 'note' ? row.get('hasnote') : null
 
-              if (isNotNull(belongsToCategory)) {
+              if (isUniqueEdge(edges, belongsToCategory)) {
                 edges.push(edgeConverter(belongsToCategory))
               }
-              if (isNotNull(belongsToBrand)) {
+              if (isUniqueEdge(edges, belongsToBrand)) {
                 edges.push(edgeConverter(belongsToBrand))
               }
-              if (isNotNull(belongsToSeason)) {
+              if (isUniqueEdge(edges, belongsToSeason)) {
                 edges.push(edgeConverter(belongsToSeason))
               }
-              if (isNotNull(belongsToTime)) {
+              if (isUniqueEdge(edges, belongsToTime)) {
                 edges.push(edgeConverter(belongsToTime))
               }
-              if (isNotNull(belongsToGender)) {
+              if (isUniqueEdge(edges, belongsToGender)) {
                 edges.push(edgeConverter(belongsToGender))
+              }
+              if (isUniqueEdge(edges, hasNote)) {
+                edges.push(edgeConverter(hasNote))
               }
             })
             console.log(nodes, edges)

@@ -53,6 +53,11 @@ export function isUniqueNode(nodes: GraphNodeOut[], node: any): boolean {
   return node && nodes.filter(n => n.id === toSmallInteger(node.identity)).length === 0
 }
 
+export function isUniqueEdge(edges: GraphEdgeOut[], edge: any): boolean {
+  return edge && edges.filter(n => n.id ===
+    toSmallInteger(edge.identity).toString()).length === 0
+}
+
 export function toSmallInteger(numberToConvert: NeoInteger): number {
   return neo4j.int(numberToConvert).toNumber()
 }
@@ -109,6 +114,36 @@ export function getScentFromCypher(item: AdminContent): string {
     WHERE toLower(${type}.${name}) = toLower({${name}})
     return scent, category, brand, season, time, gender,
     belcategory, belbrand, belseason, beltime, belgender`
+}
+
+export function getScentFromNoteCypher(item: AdminContent): string {
+  const type = item.type.toLowerCase()
+  const name = `${type}name`
+  return `
+    MATCH (scent:Scent) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
+    MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+    MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+    MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+    MATCH (scent:Scent) -[hasnote:HAS]->(note:Note)
+    WHERE toLower(${type}.${name}) = toLower({${name}})
+    return scent, category, brand, season, time, gender, note,
+    belcategory, belbrand, belseason, beltime, belgender, hasnote`
+}
+
+export function getallScentsCypher(item: AdminContent): string {
+  const type = item.type.toLowerCase()
+  const name = `${type}name`
+  return `
+    MATCH (scent:Scent) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
+    MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+    MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+    MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+    OPTIONAL MATCH (scent:Scent) -[hasnote:HAS]->(note:Note)
+    WHERE toLower(${type}.${name}) = toLower({${name}})
+    return scent, category, brand, season, time, gender, note,
+    belcategory, belbrand, belseason, beltime, belgender, hasnote`
 }
 
 export function batchHelper(notes: string[]): NeodeBatchQueryItem[] {
