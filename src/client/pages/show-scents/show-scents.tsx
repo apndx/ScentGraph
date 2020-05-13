@@ -15,7 +15,8 @@ interface ShowScentsState {
   allCategories: ScentItem[],
   allBrands: ScentItem[],
   allNotes: ScentItem[],
-  type: string
+  type: string,
+  physics: boolean
 }
 
 export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsState> {
@@ -30,7 +31,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       allCategories: [],
       allBrands: [],
       allNotes: [],
-      type: ''
+      type: '',
+      physics: true
     }
   }
 
@@ -102,6 +104,11 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
 
   handleClick = (type) => this.setState({ type, name: '' })
 
+  toggleAction = () => this.setState({ physics: !this.state.physics })
+
+  toggleText(): string {
+    return this.state.physics ? 'Turn Physics Off' : 'Turn Physics On'
+  }
 
   public render(): JSX.Element {
 
@@ -142,17 +149,22 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
             />
             <p></p>
             <div>
-              <Button disabled={this.isDisabled()} variant="outline-info" type="submit">show</Button>
+              <Button disabled={this.isDisabled()} variant="outline-info" type="submit">Show</Button>{' '}
+              {this.state.nameToGraph && <Button variant="outline-info" onClick={() => this.toggleAction()}>{this.toggleText()}</Button>}
             </div>
           </form>}
 
         {this.state.nameToGraph &&
-          <ScentGraph
-            containerId={'category-scents'}
-            backgroundColor={'#e4e6e1'}
-            nameToGraph={this.state.nameToGraph}
-            type={this.state.type}
-          />
+          <div>
+            <p></p>
+            <ScentGraph
+              containerId={'category-scents'}
+              backgroundColor={'#e4e6e1'}
+              nameToGraph={this.state.nameToGraph}
+              type={this.state.type}
+              physics={this.state.physics}
+            />
+          </div>
         }
       </div>
     )
