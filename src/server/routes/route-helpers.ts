@@ -66,7 +66,7 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
   return ({
     id: toSmallInteger(node.identity),
     label: extractName(node.properties),
-    title: extractName(node.properties),
+    title: nodeTitleBuilder(node),
     group: node.labels[0],
     properties: node.properties,
     labels: node.labels
@@ -159,4 +159,15 @@ export function promiseForBatch(instance: any, notes: string[]) {
   return notes.map((note: string) => {
     return (instance.create('Note', { notename: note }))
   })
+}
+
+export function nodeTitleBuilder(node: GraphNodeIn): string {
+  const properties = node.properties
+  let title = ''
+  for (const key in properties) {
+    if (properties.hasOwnProperty(key)) {
+      title += `<strong>${key}:</strong> ${properties[key]}<br>`
+    }
+  }
+  return title
 }

@@ -30,5 +30,6 @@ export function stopServer(
 ) {
     console.log('Shutting down server')
     driver.close()
+    neodeInstance.close()
     server.close()
 }

@@ -25,7 +25,7 @@ export interface ScentGraphProps {
 }
 
 export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
-  private events: {}
+  private events: { select }
   private options: {
     layout: { hierarchical: boolean }
     edges: { color: string; arrows: { to: { enabled: boolean } } }
@@ -71,9 +71,14 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
         }
       }
     }
-    this.events = {}
+    this.events = {
+      select(event) {
+          const { nodes, edges } = event
+      },
+    }
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     this.togglePhysics = this.togglePhysics.bind(this)
+    this.events.select = this.events.select.bind(this)
   }
 
   public async componentDidMount() {
