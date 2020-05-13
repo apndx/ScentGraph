@@ -107,7 +107,6 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
   toggleAction = () => this.setState({ physics: !this.state.physics })
 
   toggleText(): string {
-    console.log(this.state.physics)
     return this.state.physics ? 'Turn Physics Off' : 'Turn Physics On'
   }
 
@@ -163,6 +162,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
               backgroundColor={'#e4e6e1'}
               nameToGraph={this.state.nameToGraph}
               type={this.state.type}
+              physics={this.state.physics}
             />
           </div>
         }
