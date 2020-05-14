@@ -44,6 +44,7 @@
     "express": "^4.17.1",
     "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.25.3",
     "neo4j-driver": "^4.0.1",
     "neode": "^0.3.7",
     "parcel-bundler": "^1.12.4",
@@ -59,7 +60,6 @@
     "vis-react": "^0.5.1"
   },
   "devDependencies": {
-    "@types/node": "^13.7.1",
     "@types/react-autocomplete": "^1.8.5",
     "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^5.1.3",
