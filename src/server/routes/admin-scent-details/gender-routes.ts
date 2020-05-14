@@ -1,6 +1,8 @@
 import * as express from "express"
 import { checkAdmin } from '../../middleware'
 import { gender } from '../../models'
+import { ScentItem } from '../../../common/data-classes'
+import { convertToScentItem } from '../route-helpers'
 
 export function configureGenderRoutes(
   app: express.Application,
@@ -37,6 +39,32 @@ export function configureGenderRoutes(
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in creating a gender' })
+      }
+    }
+  )
+
+  app.get(
+    `${ADMIN_DETAILS_PATH}/all`,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model('Gender', gender)
+      const genders: ScentItem[] = []
+      try {
+        const result = await instance.cypher('MATCH (gender:Gender) RETURN gender')
+          .then((result: any) => {
+            result.records.map((row: any) => {
+              genders.push(convertToScentItem(row.get('gender')))
+            })
+            console.log(genders)
+            res.status(200).send(genders)
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching genders' })
       }
     }
   )

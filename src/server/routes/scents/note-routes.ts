@@ -1,7 +1,7 @@
 import * as express from "express"
 import { checkLogin } from '../../middleware'
 import { note, scent, brand } from '../../models'
-import { getName, promiseForBatch } from '../../routes'
+import { convertToScentItem, promiseForBatch } from '../../routes'
 import { ScentItem } from '../../../common/data-classes'
 
 export function configureNoteRoutes(
@@ -64,7 +64,7 @@ export function configureNoteRoutes(
   )
 
   app.get(
-    `${SCENT_DETAILS_PATH}/all`, checkLogin,
+    `${SCENT_DETAILS_PATH}/all`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Note', note)
@@ -73,7 +73,7 @@ export function configureNoteRoutes(
         const result = await instance.cypher('MATCH (note:Note) RETURN note')
           .then((result: any) => {
             result.records.map((row: any) => {
-              notes.push(getName(row.get('note')))
+              notes.push(convertToScentItem(row.get('note')))
             })
             console.log(notes)
             res.status(200).send(notes)
@@ -104,7 +104,7 @@ export function configureNoteRoutes(
         return scent, note`, params)
           .then((result: any) => {
             result.records.map((row: any) => {
-              notes.push(getName(row.get('note')))
+              notes.push(convertToScentItem(row.get('note')))
             })
             console.log(notes)
             res.status(200).send(notes)

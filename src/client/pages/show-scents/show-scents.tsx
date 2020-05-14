@@ -6,7 +6,14 @@ import Autocomplete from 'react-autocomplete'
 import { Button } from 'react-bootstrap'
 import { ScentGraph } from './scent-graph'
 import { Notification } from '../../components'
-import { categoryStyle, brandStyle, noteStyle } from './show-scent-styles'
+import {
+  categoryStyle,
+  brandStyle,
+  noteStyle,
+  genderStyle,
+  seasonStyle,
+  timeStyle
+} from './show-scent-styles'
 
 interface ShowScentsState {
   message: string,
@@ -15,6 +22,9 @@ interface ShowScentsState {
   allCategories: ScentItem[],
   allBrands: ScentItem[],
   allNotes: ScentItem[],
+  allGenders: ScentItem[],
+  allSeasons: ScentItem[],
+  allTimes: ScentItem[],
   type: string,
   physics: boolean
 }
@@ -31,6 +41,9 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       allCategories: [],
       allBrands: [],
       allNotes: [],
+      allGenders: [],
+      allSeasons: [],
+      allTimes: [],
       type: '',
       physics: true
     }
@@ -46,47 +59,51 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     await getAll('note').then(response => {
       this.setState({ allNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
+    await getAll('gender').then(response => {
+      this.setState({ allGenders: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
+    })
+    await getAll('season').then(response => {
+      this.setState({ allSeasons: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
+    })
+    await getAll('time').then(response => {
+      this.setState({ allTimes: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
+    })
   }
 
   isDisabled(): boolean {
-    if (this.state.type === 'category') {
-      return !this.isOneOfTheCategories()
-    } else if (this.state.type === 'brand') {
-      return !this.isOneOfTheBrands()
-    } else if (this.state.type === 'note') {
-      return !this.isOneOfTheNotes()
+    if (this.state.type) {
+      return !this.isOneOfTheCollection(this.state.type)
     }
     return true
   }
 
-  isOneOfTheCategories(): boolean {
-    return this.state.name !== '' && this.state.type === 'category' &&
-      this.state.allCategories && (this.getNames(this.state.allCategories)).includes(this.state.name)
+  isOneOfTheCollection(type: string): boolean {
+    return this.state.name !== '' && this.state.type === type &&
+      this.relevantCollection().length > 0 && (this.getNames(this.relevantCollection())).includes(this.state.name)
   }
 
-  isOneOfTheBrands(): boolean {
-    return this.state.name !== '' && this.state.type === 'brand' &&
-      this.state.allBrands && (this.getNames(this.state.allBrands)).includes(this.state.name)
+  relevantCollection(): ScentItem[] {
+    const type = this.state.type
+
+    if (type === 'category') {
+      return this.state.allCategories
+    } else if (type === 'brand') {
+      return this.state.allBrands
+    } else if (type === 'note') {
+      return this.state.allNotes
+    } else if (type === 'gender') {
+      return this.state.allGenders
+    } else if (type === 'season') {
+      return this.state.allSeasons
+    } else if (type === 'time') {
+      return this.state.allTimes
+    }
+    return []
   }
 
-  isOneOfTheNotes(): boolean {
-    return this.state.name !== '' && this.state.type === 'note' &&
-      this.state.allNotes && (this.getNames(this.state.allNotes)).includes(this.state.name)
-  }
 
   getNames(items: ScentItem[]): string[] {
     return items.map(item => item.name)
-  }
-
-  itemListChooser(): ScentItem[] {
-    if (this.state.type === 'category') {
-      return this.state.allCategories
-    } else if (this.state.type === 'brand') {
-      return this.state.allBrands
-    } else if (this.state.type === 'note') {
-      return this.state.allNotes
-    }
-    return []
   }
 
   onSubmit = async (event) => {
@@ -119,18 +136,21 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
           <> {' '}
             <Button style={categoryStyle} onClick={() => this.handleClick('category')}>Category</Button>{' '}
             <Button style={brandStyle} onClick={() => this.handleClick('brand')}>Brand</Button>{' '}
-            <Button style={noteStyle} onClick={() => this.handleClick('note')}>Note</Button>
+            <Button style={noteStyle} onClick={() => this.handleClick('note')}>Note</Button>{' '}
+            <Button style={genderStyle} onClick={() => this.handleClick('gender')}>Gender</Button>{' '}
+            <Button style={seasonStyle} onClick={() => this.handleClick('season')}>Season</Button>{' '}
+            <Button style={timeStyle} onClick={() => this.handleClick('time')}>Time of Day</Button>
           </>
         </h2>
 
-        {this.state.type !== '' && this.state.allCategories && this.state.allBrands && this.state.allNotes &&
+        {this.relevantCollection().length > 0 &&
           <form onSubmit={this.onSubmit}>
             <p>Select {this.state.type}:</p>
             <Autocomplete
               value={this.state.name}
               inputProps={{ id: 'category-autocomplete' }}
               wrapperStyle={{ position: 'relative', display: 'inline-block' }}
-              items={this.itemListChooser()}
+              items={this.relevantCollection()}
               getItemValue={(item: ScentItem) => item.name}
               shouldItemRender={matchInput}
               onChange={(event, value) => this.setState({ name: value })}

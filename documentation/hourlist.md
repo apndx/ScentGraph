@@ -37,6 +37,5 @@
 | 9.5. | 4,5 | Add note to scent form to have note addition input field. Route to relate note to a scent. Functional note addition form. |
 | 10.5. | 6,5 | Notes shown more logically. Better route result messages. Planning and testing how to show notes in a graph. Implementing note as a graph search criteria. Buttons on show-graph page to have colors from used color schema. Lists bo be sorted alphabetically. |
 | 13.5. | 3 | Button to toggle graph physics. Tooltip started: properties converted to node title. |
-| 14.5. | 2 | Node tooltip formatted. Edge label not to show, tooltip provides same info. Fixed scent in scent add to use model. moment library to format timestamps (has open issue with showing months https://github.com/moment/moment/issues/5515) |
-| all | 145 | |
-
+| 14.5. | 4 | Node tooltip formatted. Edge label not to show, tooltip provides same info. Fixed scent in scent add to use model. moment library to format timestamps (has open [issue](https://github.com/moment/moment/issues/5515) with showing months. Show scents to show scents from gender, season and time of day |
+| all | 147 | |

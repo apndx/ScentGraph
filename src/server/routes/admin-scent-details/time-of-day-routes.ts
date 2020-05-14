@@ -1,6 +1,8 @@
 import * as express from "express"
 import { checkAdmin } from '../../middleware'
 import { timeOfDay } from '../../models'
+import { ScentItem } from '../../../common/data-classes'
+import { convertToScentItem } from '../route-helpers'
 
 export function configureTimeOfDayRoutes(
   app: express.Application,
@@ -21,7 +23,7 @@ export function configureTimeOfDayRoutes(
           return res.status(400).json({ error: 'Time of day must be unique.' })
         }
         Promise.all([
-          instance.create("TimeOfDay", {
+          instance.create('TimeOfDay', {
             timename: req.body.itemName
           })
         ])
@@ -29,12 +31,38 @@ export function configureTimeOfDayRoutes(
             res.status(200).send(`Time of day ${time.properties().timename} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details); // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in creating a time of day' })
+      }
+    }
+  )
+
+  app.get(
+    `${ADMIN_DETAILS_PATH}/all`,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model('TimeOfDay', timeOfDay)
+      const times: ScentItem[] = []
+      try {
+        await instance.cypher('MATCH (time:TimeOfDay) RETURN time')
+          .then((result: any) => {
+            result.records.map((row: any) => {
+              times.push(convertToScentItem(row.get('time')))
+            })
+            console.log(times)
+            res.status(200).send(times)
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching times of day' })
       }
     }
   )

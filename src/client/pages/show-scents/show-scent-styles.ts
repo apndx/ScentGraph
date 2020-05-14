@@ -147,3 +147,21 @@ export const noteStyle = {
   'color': 'rgba(151, 194, 252)',
   'borderColor': 'rgba(151, 194, 252)'
 }
+
+export const genderStyle = {
+  'backgroundColor': 'transparent',
+  'color': 'rgba(136, 73, 94)',
+  'borderColor': 'rgba(136, 73, 94)'
+}
+
+export const seasonStyle = {
+  'backgroundColor': 'transparent',
+  'color': 'rgba(26, 188, 156)',
+  'borderColor': 'rgba(26, 188, 156)'
+}
+
+export const timeStyle = {
+  'backgroundColor': 'transparent',
+  'color': 'rgba(255, 153, 255)',
+  'borderColor': 'rgba(255, 153, 255)'
+}

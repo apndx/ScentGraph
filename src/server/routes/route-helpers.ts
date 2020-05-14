@@ -12,27 +12,10 @@ import {
 import * as neo4j from 'neo4j-driver'
 import * as moment from 'moment'
 
-export function getName(node: GraphNodeIn): ScentItem {
-  if (node.properties.brandname) {
-    return {
-      id: toSmallInteger(node.identity),
-      name: node.properties.brandname
-    }
-  } else if (node.properties.categoryname) {
-    return {
-      id: toSmallInteger(node.identity),
-      name: node.properties.categoryname
-    }
-  } else if (node.properties.notename) {
-    return {
-      id: toSmallInteger(node.identity),
-      name: node.properties.notename
-    }
-  } else {
-    return {
-      id: toSmallInteger(node.identity),
-      name: ''
-    }
+export function convertToScentItem(node: GraphNodeIn): ScentItem {
+  return {
+    id: toSmallInteger(node.identity),
+    name: extractName(node.properties)
   }
 }
 

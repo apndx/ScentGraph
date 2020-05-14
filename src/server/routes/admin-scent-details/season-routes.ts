@@ -1,6 +1,8 @@
 import * as express from "express"
 import { checkAdmin } from '../../middleware'
 import { season } from '../../models'
+import { ScentItem } from '../../../common/data-classes'
+import { convertToScentItem } from '../route-helpers'
 
 export function configureSeasonRoutes(
   app: express.Application,
@@ -36,6 +38,32 @@ export function configureSeasonRoutes(
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in creating a season' })
+      }
+    }
+  )
+
+  app.get(
+    `${ADMIN_DETAILS_PATH}/all`,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model('Season', season)
+      const seasons: ScentItem[] = []
+      try {
+        await instance.cypher('MATCH (season:Season) RETURN season')
+          .then((result: any) => {
+            result.records.map((row: any) => {
+              seasons.push(convertToScentItem(row.get('season')))
+            })
+            console.log(seasons)
+            res.status(200).send(seasons)
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching seasons' })
       }
     }
   )

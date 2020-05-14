@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { checkLogin } from '../../middleware'
 import { brand } from '../../models'
-import { getName } from '../../routes'
+import { convertToScentItem } from '../../routes'
 import { ScentItem } from '../../../common/data-classes'
 
 export function configureBrandRoutes(
@@ -53,7 +53,7 @@ export function configureBrandRoutes(
         const result = await instance.cypher('MATCH (brand:Brand) RETURN brand')
           .then((result: any) => {
             result.records.map((row: any) => {
-              brands.push(getName(row.get('brand')))
+              brands.push(convertToScentItem(row.get('brand')))
             })
             console.log(brands)
             res.status(200).send(brands)
