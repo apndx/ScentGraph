@@ -65,7 +65,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       },
       groups: groupStyles,
       physics: {
-        enabled: this.props.physics,
+        enabled: true,
         barnesHut: {
           avoidOverlap: 1
         }
@@ -73,7 +73,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     }
     this.events = {
       select(event) {
-          const { nodes, edges } = event
+        const { nodes, edges } = event
       },
     }
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
@@ -90,13 +90,21 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   public async componentDidUpdate(prevProps: ScentGraphProps) {
     if (this.props.nameToGraph !== prevProps.nameToGraph) {
       this.graphUpdate()
-    } else if (this.props.physics !== prevProps.physics) {
+    } else if (this.physicStateNeedsUpdate(prevProps)) {
       this.togglePhysics()
     }
   }
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions)
+  }
+
+
+  private physicStateNeedsUpdate(prevProps: ScentGraphProps) {
+    if (this.state.options && this.state.options.physics) {
+      return this.props.physics !== this.state.options.physics.enabled
+    }
+    return this.props.physics !== prevProps.physics
   }
 
   private updateWindowDimensions() {
@@ -107,13 +115,17 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     const physics = {
       enabled: this.props.physics
     }
-
     const options = {
       ...this.state.options,
       physics
     }
-
-    this.setState({ options })
+    this.setState({ options,  })
+    const data = {
+      nodes: this.state.graph.nodes,
+      edges: this.state.graph.edges,
+      options
+    }
+    this.state.network.setData(data)
   }
 
   private async graphUpdate() {
