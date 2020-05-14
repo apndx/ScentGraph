@@ -6,9 +6,11 @@ import {
   GraphNodeOut,
   GraphEdgeOut,
   AdminContent,
-  NeodeBatchQueryItem
+  NeodeBatchQueryItem,
+  NodePropertiesOut
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
+import * as moment from 'moment'
 
 export function getName(node: GraphNodeIn): ScentItem {
   if (node.properties.brandname) {
@@ -63,10 +65,18 @@ export function toSmallInteger(numberToConvert: NeoInteger): number {
 }
 
 export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
+  const nodeProperties: NodePropertiesOut = {
+    ...(node.properties && { name: extractName(node.properties) }),
+    ...(node.labels && { type: node.labels[0] }),
+    ...(node.properties.label && { label: node.properties.label }),
+    ...(node.properties.createdAt &&
+      { created: moment(node.properties.createdAt).format('DD.MM.YYYY HH:mm') })
+  }
+
   return ({
     id: toSmallInteger(node.identity),
     label: extractName(node.properties),
-    title: nodeTitleBuilder(node),
+    title: nodeTitleBuilder(nodeProperties),
     group: node.labels[0],
     properties: node.properties,
     labels: node.labels
@@ -83,7 +93,6 @@ export function edgeConverter(edge: GraphEdgeIn): GraphEdgeOut {
     id: toSmallInteger(edge.identity).toString(),
     from: toSmallInteger(edge.start),
     to: toSmallInteger(edge.end),
-    label: edge.type,
     properties: edge.properties,
     title: edge.type
   })
@@ -161,8 +170,7 @@ export function promiseForBatch(instance: any, notes: string[]) {
   })
 }
 
-export function nodeTitleBuilder(node: GraphNodeIn): string {
-  const properties = node.properties
+export function nodeTitleBuilder(properties: any): string {
   let title = ''
   for (const key in properties) {
     if (properties.hasOwnProperty(key)) {

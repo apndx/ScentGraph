@@ -57,9 +57,12 @@ export function configureScentRoutes(
           console.log('EXISTING', existingScent.records)
           return res.status(400).json({ error: 'Scent must be unique.' })
         }
+        await instance.create("Scent", {
+          scentname: req.body.scentname
+        })
         await instance.cypher(`
             MATCH (time:TimeOfDay{timename:$timename})
-            MERGE (scent:Scent{scentname:$scentname})
+            MATCH (scent:Scent{scentname:$scentname})
             MERGE (scent)-[belongs:BELONGS]->(time)-[has:HAS]->(scent)
             RETURN type(belongs), type(has), scent`, scentToBe)
         await instance.cypher(`

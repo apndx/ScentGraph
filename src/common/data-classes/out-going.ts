@@ -18,3 +18,10 @@ export interface GraphEdgeOut {
   title: string,
   properties: any
 }
+
+export interface NodePropertiesOut {
+  name?: string,
+  type?: string,
+  created?: string,
+  label?: string
+}
