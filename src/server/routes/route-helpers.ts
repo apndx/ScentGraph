@@ -61,7 +61,7 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
     label: extractName(node.properties),
     title: nodeTitleBuilder(nodeProperties),
     group: node.labels[0],
-    properties: node.properties,
+    properties: nodeProperties,
     labels: node.labels
   })
 }
@@ -103,9 +103,10 @@ export function getScentFromCypher(item: AdminContent): string {
     MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
     MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+    MATCH (scent:Scent)<-[addedby:ADDED]-(user:User)
     WHERE toLower(${type}.${name}) = toLower({${name}})
-    return scent, category, brand, season, time, gender,
-    belcategory, belbrand, belseason, beltime, belgender`
+    return scent, category, brand, season, time, gender, user,
+    belcategory, belbrand, belseason, beltime, belgender, addedby`
 }
 
 export function getScentFromNoteCypher(item: AdminContent): string {
@@ -118,9 +119,10 @@ export function getScentFromNoteCypher(item: AdminContent): string {
     MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
     MATCH (scent:Scent) -[hasnote:HAS]->(note:Note)
+    MATCH (scent:Scent)<-[addedby:ADDED]-(user:User)
     WHERE toLower(${type}.${name}) = toLower({${name}})
-    return scent, category, brand, season, time, gender, note,
-    belcategory, belbrand, belseason, beltime, belgender, hasnote`
+    return scent, category, brand, season, time, gender, note, user,
+    belcategory, belbrand, belseason, beltime, belgender, hasnote, addedby`
 }
 
 export function getallScentsCypher(item: AdminContent): string {

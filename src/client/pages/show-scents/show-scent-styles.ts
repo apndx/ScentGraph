@@ -93,7 +93,7 @@ const coldPink = {
   background: '#FF99FF',
   highlight: {
     border: '#48808f',
-    background: '#FFFFFF'
+    background: '#FFCCFF'
   },
 }
 
@@ -104,6 +104,16 @@ const defaultBlue = {
     border: '#48808f',
     background: '#d2e5ff'
   },
+}
+
+const greyWhite = {
+  border: '#48808f',
+  background: '#666666',
+  highlight: {
+    border: '#48808f',
+    background: '#FFFFFF'
+  },
+
 }
 
 export const groupStyles = {
@@ -127,6 +137,9 @@ export const groupStyles = {
   },
   Note: {
     color: defaultBlue
+  },
+  User: {
+    color: greyWhite
   }
 }
 
@@ -164,4 +177,10 @@ export const timeStyle = {
   'backgroundColor': 'transparent',
   'color': 'rgba(255, 153, 255)',
   'borderColor': 'rgba(255, 153, 255)'
+}
+
+export const userStyle = {
+  'backgroundColor': 'transparent',
+  'color': 'rgba(102, 102, 102)',
+  'borderColor': 'rgba(102, 102, 102)'
 }

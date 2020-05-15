@@ -35,7 +35,7 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
 
             <Nav.Link href='#' as='span'>
               {this.isAdmin() ?
-                <Link className='text-info' to='/adminTools'>Admin tools</Link>
+                <Link className='text-info' to='/adminTools'>Admin Tools</Link>
                 : <em></em>}
             </Nav.Link>
 
@@ -65,7 +65,7 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
           <Nav className="mr-auto">
 
             <Nav.Link href='#' as='span'>
-              <Link className='text-info' to='/newUser'>Add a user</Link>
+              <Link className='text-info' to='/newUser'>Add a User</Link>
             </Nav.Link>
 
             <Nav.Link href='#' as='span'>

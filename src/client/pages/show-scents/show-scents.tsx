@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DEFAULT_PROPS, matchInput, sortNames } from '../../utils'
+import { DEFAULT_PROPS, matchInput, sortNames, SessionStorageItem } from '../../utils'
 import { ScentItem } from '../../../common/data-classes'
 import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
@@ -12,7 +12,8 @@ import {
   noteStyle,
   genderStyle,
   seasonStyle,
-  timeStyle
+  timeStyle,
+  userStyle
 } from './show-scent-styles'
 
 interface ShowScentsState {
@@ -26,7 +27,8 @@ interface ShowScentsState {
   allSeasons: ScentItem[],
   allTimes: ScentItem[],
   type: string,
-  physics: boolean
+  physics: boolean,
+  loggedUser: ScentItem[]
 }
 
 export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsState> {
@@ -44,6 +46,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       allGenders: [],
       allSeasons: [],
       allTimes: [],
+      loggedUser: [],
       type: '',
       physics: true
     }
@@ -68,6 +71,12 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     await getAll('time').then(response => {
       this.setState({ allTimes: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
+    const loggedUser = this.loggedUser() === '' ? [] : [{ name: this.loggedUser(), id: 1 }]
+    this.setState({ loggedUser })
+  }
+
+  loggedUser(): string {
+    return window.sessionStorage.getItem(SessionStorageItem.LoginUser) || ''
   }
 
   isDisabled(): boolean {
@@ -97,6 +106,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       return this.state.allSeasons
     } else if (type === 'time') {
       return this.state.allTimes
+    } else if (type === 'user') {
+      return this.state.loggedUser
     }
     return []
   }
@@ -132,14 +143,15 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Show all scents from a
+        <h2>Show Scents
           <> {' '}
             <Button style={categoryStyle} onClick={() => this.handleClick('category')}>Category</Button>{' '}
             <Button style={brandStyle} onClick={() => this.handleClick('brand')}>Brand</Button>{' '}
             <Button style={noteStyle} onClick={() => this.handleClick('note')}>Note</Button>{' '}
             <Button style={genderStyle} onClick={() => this.handleClick('gender')}>Gender</Button>{' '}
             <Button style={seasonStyle} onClick={() => this.handleClick('season')}>Season</Button>{' '}
-            <Button style={timeStyle} onClick={() => this.handleClick('time')}>Time of Day</Button>
+            <Button style={timeStyle} onClick={() => this.handleClick('time')}>Time of Day</Button>{' '}
+            {this.loggedUser() !== '' && <Button style={userStyle} onClick={() => this.handleClick('user')}>Added by Me</Button>}
           </>
         </h2>
 

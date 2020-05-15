@@ -13,3 +13,16 @@ export const createUser = async (newObject) => {
     errorHandler(error)
   }
 }
+
+export const getUser = async (username: string) => {
+  const path = `${baseUrl}/loggedUser`
+  const config = {
+    headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
+  }
+  try {
+    const response = await axios.post(path, username, config)
+    return response.data
+  } catch (error) {
+    errorHandler(error)
+  }
+}
