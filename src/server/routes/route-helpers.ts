@@ -58,7 +58,7 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
 
   return ({
     id: toSmallInteger(node.identity),
-    label: extractName(node.properties),
+    label: node.labels[0] === 'User' ? node.properties.username : extractName(node.properties),
     title: nodeTitleBuilder(nodeProperties),
     group: node.labels[0],
     properties: nodeProperties,
