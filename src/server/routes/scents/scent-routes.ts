@@ -143,6 +143,7 @@ export function configureScentRoutes(
       instance.model("TimeOfDay", timeOfDay)
       instance.model("Gender", gender)
       instance.model("Note", gender)
+      instance.model("User", user)
       console.log('REQS', req.body)
       const cypher: string = req.body.type === 'note' ? getScentFromNoteCypher(req.body)
         : getScentFromCypher(req.body)
@@ -163,6 +164,7 @@ export function configureScentRoutes(
               const time: GraphNodeIn = row.get('time') || null
               const gender: GraphNodeIn = row.get('gender') || null
               const note: GraphNodeIn = req.body.type === 'note' ? row.get('note') : null
+              const user: GraphNodeIn = row.get('user') || null
 
               if (isUniqueNode(nodes, scent)) {
                 nodes.push(nodeConverter(scent))
@@ -185,6 +187,9 @@ export function configureScentRoutes(
               if (isUniqueNode(nodes, note)) {
                 nodes.push(nodeConverter(note))
               }
+              if (isUniqueNode(nodes, user)) {
+                nodes.push(nodeConverter(user))
+              }
 
               const belongsToCategory: GraphEdgeIn = row.get('belcategory') || null
               const belongsToBrand: GraphEdgeIn = row.get('belbrand') || null
@@ -192,6 +197,7 @@ export function configureScentRoutes(
               const belongsToTime: GraphEdgeIn = row.get('beltime') || null
               const belongsToGender: GraphEdgeIn = row.get('belgender') || null
               const hasNote: GraphEdgeIn = req.body.type === 'note' ? row.get('hasnote') : null
+              const addedBy: GraphEdgeIn = row.get('addedby') || null
 
               if (isUniqueEdge(edges, belongsToCategory)) {
                 edges.push(edgeConverter(belongsToCategory))
@@ -210,6 +216,9 @@ export function configureScentRoutes(
               }
               if (isUniqueEdge(edges, hasNote)) {
                 edges.push(edgeConverter(hasNote))
+              }
+              if (isUniqueEdge(edges, addedBy)) {
+                edges.push(edgeConverter(addedBy))
               }
             })
             console.log(nodes, edges)

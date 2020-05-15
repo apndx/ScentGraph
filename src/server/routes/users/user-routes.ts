@@ -2,6 +2,8 @@ import * as express from "express"
 import { checkAdmin } from '../../middleware'
 import { user } from '../../models'
 const bcrypt = require("bcryptjs")
+import { ScentItem } from '../../../common/data-classes'
+import { convertToScentItem } from '../route-helpers'
 
 export function configureUserRoutes(
   app: express.Application,
@@ -97,4 +99,29 @@ export function configureUserRoutes(
     }
   )
 
+  app.post(
+    `${USERS_PATH}/loggedUser`,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model('User', user)
+      const users: ScentItem[] = []
+      try {
+        const result = await instance.cypher('MATCH (user:User {username:{username}}) return user', req.body)
+          .then((result: any) => {
+            result.records.map((row: any) => {
+              users.push(convertToScentItem(row.get('user')))
+            })
+            console.log(users)
+            res.status(200).send(users)
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching user' })
+      }
+    }
+  )
 }
