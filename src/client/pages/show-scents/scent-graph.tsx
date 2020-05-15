@@ -22,6 +22,7 @@ export interface ScentGraphProps {
   nameToGraph?: string
   type?: string
   physics: boolean
+  filter: string
 }
 
 export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
@@ -92,6 +93,17 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       this.graphUpdate()
     } else if (this.physicStateNeedsUpdate(prevProps)) {
       this.togglePhysics()
+    } else if (this.props.filter !== prevProps.filter) {
+      const nodes = this.state.graph.nodes.filter(node => node.group !== this.props.filter)
+      console.log('filtered',nodes)
+      const updatedGraph = { ...this.state.graph, nodes}
+      this.setState({ graph: updatedGraph})
+      const data = {
+        nodes,
+        edges: this.state.graph.edges,
+        options: this.options
+      }
+      this.state.network.setData(data)
     }
   }
 
@@ -99,6 +111,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     window.removeEventListener('resize', this.updateWindowDimensions)
   }
 
+  private filterNeedsUpdate
 
   private physicStateNeedsUpdate(prevProps: ScentGraphProps) {
     if (this.state.options && this.state.options.physics) {
@@ -119,7 +132,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       ...this.state.options,
       physics
     }
-    this.setState({ options,  })
+    this.setState({ options })
     const data = {
       nodes: this.state.graph.nodes,
       edges: this.state.graph.edges,

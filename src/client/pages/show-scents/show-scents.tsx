@@ -28,7 +28,8 @@ interface ShowScentsState {
   allTimes: ScentItem[],
   type: string,
   physics: boolean,
-  loggedUser: ScentItem[]
+  loggedUser: ScentItem[],
+  filter: string
 }
 
 export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsState> {
@@ -48,7 +49,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       allTimes: [],
       loggedUser: [],
       type: '',
-      physics: true
+      physics: true,
+      filter: ''
     }
   }
 
@@ -130,7 +132,9 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     }
   }
 
-  handleClick = (type) => this.setState({ type, name: '' })
+  handleClick = (type) => this.setState({ type, name: '', filter: '' })
+
+  handleFilter = (filter) => this.setState({ filter })
 
   toggleAction = () => this.setState({ physics: !this.state.physics })
 
@@ -182,7 +186,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
             <p></p>
             <div>
               <Button disabled={this.isDisabled()} variant="outline-info" type="submit">Show</Button>{' '}
-              {this.state.nameToGraph && <Button variant="outline-info" onClick={() => this.toggleAction()}>{this.toggleText()}</Button>}
+              {this.state.nameToGraph && <Button variant="outline-info" onClick={() => this.toggleAction()}>{this.toggleText()}</Button>}{' '}
+              {this.state.nameToGraph && <Button style={brandStyle} onClick={() => this.handleFilter('Brand')}>Filter Brand</Button>}
             </div>
           </form>}
 
@@ -195,6 +200,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
               nameToGraph={this.state.nameToGraph}
               type={this.state.type}
               physics={this.state.physics}
+              filter={this.state.filter}
             />
           </div>
         }
