@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Graph from 'vis-react'
 import { getScentsFrom } from '../../services'
-import { GraphResult, AdminContent } from '../../../common/data-classes'
+import { GraphResult, AdminContent, GraphNodeOut } from '../../../common/data-classes'
 import { groupStyles } from './show-scent-styles'
 
 export interface ScentGraphState {
@@ -13,7 +13,8 @@ export interface ScentGraphState {
   loading: boolean,
   network: any,
   windowWidth: number,
-  windowHeight: number
+  windowHeight: number,
+  allNodes: GraphNodeOut[]
 }
 
 export interface ScentGraphProps {
@@ -22,7 +23,7 @@ export interface ScentGraphProps {
   nameToGraph?: string
   type?: string
   physics: boolean
-  filter: string
+  filter: string[]
 }
 
 export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
@@ -46,7 +47,8 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       events: {},
       network: null,
       windowWidth: 2000,
-      windowHeight: 1000
+      windowHeight: 1000,
+      allNodes: []
     }
     this.options = {
       layout: {
@@ -94,14 +96,13 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     } else if (this.physicStateNeedsUpdate(prevProps)) {
       this.togglePhysics()
     } else if (this.props.filter !== prevProps.filter) {
-      const nodes = this.state.graph.nodes.filter(node => node.group !== this.props.filter)
-      console.log('filtered',nodes)
-      const updatedGraph = { ...this.state.graph, nodes}
-      this.setState({ graph: updatedGraph})
+      const nodes = this.state.allNodes.filter(node => !this.props.filter.includes(node.group))
+      const updatedGraph = { ...this.state.graph, nodes }
+      this.setState({ graph: updatedGraph })
       const data = {
         nodes,
         edges: this.state.graph.edges,
-        options: this.options
+        options: this.state.options
       }
       this.state.network.setData(data)
     }
@@ -110,8 +111,6 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   public componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions)
   }
-
-  private filterNeedsUpdate
 
   private physicStateNeedsUpdate(prevProps: ScentGraphProps) {
     if (this.state.options && this.state.options.physics) {
@@ -144,9 +143,11 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
   private async graphUpdate() {
     try {
       this.setState({ loading: true })
-
       const item: AdminContent = { type: this.props.type, itemName: this.props.nameToGraph }
-      const graph: GraphResult = await getScentsFrom(item)
+      const graphResult: GraphResult = await getScentsFrom(item)
+      this.setState({ allNodes: graphResult.nodes })
+      const nodes = graphResult.nodes.filter(node => !this.props.filter.includes(node.group))
+      const graph = { ...graphResult, nodes }
       this.setState({
         options: this.options,
         graph,
@@ -160,8 +161,6 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       })
     }
   }
-
-
 
   private getNetwork = data => {
     this.setState({ network: data })
