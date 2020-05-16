@@ -55,3 +55,16 @@ export const noteToScent = async (newObject: ScentItem) => {
     errorHandler(error)
   }
 }
+
+export const notesForGraph = async (scentname: string) => {
+  const path = `${baseUrl}scents/scentNotesForGraph`
+  const config = {
+    headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
+  }
+  try {
+    const response = await axios.post(`${path}`, {scentname: scentname}, config)
+    return response.data
+  } catch (error) {
+    errorHandler(error)
+  }
+}

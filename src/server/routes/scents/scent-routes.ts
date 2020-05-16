@@ -236,6 +236,50 @@ export function configureScentRoutes(
   )
 
   app.post(
+    `${SCENTS_PATH}/scentNotesForGraph`,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model("Scent", scent)
+      instance.model("Note", gender)
+      console.log('REQS', req.body)
+      const params = { scentname: req.body.scentname }
+
+      const nodes: GraphNodeOut[] = []
+      const edges: GraphEdgeOut[] = []
+
+      try {
+        await instance.cypher(
+          `MATCH (scent:Scent {scentname:{scentname}})-[has:HAS]->(note:Note)
+          return note, has`, params)
+          .then((result: any) => {
+            result.records.map((row: any) => {
+
+              const note: GraphNodeIn = row.get('note') || null
+              if (isUniqueNode(nodes, note)) {
+                nodes.push(nodeConverter(note))
+              }
+
+              const has: GraphEdgeIn = row.get('has') || null
+              if (isUniqueEdge(edges, has)) {
+                edges.push(edgeConverter(has))
+              }
+
+            })
+            console.log(nodes, edges)
+            res.status(200).send({ nodes, edges })
+          })
+          .catch((e: any) => {
+            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+          })
+          .then(() => instance.close())
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: 'Something went wrong when fetching notes' })
+      }
+    }
+  )
+
+  app.post(
     `${SCENTS_PATH}/addNote`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
