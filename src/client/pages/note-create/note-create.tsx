@@ -3,7 +3,7 @@ import { ScentItem, AdminContent } from '../../../common/data-classes'
 import { getAll, getScentNotes, createItem, noteToScent } from '../../services'
 import { Notification, Note } from '../../components'
 import Autocomplete from 'react-autocomplete'
-import { matchScentInput, matchInput, sortNames } from '../../utils'
+import { matchScentInput, matchInput, sortNames, scentNamesBrands } from '../../utils'
 import { Button } from 'react-bootstrap'
 
 interface NoteCreateProps {
@@ -121,13 +121,9 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     return items.map(item => item.name)
   }
 
-  scentNamesBrands(items: ScentItem[]): string[] {
-    return items.map(item => `${item.name} - ${item.brand}`)
-  }
-
   isDisabled(): boolean {
     return this.state && (this.state.scent === '' ||
-      (this.state.allScents && !(this.scentNamesBrands(this.state.allScents)).includes(this.state.scent)))
+      (this.state.allScents && !(scentNamesBrands(this.state.allScents)).includes(this.state.scent)))
   }
 
   public render(): JSX.Element {

@@ -1,5 +1,12 @@
 import * as React from 'react'
-import { DEFAULT_PROPS, matchInput, sortNames, SessionStorageItem } from '../../utils'
+import {
+  DEFAULT_PROPS,
+  matchInput,
+  matchScentInput,
+  sortNames,
+  SessionStorageItem,
+  scentNamesBrands
+} from '../../utils'
 import { ScentItem } from '../../../common/data-classes'
 import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
@@ -13,13 +20,15 @@ import {
   genderStyle,
   seasonStyle,
   timeStyle,
-  userStyle
+  userStyle,
+  scentStyle
 } from './show-scent-styles'
 
 interface ShowScentsState {
   message: string,
   name: string,
   nameToGraph: string,
+  allScents: ScentItem[],
   allCategories: ScentItem[],
   allBrands: ScentItem[],
   allNotes: ScentItem[],
@@ -41,6 +50,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       message: '',
       name: '',
       nameToGraph: '',
+      allScents: [],
       allCategories: [],
       allBrands: [],
       allNotes: [],
@@ -55,6 +65,9 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
   }
 
   public async componentDidMount() {
+    await getAll('scents').then(response => {
+      this.setState({ allScents: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
+    })
     await getAll('category').then(response => {
       this.setState({ allCategories: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
@@ -82,8 +95,10 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
   }
 
   isDisabled(): boolean {
-    if (this.state.type) {
+    if (this.state.type && this.state.type !== 'scent') {
       return !this.isOneOfTheCollection(this.state.type)
+    } else if (this.state.type === 'scent') {
+      return this.state.allScents.length > 0 && !(scentNamesBrands(this.state.allScents)).includes(this.state.name)
     }
     return true
   }
@@ -110,6 +125,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
       return this.state.allTimes
     } else if (type === 'user') {
       return this.state.loggedUser
+    } else if (type === 'scent') {
+      return this.state.allScents
     }
     return []
   }
@@ -161,6 +178,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
         <Notification message={this.state.message} />
         <h2>Show Scents by
           <> {' '}
+            <Button style={scentStyle} onClick={() => this.handleClick('scent')}>Name</Button>{' '}
             <Button style={categoryStyle} onClick={() => this.handleClick('category')}>Category</Button>{' '}
             <Button style={brandStyle} onClick={() => this.handleClick('brand')}>Brand</Button>{' '}
             <Button style={noteStyle} onClick={() => this.handleClick('note')}>Note</Button>{' '}
@@ -179,8 +197,9 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
               inputProps={{ id: 'category-autocomplete' }}
               wrapperStyle={{ position: 'relative', display: 'inline-block' }}
               items={this.relevantCollection()}
-              getItemValue={(item: ScentItem) => item.name}
-              shouldItemRender={matchInput}
+              getItemValue={(item: ScentItem) => this.state.type === 'scent' ?
+                `${item.name} - ${item.brand}` : item.name}
+              shouldItemRender={this.state.type === 'scent' ? matchScentInput : matchInput}
               onChange={(event, value) => this.setState({ name: value })}
               onSelect={value => this.setState({ name: value })}
               renderMenu={children => (
@@ -192,7 +211,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
                 <div
                   className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
                   key={item.id}
-                >{item.name}</div>
+                >{this.state.type === 'scent' ? `${item.name} - ${item.brand}` : item.name}</div>
               )}
             />
             <p></p>
