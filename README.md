@@ -1,5 +1,7 @@
 # ScentGraph
 
+[![Build Status](https://travis-ci.org/apndx/ScentGraph.svg?branch=master)](https://travis-ci.org/apndx/ScentGraph)
+
 ScentGraph is a project for Helsinki University FullStack course. ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application will be hosted in Heroku. The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries will be done using Cypher and [neode](https://www.npmjs.com/package/neode).
 
 In ScentGraph users can add scents to the database. The scents can belong to various categories and the relations of scents, different scent categories and several scent properties can be visualized in a graph form.
@@ -12,7 +14,7 @@ ScentGraph has basic and admin users, and basic users can be created in the appl
 
 ## Local Usage
 
-This for this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these variables:
+For this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these variables:
 
 ```
 GRAPHENEDB_BOLT_URL
@@ -23,7 +25,7 @@ GRAPHENEDB_BOLT_PASSWORD
 For example like this (password in same form):
 
 ```
-GRAPHENEDB_BOLT_URL = bolt://localhost:768
+GRAPHENEDB_BOLT_URL = bolt://localhost:7687
 GRAPHENEDB_BOLT_USER = neo4j
 
 ```
