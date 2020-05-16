@@ -86,13 +86,42 @@ export function isNotNull(item: any): boolean {
   return item !== null
 }
 
-export function paramsForScentGraph(item: AdminContent): any {
+export function scentGraphParams(item: AdminContent): any {
   const type = item.type.toLowerCase()
   const value = item.itemName.toLowerCase()
   const key = `${type}name`
   let params: any = {}
   params[key] = value
   return params
+}
+
+export function scentGraphByNameParams(item: AdminContent): any {
+  const scentArray = item.itemName.split(' - ')
+  const scentname = scentArray[0]
+  const brandname = scentArray[1]
+  return {scentname, brandname}
+}
+
+export function cypherDecider(item: AdminContent): string {
+  if (item.type === 'note') {
+    return getScentFromNoteCypher(item)
+  } else if (item.type === 'scent') {
+    return getScentfromNameCypher()
+  } else {
+    return getScentFromCypher(item)
+  }
+}
+
+export function getScentfromNameCypher(): string {
+  return `
+    MATCH (scent:Scent{scentname:{scentname}}) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand{brandname:{brandname}})
+    MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+    MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+    MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+    MATCH (scent:Scent)<-[addedby:ADDED]-(user:User)
+    return scent, category, brand, season, time, gender, user,
+    belcategory, belbrand, belseason, beltime, belgender, addedby`
 }
 
 export function getScentFromCypher(item: AdminContent): string {

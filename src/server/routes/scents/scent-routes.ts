@@ -14,10 +14,10 @@ import {
   edgeConverter,
   isUniqueNode,
   isUniqueEdge,
-  getScentFromCypher,
-  getScentFromNoteCypher,
-  paramsForScentGraph,
-  getScentNameAndBrand
+  cypherDecider,
+  scentGraphParams,
+  getScentNameAndBrand,
+  scentGraphByNameParams
 } from '../route-helpers'
 
 export function configureScentRoutes(
@@ -145,9 +145,9 @@ export function configureScentRoutes(
       instance.model("Note", gender)
       instance.model("User", user)
       console.log('REQS', req.body)
-      const cypher: string = req.body.type === 'note' ? getScentFromNoteCypher(req.body)
-        : getScentFromCypher(req.body)
-      const params = paramsForScentGraph(req.body)
+      const cypher: string = cypherDecider(req.body)
+      const params = req.body.type === 'scent' ? scentGraphByNameParams(req.body)
+        : scentGraphParams(req.body)
 
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
