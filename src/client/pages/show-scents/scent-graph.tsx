@@ -1,8 +1,9 @@
 import * as React from 'react'
 import Graph from 'vis-react'
-import { getScentsFrom } from '../../services'
+import { getScentsFrom, notesForGraph } from '../../services'
 import { GraphResult, AdminContent, GraphNodeOut } from '../../../common/data-classes'
 import { groupStyles } from './show-scent-styles'
+import { isUniqueGraphNode, isUniqueGraphEdge } from '../../utils'
 
 export interface ScentGraphState {
   errorMessage?: string,
@@ -27,7 +28,7 @@ export interface ScentGraphProps {
 }
 
 export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
-  private events: { select }
+  private events: { doubleClick }
   private options: {
     layout: { hierarchical: boolean }
     edges: { color: string; arrows: { to: { enabled: boolean } } }
@@ -75,13 +76,14 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       }
     }
     this.events = {
-      select(event) {
-        const { nodes, edges } = event
+      doubleClick(event) {
+        this.getNotes(event)
       },
     }
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     this.togglePhysics = this.togglePhysics.bind(this)
-    this.events.select = this.events.select.bind(this)
+    this.events.doubleClick = this.events.doubleClick.bind(this)
+    this.getNotes = this.getNotes.bind(this)
   }
 
   public async componentDidMount() {
@@ -110,6 +112,35 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions)
+  }
+
+  private async getNotes(event) {
+    const nodeId = event.nodes[0]
+    if (nodeId) {
+      const selected = this.state.graph.nodes.find(node => node.id === nodeId)
+      if (selected.group === 'Scent') {
+        this.setState({ loading: true })
+        const noteResult: GraphResult = await notesForGraph(selected.label)
+        const noteNodes = noteResult.nodes.filter(node => isUniqueGraphNode(this.state.allNodes, node))
+        const noteEdges = noteResult.edges.filter(edge => isUniqueGraphEdge(this.state.graph.edges, edge))
+        const filteredNotes = noteNodes.filter(node => !this.props.filter.includes(node.group))
+        const allNodes = this.state.allNodes.concat(noteNodes)
+        const nodes = this.state.allNodes.concat(filteredNotes)
+        const edges = this.state.graph.edges.concat(noteEdges)
+        this.setState({
+          options: this.state.options,
+          graph: { nodes, edges },
+          loading: false,
+          allNodes
+        })
+        const data = {
+          nodes,
+          edges,
+          options: this.state.options
+        }
+        this.state.network.setData(data)
+      }
+    }
   }
 
   private physicStateNeedsUpdate(prevProps: ScentGraphProps) {

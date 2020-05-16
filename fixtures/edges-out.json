@@ -1,0 +1,9 @@
+[
+  { "id": "468", "from": 261, "to": 262, "properties": {}, "title": "HAS" },
+  { "id": "310", "from": 225, "to": 139, "properties": {}, "title": "BELONGS" },
+  { "id": "312", "from": 225, "to": 224, "properties": {}, "title": "BELONGS" },
+  { "id": "308", "from": 225, "to": 102, "properties": {}, "title": "BELONGS" },
+  { "id": "304", "from": 225, "to": 103, "properties": {}, "title": "BELONGS" },
+  { "id": "306", "from": 225, "to": 11, "properties": {}, "title": "BELONGS" },
+  { "id": "314", "from": 0, "to": 225, "properties": {}, "title": "ADDED" }
+]

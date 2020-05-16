@@ -1,0 +1,26 @@
+[
+  {
+    "id": 262,
+    "label": "Peony",
+    "title": "<strong>name:</strong> Peony<br><strong>type:</strong> Note<br><strong>created:</strong> 16.06.2020 12:49<br>",
+    "group": "Note",
+    "properties": {
+      "name": "Peony",
+      "type": "Note",
+      "created": "16.06.2020 12:49"
+    },
+    "labels": ["Note"]
+  },
+  {
+    "id": 263,
+    "label": "Yuzu",
+    "title": "<strong>name:</strong> Yuzu<br><strong>type:</strong> Note<br><strong>created:</strong> 16.06.2020 13:24<br>",
+    "group": "Note",
+    "properties": {
+      "name": "Yuzu",
+      "type": "Note",
+      "created": "16.06.2020 13:24"
+    },
+    "labels": ["Note"]
+  }
+]

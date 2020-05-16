@@ -1,0 +1,14 @@
+[
+  {
+    "id": 102,
+    "label": "Spring",
+    "title": "<strong>name:</strong> Spring<br><strong>type:</strong> Season<br><strong>created:</strong> Invalid date<br>",
+    "group": "Season",
+    "properties": {
+      "name": "Spring",
+      "type": "Season",
+      "created": "29.04.2020 17:16"
+    },
+    "labels": ["Season"]
+  }
+]
