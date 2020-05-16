@@ -24,7 +24,7 @@ export interface ScentGraphProps {
   nameToGraph?: string
   type?: string
   physics: boolean
-  filter: string[]
+  filters: string[]
 }
 
 export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
@@ -97,8 +97,8 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       this.graphUpdate()
     } else if (this.physicStateNeedsUpdate(prevProps)) {
       this.togglePhysics()
-    } else if (this.props.filter !== prevProps.filter) {
-      const nodes = this.state.allNodes.filter(node => !this.props.filter.includes(node.group))
+    } else if (this.props.filters !== prevProps.filters) {
+      const nodes = this.state.allNodes.filter(node => !this.props.filters.includes(node.group))
       const updatedGraph = { ...this.state.graph, nodes }
       this.setState({ graph: updatedGraph })
       const data = {
@@ -123,9 +123,9 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
         const noteResult: GraphResult = await notesForGraph(selected.label)
         const noteNodes = noteResult.nodes.filter(node => isUniqueGraphNode(this.state.allNodes, node))
         const noteEdges = noteResult.edges.filter(edge => isUniqueGraphEdge(this.state.graph.edges, edge))
-        const filteredNotes = noteNodes.filter(node => !this.props.filter.includes(node.group))
+        const filteredNotes = noteNodes.filter(node => !this.props.filters.includes(node.group))
         const allNodes = this.state.allNodes.concat(noteNodes)
-        const nodes = this.state.allNodes.concat(filteredNotes)
+        const nodes = this.state.graph.nodes.concat(filteredNotes)
         const edges = this.state.graph.edges.concat(noteEdges)
         this.setState({
           options: this.state.options,
@@ -177,13 +177,20 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
       const item: AdminContent = { type: this.props.type, itemName: this.props.nameToGraph }
       const graphResult: GraphResult = await getScentsFrom(item)
       this.setState({ allNodes: graphResult.nodes })
-      const nodes = graphResult.nodes.filter(node => !this.props.filter.includes(node.group))
+      const nodes = graphResult.nodes.filter(node => !this.props.filters.includes(node.group))
       const graph = { ...graphResult, nodes }
       this.setState({
         options: this.options,
         graph,
         loading: false
       })
+      const data = {
+        nodes,
+        edges: this.state.graph.edges,
+        options: this.state.options
+      }
+      this.state.network.setData(data)
+
     } catch (e) {
       const errorMessage = (e instanceof DOMException) ? 'Failed to load graph' : e.toString()
       this.setState({

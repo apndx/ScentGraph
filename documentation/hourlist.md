@@ -39,5 +39,5 @@
 | 13.5. | 3 | Button to toggle graph physics. Tooltip started: properties converted to node title. |
 | 14.5. | 5 | Node tooltip formatted. Edge label not to show, tooltip provides same info. Fixed scent in scent add to use model. moment library to format timestamps (has open [issue](https://github.com/moment/moment/issues/5515) with showing months). Show scents to show scents from gender, season and time of day. Physics toggle improvement. |
 | 15.5. | 5 | User can show the scent they have added in the scent graph. Button to filter different nodes from the graph, capability to have multiple filters, filter state persisted |
-| 16.5. | 2 | Double clicking the scent node notes for that scent will be fetched. Tests for graph helper functions. |
-| all | 155 | |
+| 16.5. | 3 | Double clicking the scent node notes for that scent will be fetched. Tests for graph helper functions. Fixing bugs in filter persistance and updating unmounted components |
+| all | 156 | |

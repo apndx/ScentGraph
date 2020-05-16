@@ -17,10 +17,12 @@ interface NoteCreateState {
   allNotes: ScentItem[],
   scentNotes: ScentItem[],
   notesFetched: boolean
+
 }
 
 export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateState> {
   private timer
+  private _isMounted
   constructor(props) {
     super(props)
     this.state = {
@@ -33,9 +35,11 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
       notesFetched: false
     }
     this.timer = null
+    this._isMounted = false
   }
 
   public async componentDidMount() {
+    this._isMounted = true
     await getAll('scents').then(response => {
       this.setState({ allScents: response.sort((a, b) => { return sortNames(a.name, b.name) }) })
     })
@@ -45,6 +49,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
   }
 
   public componentWillUnmount() {
+    this._isMounted = false
     clearTimeout(this.timer)
   }
 
@@ -96,7 +101,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
         })
         .then(() => {
           getScentNotes(scentItem).then(response => {
-            this.setState({ scentNotes: response .sort((a, b) => { return sortNames(a.name, b.name) }), note: '' })
+            this.setState({ scentNotes: response.sort((a, b) => { return sortNames(a.name, b.name) }), note: '' })
           })
         })
         .catch(message => {
@@ -106,9 +111,9 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
   }
 
   private setMessage(message) {
-    this.setState({ message: message })
+    this.setState({ message })
     this.timer = setTimeout(() => {
-      this.setState({ message: '' })
+      this._isMounted && this.setState({ message: '' })
     }, 20000)
   }
 
