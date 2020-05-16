@@ -53,7 +53,8 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
     ...(node.labels && { type: node.labels[0] }),
     ...(node.properties.label && { label: node.properties.label }),
     ...(node.properties.createdAt &&
-      { created: moment(node.properties.createdAt).format('DD.MM.YYYY HH:mm') })
+      { created: moment(node.properties.createdAt).format('DD.MM.YYYY HH:mm') }),
+    ...(node.labels[0] === 'Scent' && { notes: 'Double click to show' })
   }
 
   return ({
