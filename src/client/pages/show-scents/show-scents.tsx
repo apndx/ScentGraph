@@ -226,7 +226,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
               nameToGraph={this.state.nameToGraph}
               type={this.state.type}
               physics={this.state.physics}
-              filter={this.state.filters}
+              filters={this.state.filters}
             />
           </div>
         }
