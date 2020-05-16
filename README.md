@@ -12,7 +12,7 @@ ScentGraph has basic and admin users, and basic users can be created in the appl
 
 ## Local Usage
 
-This for this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these variables:
+For this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these variables:
 
 ```
 GRAPHENEDB_BOLT_URL
@@ -23,7 +23,7 @@ GRAPHENEDB_BOLT_PASSWORD
 For example like this (password in same form):
 
 ```
-GRAPHENEDB_BOLT_URL = bolt://localhost:768
+GRAPHENEDB_BOLT_URL = bolt://localhost:7687
 GRAPHENEDB_BOLT_USER = neo4j
 
 ```
