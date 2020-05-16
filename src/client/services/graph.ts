@@ -1,29 +1,29 @@
 import axios from 'axios'
 import { SessionStorageItem, errorHandler } from '../utils'
-import { ScentItem } from '../../common/data-classes'
+import { AdminContent } from '../../common/data-classes'
 
 const baseUrl = '/api/'
 
-export const getScentNotes = async (item: ScentItem) => {
-  const path = `${baseUrl}note`
+export const getScentsFrom = async (item: AdminContent) => {
+  const path = `${baseUrl}scents/allFrom`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
   try {
-    const response = await axios.post(`${path}/allForScent`, item, config)
+    const response = await axios.post(`${path}`, item, config)
     return response.data
   } catch (error) {
     errorHandler(error)
   }
 }
 
-export const noteToScent = async (item: ScentItem) => {
-  const path = `${baseUrl}scents`
+export const notesForGraph = async (scentname: string) => {
+  const path = `${baseUrl}scents/scentNotesForGraph`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
   try {
-    const response = await axios.post(`${path}/addNote`, item, config)
+    const response = await axios.post(`${path}`, {scentname: scentname}, config)
     return response.data
   } catch (error) {
     errorHandler(error)

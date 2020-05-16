@@ -10,15 +10,42 @@ ScentGraph has basic and admin users, and basic users can be created in the appl
 
 ## [Hours](https://github.com/apndx/ScentGraph/blob/master/documentation/hourlist.md)
 
-## Commands
+## Local Usage
 
-This application needs a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these:
+This for this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these variables:
 
 ```
 GRAPHENEDB_BOLT_URL
 GRAPHENEDB_BOLT_USER
 GRAPHENEDB_BOLT_PASSWORD
 ```
+
+For example like this (password in same form):
+
+```
+GRAPHENEDB_BOLT_URL = bolt://localhost:768
+GRAPHENEDB_BOLT_USER = neo4j
+
+```
+
+Local Neo4J can be started as a Docker instance:
+
+```
+docker pull neo4j:3.5.14
+docker run \
+    --name testneo4j3.5.14 \
+    -p7474:7474 -p7687:7687 \
+    -d \
+    -v $HOME/neo4j/data:/data \
+    -v $HOME/neo4j/logs:/logs \
+    -v $HOME/neo4j/import:/var/lib/neo4j/import \
+    -v $HOME/neo4j/plugins:/plugins \
+    --env NEO4J_AUTH=<your-neo4j-username>/<your-neo4j-password> \
+    neo4j:3.5.14
+
+```
+
+## Commands
 
 Start application in [local mode](http://localhost:3001/):
 ```

@@ -42,7 +42,7 @@ export function configureUserRoutes(
             ])
               .then(([user]) => {
                 console.log(`User ${user.properties().name} created`)
-                res.send(user.properties().name)
+                res.send(`User ${user.properties().name} created`)
               })
               .catch((e: any) => {
                 console.log("Error :(", e, e.details); // eslint-disable-line no-console
