@@ -10,8 +10,6 @@ ScentGraph has basic and admin users, and basic users can be created in the appl
 
 ## [Hours](https://github.com/apndx/ScentGraph/blob/master/documentation/hourlist.md)
 
-## Commands
-
 This application needs a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with these:
 
 ```
@@ -19,6 +17,8 @@ GRAPHENEDB_BOLT_URL
 GRAPHENEDB_BOLT_USER
 GRAPHENEDB_BOLT_PASSWORD
 ```
+
+## Commands
 
 Start application in [local mode](http://localhost:3001/):
 ```
