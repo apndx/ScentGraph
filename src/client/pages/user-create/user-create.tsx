@@ -49,7 +49,7 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
         })
         this.props.history.push({
           pathname: '/',
-          message: `User added: ${response.body}`
+          message: response
         })
       })
       .catch(message => {

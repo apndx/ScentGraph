@@ -105,7 +105,7 @@ export function configureScentRoutes(
   )
 
   app.get(
-    `${SCENTS_PATH}/all`, checkLogin,
+    `${SCENTS_PATH}/all`,
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Scent', scent)
