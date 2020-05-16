@@ -2,11 +2,9 @@
 
 ScentGraph has Neo4J graph database, and more precicely [GrapheneDB](https://elements.heroku.com/addons/graphenedb) in Heroku.
 
-The database queries will be done using Cypher and [neode](https://www.npmjs.com/package/neode).
+The database queries are done using [Cypher](https://neo4j.com/developer/cypher-query-language/) and [neode](https://www.npmjs.com/package/neode).
 
-Schema:
-<img src="https://github.com/apndx/ScentGraph/blob/master/documentation/schema.jpg" width="800">
-
+The queries used in ScentGraph can be found in project [routes](https://github.com/apndx/ScentGraph/tree/master/src/server/routes) codebase.
 
 The database has some constraints:
 
