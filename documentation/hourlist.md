@@ -40,5 +40,5 @@
 | 14.5. | 5 | Node tooltip formatted. Edge label not to show, tooltip provides same info. Fixed scent in scent add to use model. moment library to format timestamps (has open [issue](https://github.com/moment/moment/issues/5515) with showing months). Show scents to show scents from gender, season and time of day. Physics toggle improvement. |
 | 15.5. | 5 | User can show the scent they have added in the scent graph. Button to filter different nodes from the graph, capability to have multiple filters, filter state persisted |
 | 16.5. | 8,5 | Double clicking the scent node notes for that scent will be fetched. Tests for graph helper functions. Fixing bugs in filter persistance and updating unmounted components. Graph search by scent name and brand combo. Readme updates. Testing Neo4j-docker, refactoring client services according to usage. Travis CI back with Neo4j Docker. |
-| 17.5. | 1 | Adding info link to my github into nav bar. Refactoring services/routes to more logical form. |
-| all | 162,5 | |
+| 17.5. | 2 | Adding info link to my github into nav bar. Refactoring services/routes to more logical form. |
+| all | 163,5 | |

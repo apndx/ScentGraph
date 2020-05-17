@@ -7,7 +7,7 @@ export default async () => {
     
     const envParams = {
         PORT: '8000',
-        NEO4J_URL: process.env.NEO4J_URL || 'bolt://localhost:7687',
+        NEO4J_URL: process.env.GRAPHENEDB_BOLT_URL || 'bolt://localhost:7687',
         API_URL: 'http://localhost:5000',
     }
     process.env = {...process.env, ...envParams}
@@ -15,8 +15,8 @@ export default async () => {
     // @ts-ignore
     global.__APP_CONFIG__ = config
 
-    const neoDriver = configureNeo4jDriver(process.env.NEO4J_URL, process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
-    const neodeInstance = configureNeode(process.env.NEO4J_URL, process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    const neoDriver = configureNeo4jDriver(process.env.GRAPHENEDB_BOLT_URL, process.env.GRAPHENEDB_BOLT_USER, process.env.GRAPHENEDB_BOLT_PASSWORD)
+    const neodeInstance = configureNeode(process.env.GRAPHENEDB_BOLT_URL, process.env.GRAPHENEDB_BOLT_USER, process.env.GRAPHENEDB_BOLT_PASSWORD)
     // @ts-ignore
     global.__NEO4J_DRIVER__ = neoDriver
     // @ts-ignore
