@@ -87,7 +87,7 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
               onChange={(event) => { this.setState({ password: event.target.value }) }}
               id='password'
             />
-
+            <p></p>
             <Button disabled={this.isDisabled()} variant="outline-info" type="submit">Submit</Button>
           </Form.Group>
         </form>

@@ -14,6 +14,7 @@ import {
 } from './pages'
 import 'bootstrap/dist/css/bootstrap.css'
 import { SessionStorageItem } from '../client/utils'
+import { ExternalRedirect } from '../client/components'
 
 class App extends React.Component {
 
@@ -24,7 +25,6 @@ class App extends React.Component {
     }
   }
 
-
   componentDidMount() {
     window.addEventListener('storage', this.handleStorageChange)
   }
@@ -33,16 +33,12 @@ class App extends React.Component {
   }
 
   handleStorageChange(e) {
-    console.log('STORAGE')
     const loggedUserJSON = window.sessionStorage.getItem(SessionStorageItem.LoginUser)
-    console.log('LOG', loggedUserJSON)
     if (loggedUserJSON) {
       const loginUser = JSON.parse(loggedUserJSON)
       this.setState({ loginUser })
     }
   }
-
-
 
   public render(): JSX.Element {
 
@@ -57,10 +53,9 @@ class App extends React.Component {
           <Route exact path={ClientRoutePath.AdminTools} component={AdminTools} />
           <Route exact path={ClientRoutePath.Login} component={Login} />
           <Route exact path={ClientRoutePath.Logout} component={Logout} />
-          <Route exact path={ClientRoutePath.Info} component={() => {
-            window.location.replace('https://github.com/apndx/ScentGraph')
-            return null
-          }} />
+          <ExternalRedirect exact={true}
+            path={'/info'}
+            link={'https://github.com/apndx/ScentGraph'} />
         </Switch>
       </BrowserRouter>
     )
