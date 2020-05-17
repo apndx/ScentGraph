@@ -120,4 +120,38 @@ export function configureNoteRoutes(
     }
   )
 
+  app.post(
+    `${SCENT_DETAILS_PATH}/addtoScent`, checkLogin,
+    async (req: express.Request, res: express.Response) => {
+
+      instance.model("Scent", scent)
+      instance.model("Brand", brand)
+      instance.model("Note", note)
+
+      try {
+        const params = { scentname: req.body.name, brandname: req.body.brand, notename: req.body.note }
+        const scentHasNoteAlready = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
+        -[:BELONGS]->(brand:Brand {brandname:{brandname}})
+        MATCH (note:Note {notename:{notename}})-[:BELONGS]->(scent)
+        return scent, brand, note`, params)
+        if (scentHasNoteAlready.records.length > 0) {
+          console.log('EXISTING', scentHasNoteAlready.records)
+          return res.status(400).json({ error: 'Scent already has this note.' })
+        }
+        await instance.cypher(`
+        MATCH (scent:Scent {scentname:{scentname}})-[belbrand:BELONGS]->(brand:Brand {brandname:{brandname}})
+        MATCH (note:Note{notename:$notename})
+        MERGE (note)-[belongs:BELONGS]->(scent)-[has:HAS]->(note)
+        RETURN type(belongs), type(has), scent, note`, params)
+          .then(() => {
+            console.log(`Note added to scent`)
+            res.status(200).send(`Note added to scent`)
+          })
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: `Something went wrong when adding note to a scent ${e}` })
+      }
+    }
+  )
+
 }

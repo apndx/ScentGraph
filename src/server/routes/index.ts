@@ -4,6 +4,7 @@ import { configureLoginRoutes } from './login/login-routes'
 import { configureScentRoutes } from './scents/scent-routes'
 import { configureBrandRoutes } from './scents/brand-routes'
 import { configureNoteRoutes } from './scents/note-routes'
+import { configureGraphRoutes } from './graph/graph-routes'
 import {
   configureGenderRoutes,
   configureSeasonRoutes,
@@ -29,6 +30,7 @@ export function configureRoutes(
   configureCategoryRoutes(app, neode, API_PATH)
   configureBrandRoutes(app, neode, API_PATH)
   configureNoteRoutes(app, neode, API_PATH)
+  configureGraphRoutes(app, neode, API_PATH)
   configureRouteNotFoundMiddleware(config, app, API_PATH)  // this should be last
 }
 
