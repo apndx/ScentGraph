@@ -6,7 +6,8 @@ export enum ClientRoutePath {
     ShowCategoryScents = '/showScents',
     AdminTools = '/adminTools',
     Login = '/login',
-    Logout = '/logout'
+    Logout = '/logout',
+    Info = '/info'
 }
 
 export function getClientRoute(path: ClientRoutePath): string {

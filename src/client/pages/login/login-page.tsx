@@ -41,7 +41,6 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
 
     login(userObject)
       .then(response => {
-        console.log(`Welcome ${response.user.name}!`)
         this.setState({ username: '', password: '' })
         this.props.history.push({
           pathname: '/',

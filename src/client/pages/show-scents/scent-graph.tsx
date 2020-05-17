@@ -100,13 +100,14 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     } else if (this.props.filters !== prevProps.filters) {
       const nodes = this.state.allNodes.filter(node => !this.props.filters.includes(node.group))
       const updatedGraph = { ...this.state.graph, nodes }
+      const edges = this.state.graph.edges || null
       this.setState({ graph: updatedGraph })
-      const data = {
-        nodes,
-        edges: this.state.graph.edges,
-        options: this.state.options
-      }
-      this.state.network.setData(data)
+        const data = {
+          nodes,
+          edges,
+          options: this.state.options
+        }
+        this.state.network.setData(data)
     }
   }
 
