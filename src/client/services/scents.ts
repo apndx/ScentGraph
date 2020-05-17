@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { SessionStorageItem, errorHandler } from '../utils'
-import { AdminContent, ScentItem } from '../../common/data-classes'
 
 const baseUrl = '/api/'
 

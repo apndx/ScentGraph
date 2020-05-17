@@ -5,7 +5,7 @@ import { AdminContent } from '../../common/data-classes'
 const baseUrl = '/api/'
 
 export const getScentsFrom = async (item: AdminContent) => {
-  const path = `${baseUrl}scents/allFrom`
+  const path = `${baseUrl}graph/allFrom`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }
@@ -18,7 +18,7 @@ export const getScentsFrom = async (item: AdminContent) => {
 }
 
 export const notesForGraph = async (scentname: string) => {
-  const path = `${baseUrl}scents/scentNotesForGraph`
+  const path = `${baseUrl}graph/scentNotesForGraph`
   const config = {
     headers: { 'Authorization': `bearer ${sessionStorage.getItem(SessionStorageItem.Authorization)}` }
   }

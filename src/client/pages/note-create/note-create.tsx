@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ScentItem, AdminContent } from '../../../common/data-classes'
-import { getAll, getScentNotes, createItem, noteToScent } from '../../services'
+import { getAll, getScentNotes, createItem, attachNoteToScent } from '../../services'
 import { Notification, Note } from '../../components'
 import Autocomplete from 'react-autocomplete'
 import { matchScentInput, matchInput, sortNames, scentNamesBrands } from '../../utils'
@@ -79,7 +79,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
       createItem(newNote)
         .then(response => {
           this.setMessage(response)
-          noteToScent(scentItem)
+          attachNoteToScent(scentItem)
             .then(response => {
               this.setMessage(response)
             })
@@ -95,7 +95,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
           this.setMessage(`Something went wrong: ${message}`)
         })
     } else {
-      noteToScent(scentItem)
+      attachNoteToScent(scentItem)
         .then(response => {
           this.setMessage(response)
         })

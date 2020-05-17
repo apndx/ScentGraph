@@ -57,6 +57,10 @@ class App extends React.Component {
           <Route exact path={ClientRoutePath.AdminTools} component={AdminTools} />
           <Route exact path={ClientRoutePath.Login} component={Login} />
           <Route exact path={ClientRoutePath.Logout} component={Logout} />
+          <Route exact path={ClientRoutePath.Info} component={() => {
+            window.location.replace('https://github.com/apndx/ScentGraph')
+            return null
+          }} />
         </Switch>
       </BrowserRouter>
     )
