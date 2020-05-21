@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "semicolon": [true, "never", "ignore-interfaces"],
+    "quotemark": [true, "single", "avoid-escape"],
+    "trailing-comma": false,
+    "ordered-imports": false,
+    "no-trailing-whitespace": true,
+    "member-ordering": false,
+    "no-string-literal": false,
+    "object-litera-sort-keys": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "max-line-length": [true, 255],
+    "interface-name": [true, "never-prefix"]
+  }
+}

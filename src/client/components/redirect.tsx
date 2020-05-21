@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const ExternalRedirect: React.FC<Props> = (props: Props) => {
-  const { link, ...routeProps } = props;
+  const { link, ...routeProps } = props
 
   return (
     <Route

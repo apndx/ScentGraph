@@ -1,40 +1,40 @@
 export const season = {
   season_id: {
-    type: "uuid",
+    type: 'uuid',
     primary: true
   },
   seasonname: {
-    type: "string",
+    type: 'string',
     index: true
   },
   has: {
-    type: "relationship",
-    relationship: "HAS",
-    direction: "out",
+    type: 'relationship',
+    relationship: 'HAS',
+    direction: 'out',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       }
     }
   },
   belongs: {
-    type: "relationship",
-    relationship: "BELONGS",
-    direction: "in",
+    type: 'relationship',
+    relationship: 'BELONGS',
+    direction: 'in',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
       width: {
-        type: "number",
+        type: 'number',
         default: 50
       }
     }
   },
   createdAt: {
-    type: "datetime",
+    type: 'datetime',
     default: () => new Date()
   }
 }

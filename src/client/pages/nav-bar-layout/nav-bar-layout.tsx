@@ -29,9 +29,9 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
   public renderUserLogged(): JSX.Element {
     return (
       <div >
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+        <Navbar.Collapse id='responsive-navbar-nav'>
+          <Nav className='mr-auto'>
 
             <Nav.Link href='#' as='span'>
               {this.isAdmin() ?
@@ -60,9 +60,9 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
   public renderNoLogin(): JSX.Element {
     return (
       <div >
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+        <Navbar.Collapse id='responsive-navbar-nav'>
+          <Nav className='mr-auto'>
 
             <Nav.Link href='#' as='span'>
               <Link className='text-info' to='/newUser'>Add a User</Link>
@@ -93,7 +93,7 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
   public render(): JSX.Element {
     return (
       <div>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
           <Navbar.Brand>
             <Link className='front-page' to='/'>
               <img

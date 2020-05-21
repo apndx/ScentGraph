@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkAdmin, checkLogin } from '../../middleware'
 import { category } from '../../models'
 import { convertToScentItem } from '../route-helpers'
@@ -15,7 +15,7 @@ export function configureCategoryRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Category", category)
+      instance.model('Category', category)
 
       try {
 
@@ -25,7 +25,7 @@ export function configureCategoryRoutes(
         }
 
         Promise.all([
-          instance.create("Category", {
+          instance.create('Category', {
             categoryname: req.body.itemName,
             label: req.body.label
           })
@@ -34,7 +34,7 @@ export function configureCategoryRoutes(
             res.status(200).send(`Category ${category.properties().categoryname} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -60,7 +60,7 @@ export function configureCategoryRoutes(
             res.status(200).send(categories)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -80,7 +80,7 @@ export function configureCategoryRoutes(
             res.status(200).send('Category deleted')
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

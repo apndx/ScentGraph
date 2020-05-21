@@ -3,7 +3,7 @@ import { SessionStorageItem } from '../../utils'
 import { createItem } from '../../services'
 import { AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
-import { Notification} from '../../components'
+import { Notification } from '../../components'
 
 interface AdminToolsProps {
   history: any,
@@ -43,7 +43,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
     return window.sessionStorage.getItem(SessionStorageItem.LoginRole) === 'admin'
   }
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault()
     const adminContent: AdminContent = {
       itemName: this.state.itemName,
@@ -84,13 +84,13 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
         <Notification message={this.state.message} />
         <h2>Add an item for scent creation</h2>
         <form onSubmit={this.onSubmit}>
-          <Form.Group controlId="adminForm.TypeSelect">
+          <Form.Group controlId='adminForm.TypeSelect'>
             <Form.Label> Choose Item type </Form.Label>
             <Form.Control
-              name="type"
-              as="select" multiple
-              placeholder="select"
-              onChange={(event) => { this.handleChange(event) }}>
+              name='type'
+              as='select' multiple
+              placeholder='select'
+              onChange={event => { this.handleChange(event) }}>
               <option>Season</option>
               <option>Time</option>
               <option>Gender</option>
@@ -100,23 +100,23 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
           <Form.Group>
             <Form.Label> Item name </Form.Label>
             <Form.Control
-              type="text"
-              name="itemName"
+              type='text'
+              name='itemName'
               value={this.state.itemName}
-              onChange={(event) => { this.setState({ itemName: event.target.value }) }}
+              onChange={event => { this.setState({ itemName: event.target.value }) }}
               id='itemName' />
           </Form.Group>
           {this.state.type === 'category' &&
             <Form.Group>
               <Form.Label> Label </Form.Label>
               <Form.Control
-                type="text"
-                name="label"
+                type='text'
+                name='label'
                 value={this.state.label}
-                onChange={(event) => { this.setState({ label: event.target.value }) }}
+                onChange={event => { this.setState({ label: event.target.value }) }}
                 id='label' />
             </Form.Group>}
-          <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>
+          <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>save</Button>
         </form>
       </div >
     )

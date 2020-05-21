@@ -15,7 +15,7 @@ export function configureBrandRoutes(
     `${SCENT_DETAILS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Brand", brand)
+      instance.model('Brand', brand)
 
       try {
 
@@ -25,7 +25,7 @@ export function configureBrandRoutes(
         }
 
         Promise.all([
-          instance.create("Brand", {
+          instance.create('Brand', {
             brandname: req.body.itemName
           })
         ])
@@ -33,7 +33,7 @@ export function configureBrandRoutes(
             res.status(200).send(`Brand ${brand.properties().brandname} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -59,7 +59,7 @@ export function configureBrandRoutes(
             res.status(200).send(brands)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

@@ -132,7 +132,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     return []
   }
 
-  onSubmit = async (event) => {
+  onSubmit = async event => {
     event.preventDefault()
     try {
       if (this.state.name !== '') {
@@ -145,7 +145,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     }
   }
 
-  handleClick = (type) => this.setState({ type, name: '' })
+  handleClick = type => this.setState({ type, name: '' })
 
   handleFilter = (filter: string) => {
     const filtered = this.state.filters
@@ -200,7 +200,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
               onChange={(event, value) => this.setState({ name: value })}
               onSelect={value => this.setState({ name: value })}
               renderMenu={children => (
-                <div className="menu">
+                <div className='menu'>
                   {children}
                 </div>
               )}
@@ -213,8 +213,8 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
             />
             <p></p>
             <div>
-              <Button disabled={this.isDisabled()} variant="outline-info" type="submit">Show</Button>{' '}
-              {this.state.nameToGraph && <Button variant="outline-info"
+              <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>Show</Button>{' '}
+              {this.state.nameToGraph && <Button variant='outline-info'
                 onClick={() => this.toggleAction()}>{this.togglePhysicsButtonText()}</Button>}{' '}
               {this.state.nameToGraph && <Button style={categoryStyle}
                 onClick={() => this.handleFilter('Category')}>{this.toggleFilterButtonText('Category')}</Button>}{' '}

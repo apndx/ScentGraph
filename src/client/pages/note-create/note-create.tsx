@@ -53,7 +53,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     clearTimeout(this.timer)
   }
 
-  onScentWasChosen = async (event) => {
+  onScentWasChosen = async event => {
     event.preventDefault()
     const scentArray = this.state.scent.split(' - ')
     const scentItem: ScentItem = { name: scentArray[0], brand: scentArray[1] }
@@ -62,7 +62,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     })
   }
 
-  onNoteAdd = async (event) => {
+  onNoteAdd = async event => {
     event.preventDefault()
     const scentArray = this.state.scent.split(' - ')
     const scentItem: ScentItem = {
@@ -144,7 +144,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
               onChange={(event, value) => this.setState({ scent: value })}
               onSelect={value => this.setState({ scent: value, notesFetched: false })}
               renderMenu={children => (
-                <div className="menu">
+                <div className='menu'>
                   {children}
                 </div>
               )}
@@ -157,11 +157,11 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
             />}
           <p></p>
           <div>
-            <Button disabled={this.isDisabled()} variant="outline-info" type="submit">Get existing notes for scent</Button>
+            <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>Get existing notes for scent</Button>
           </div>
         </form>
         <p></p>
-        <p>Select or add a Note:</p>
+        <p>Select or add a Note (at the moment all notes are public and shared):</p>
         <form onSubmit={this.onNoteAdd}>
           {this.state.allNotes &&
             <Autocomplete
@@ -174,7 +174,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
               onChange={(event, value) => this.setState({ note: value })}
               onSelect={value => this.setState({ note: value })}
               renderMenu={children => (
-                <div className="menu">
+                <div className='menu'>
                   {children}
                 </div>
               )}
@@ -187,7 +187,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
             />}
           <p></p>
           <div>
-            <Button variant="outline-info" type="submit">Attach</Button>
+            <Button variant='outline-info' type='submit'>Attach</Button>
           </div>
         </form>
 

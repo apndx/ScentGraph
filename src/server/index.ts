@@ -1,10 +1,10 @@
-import { loadServerConfig, configureNeo4jDriver, configureNeode } from "./config"
-import { startServer, stopServer } from "./server"
+import { loadServerConfig, configureNeo4jDriver, configureNeode } from './config'
+import { startServer, stopServer } from './server'
 import * as dotenv from 'dotenv'
 
 const config = loadServerConfig()
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
@@ -19,7 +19,7 @@ const neodeInstance = configureNeode(neodeUrl, neodeUser, neodePass)
 
 const server = startServer(config, driver, neodeInstance)
 server.then(instance => {
-  process.on("SIGINT", async () => {
+  process.on('SIGINT', async () => {
     stopServer(instance, driver, neodeInstance)
   })
 })

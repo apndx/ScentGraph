@@ -34,7 +34,7 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
     return this.state && (this.state.name === '' || this.state.username.length < 5 || this.state.password.length < 8)
   }
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault()
     const userObject: ClientUser = {
       name: this.state.name,
@@ -79,32 +79,32 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
 
             <Form.Label> Name </Form.Label>
             <Form.Control
-              type="text"
-              name="name"
+              type='text'
+              name='name'
               value={this.state.name}
-              onChange={(event) => { this.setState({ name: event.target.value }) }}
+              onChange={event => { this.setState({ name: event.target.value }) }}
               id='name'
             />
 
             <Form.Label> Username </Form.Label>
             <Form.Control
-              type="text"
-              name="username"
+              type='text'
+              name='username'
               value={this.state.username}
-              onChange={(event) => { this.setState({ username: event.target.value }) }}
+              onChange={event => { this.setState({ username: event.target.value }) }}
               id='username'
             />
 
             <Form.Label> Password </Form.Label>
             <Form.Control
-              type="password"
-              name="password"
+              type='password'
+              name='password'
               value={this.state.password}
-              onChange={(event) => { this.setState({ password: event.target.value }) }}
+              onChange={event => { this.setState({ password: event.target.value }) }}
               id='password'
             />
 
-            <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>
+            <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>save</Button>
           </Form.Group>
         </form>
       </div>

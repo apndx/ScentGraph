@@ -1,5 +1,5 @@
-import * as neo4j from "neo4j-driver"
-const neode = require("neode")
+import * as neo4j from 'neo4j-driver'
+const neode = require('neode')
 
 export interface ServerConfig {
   env: string
@@ -10,9 +10,9 @@ export interface ServerConfig {
 
 export function loadServerConfig(): ServerConfig {
   const serverConfig = {
-    env: process.env.NODE_ENV || "local",
+    env: process.env.NODE_ENV || 'local',
     serverPort: parseInt(process.env.PORT as string, 10) || 3001,
-    publicPath: "../../dist",
+    publicPath: '../../dist',
     apiUrl: process.env.API_URL || `http://localhost:3000`,
     neo4jUrl: process.env.NEO4J_URL || 'bolt://localhost:7687'
   }
@@ -33,5 +33,5 @@ export function configureNeode(
   username: any,
   password: any
 ): any {
-    return new neode(url, username, password)
+  return new neode(url, username, password)
 }

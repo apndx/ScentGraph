@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkAdmin } from '../../middleware'
 import { season } from '../../models'
 import { ScentItem } from '../../../common/data-classes'
@@ -15,7 +15,7 @@ export function configureSeasonRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Season", season)
+      instance.model('Season', season)
 
       try {
         const existingSeason = await instance.cypher('MATCH (season:Season {seasonname:{itemName}}) return season.seasonname', req.body)
@@ -23,7 +23,7 @@ export function configureSeasonRoutes(
           return res.status(400).json({ error: 'Season must be unique.' })
         }
         Promise.all([
-          instance.create("Season", {
+          instance.create('Season', {
             seasonname: req.body.itemName
           })
         ])
@@ -32,7 +32,7 @@ export function configureSeasonRoutes(
             res.status(200).send(`Season ${season.properties().seasonname} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -58,7 +58,7 @@ export function configureSeasonRoutes(
             res.status(200).send(seasons)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -78,7 +78,7 @@ export function configureSeasonRoutes(
             res.status(200).send('Season deleted')
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

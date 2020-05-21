@@ -1,76 +1,76 @@
 export const user = {
   user_id: {
-    type: "uuid",
+    type: 'uuid',
     primary: true
   },
   username: {
-    type: "string",
+    type: 'string',
     index: true
   },
   passwordHash: {
-    type: "string"
+    type: 'string'
   },
   name: {
-    type: "string",
+    type: 'string',
     index: true
   },
   role: {
-    type: "string",
-    default: "user"
+    type: 'string',
+    default: 'user'
   },
   has: {
-    type: "relationship",
-    relationship: "HAS",
-    direction: "out",
+    type: 'relationship',
+    relationship: 'HAS',
+    direction: 'out',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
       description: {
-        type: "string"
+        type: 'string'
       }
     }
   },
   likes: {
-    type: "relationship",
-    relationship: "LIKES",
-    direction: "out",
+    type: 'relationship',
+    relationship: 'LIKES',
+    direction: 'out',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
       width: {
-        type: "number",
+        type: 'number',
         default: 50
       }
     }
   },
   belongs: {
-    type: "relationship",
-    relationship: "BELONGS",
-    direction: "in",
+    type: 'relationship',
+    relationship: 'BELONGS',
+    direction: 'in',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
     }
   },
   added: {
-    type: "relationship",
-    relationship: "ADDED",
-    direction: "out",
+    type: 'relationship',
+    relationship: 'ADDED',
+    direction: 'out',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
     }
   },
   createdAt: {
-    type: "datetime",
+    type: 'datetime',
     default: () => new Date()
   }
 }

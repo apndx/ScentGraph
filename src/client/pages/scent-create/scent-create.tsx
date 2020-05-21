@@ -90,7 +90,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
     return items.map(item => item.name)
   }
 
-  onSubmit = async (event) => {
+  onSubmit = async event => {
     event.preventDefault()
 
     const scentToCreate: ScentToCreate = {
@@ -162,43 +162,43 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
           <Form.Group>
             <Form.Label> Scent name </Form.Label>
             <Form.Control
-              type="text"
-              name="scentname"
+              type='text'
+              name='scentname'
               value={this.state.scentname}
-              onChange={(event) => { this.setState({ scentname: event.target.value }) }}
+              onChange={event => { this.setState({ scentname: event.target.value }) }}
               id='scentname' />
           </Form.Group>
-          <Form.Group controlId="scentForm.SeasonSelect">
+          <Form.Group controlId='scentForm.SeasonSelect'>
             <Form.Label> Choose Season </Form.Label>
             <Form.Control
-              name="season"
-              as="select" multiple
-              placeholder="select"
-              onChange={(event) => { this.handleSeasonChange(event) }}>
+              name='season'
+              as='select' multiple
+              placeholder='select'
+              onChange={event => { this.handleSeasonChange(event) }}>
               <option>Winter</option>
               <option>Spring</option>
               <option>Summer</option>
               <option>Autumn</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group controlId="scentForm.TimeSelect">
+          <Form.Group controlId='scentForm.TimeSelect'>
             <Form.Label> Choose Time of Day </Form.Label>
             <Form.Control
-              name="timename"
-              as="select" multiple
-              placeholder="select"
-              onChange={(event) => { this.handleTimeChange(event) }}>
+              name='timename'
+              as='select' multiple
+              placeholder='select'
+              onChange={event => { this.handleTimeChange(event) }}>
               <option>Day</option>
               <option>Night</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group controlId="scentForm.genderSelect">
+          <Form.Group controlId='scentForm.genderSelect'>
             <Form.Label> Choose Gender </Form.Label>
             <Form.Control
-              name="gendername"
-              as="select" multiple
-              placeholder="select"
-              onChange={(event) => { this.handleGenderChange(event) }}>
+              name='gendername'
+              as='select' multiple
+              placeholder='select'
+              onChange={event => { this.handleGenderChange(event) }}>
               <option>Female</option>
               <option>Male</option>
               <option>Unisex</option>
@@ -216,7 +216,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               onChange={(event, value) => this.setState({ categoryname: value })}
               onSelect={value => this.setState({ categoryname: value })}
               renderMenu={children => (
-                <div className="menu">
+                <div className='menu'>
                   {children}
                 </div>
               )}
@@ -239,7 +239,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               onChange={(event, value) => this.setState({ brandname: value })}
               onSelect={value => this.setState({ brandname: value })}
               renderMenu={children => (
-                <div className="menu">
+                <div className='menu'>
                   {children}
                 </div>
               )}
@@ -252,7 +252,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
             />}
           <p></p>
           <div>
-            <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>
+            <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>save</Button>
           </div>
         </form>
       </div >
