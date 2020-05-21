@@ -5,7 +5,8 @@ import {
   matchScentInput,
   sortNames,
   SessionStorageItem,
-  scentNamesBrands
+  scentNamesBrands,
+  getNames
 } from '../../utils'
 import { ScentItem } from '../../../common/data-classes'
 import { getAll } from '../../services'
@@ -105,7 +106,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
 
   isOneOfTheCollection(type: string): boolean {
     return this.state.name !== '' && this.state.type === type &&
-      this.relevantCollection().length > 0 && (this.getNames(this.relevantCollection())).includes(this.state.name)
+      this.relevantCollection().length > 0 && (getNames(this.relevantCollection())).includes(this.state.name)
   }
 
   relevantCollection(): ScentItem[] {
@@ -131,10 +132,6 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     return []
   }
 
-  getNames(items: ScentItem[]): string[] {
-    return items.map(item => item.name)
-  }
-
   onSubmit = async (event) => {
     event.preventDefault()
     try {
@@ -153,11 +150,14 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
   handleFilter = (filter: string) => {
     const filtered = this.state.filters
     if (filtered.includes(filter)) {
-      const edited = filtered.filter(f => { f !== filter })
+      const edited = filtered.filter(f => f !== filter)
+      console.log('edited', edited)
       this.setState({ filters: edited })
+      console.log('FILTER REM',this.state.filters)
     } else {
       const edited = filtered.concat(filter)
       this.setState({ filters: edited })
+      console.log('FILTER ADD',this.state.filters)
     }
   }
 

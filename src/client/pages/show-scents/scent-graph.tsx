@@ -98,6 +98,7 @@ export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphS
     } else if (this.physicStateNeedsUpdate(prevProps)) {
       this.togglePhysics()
     } else if (this.props.filters !== prevProps.filters) {
+      console.log('GRAPH F', this.props.filters)
       const nodes = this.state.allNodes.filter(node => !this.props.filters.includes(node.group))
       const updatedGraph = { ...this.state.graph, nodes }
       const edges = this.state.graph.edges || null

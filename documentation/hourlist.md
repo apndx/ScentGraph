@@ -41,4 +41,5 @@
 | 15.5. | 5 | User can show the scent they have added in the scent graph. Button to filter different nodes from the graph, capability to have multiple filters, filter state persisted |
 | 16.5. | 8,5 | Double clicking the scent node notes for that scent will be fetched. Tests for graph helper functions. Fixing bugs in filter persistance and updating unmounted components. Graph search by scent name and brand combo. Readme updates. Testing Neo4j-docker, refactoring client services according to usage. Travis CI back with Neo4j Docker. |
 | 17.5. | 3 | Adding info link into nav bar, link redirects to my Github. Refactoring services/routes and env variables to more logical form. Info link redirecting improvement.|
-| all | 164,5 | |
+| 18.5. | 1,5 | Installing eslint. Unit test for name transforming function. Fix for filter bug. |
+| all | 166 | |
