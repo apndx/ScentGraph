@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-import * as express from "express"
+import * as express from 'express'
 
 export const getTokenFrom = (request: express.Request) => {
   const authorization = request.get('authorization')
@@ -79,4 +79,4 @@ export const checkAdmin = (req: express.Request, res: express.Response, next: ex
       res.status(500).json({ error: error })
     }
   }
-}  
+}

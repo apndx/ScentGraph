@@ -32,7 +32,7 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
     return this.state && (this.state.username === '' || this.state.password === '')
   }
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault()
     const userObject: ClientUser = {
       username: this.state.username,
@@ -72,23 +72,23 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
           <Form.Group>
             <Form.Label> Username </Form.Label>
             <Form.Control
-              type="text"
-              name="username"
+              type='text'
+              name='username'
               value={this.state.username}
-              onChange={(event) => { this.setState({ username: event.target.value }) }}
+              onChange={event => { this.setState({ username: event.target.value }) }}
               id='username'
             />
 
             <Form.Label> Password </Form.Label>
             <Form.Control
-              type="password"
-              name="password"
+              type='password'
+              name='password'
               value={this.state.password}
-              onChange={(event) => { this.setState({ password: event.target.value }) }}
+              onChange={event => { this.setState({ password: event.target.value }) }}
               id='password'
             />
             <p></p>
-            <Button disabled={this.isDisabled()} variant="outline-info" type="submit">Submit</Button>
+            <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>Submit</Button>
           </Form.Group>
         </form>
       </div>

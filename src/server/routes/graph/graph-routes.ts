@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { scent, brand, timeOfDay, gender, season, category, user, note } from '../../models'
 import {
   GraphNodeOut,
@@ -28,14 +28,14 @@ export function configureGraphRoutes(
     `${GRAPH_PATH}/allFrom`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Scent", scent)
-      instance.model("Category", category)
-      instance.model("Brand", brand)
-      instance.model("Season", season)
-      instance.model("TimeOfDay", timeOfDay)
-      instance.model("Gender", gender)
-      instance.model("Note", gender)
-      instance.model("User", user)
+      instance.model('Scent', scent)
+      instance.model('Category', category)
+      instance.model('Brand', brand)
+      instance.model('Season', season)
+      instance.model('TimeOfDay', timeOfDay)
+      instance.model('Gender', gender)
+      instance.model('Note', gender)
+      instance.model('User', user)
       console.log('REQS', req.body)
       const cypher: string = cypherDecider(req.body)
       const params = req.body.type === 'scent' ? scentGraphByNameParams(req.body)
@@ -117,7 +117,7 @@ export function configureGraphRoutes(
             res.status(200).send({ nodes, edges })
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -131,8 +131,8 @@ export function configureGraphRoutes(
     `${GRAPH_PATH}/scentNotesForGraph`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Scent", scent)
-      instance.model("Note", gender)
+      instance.model('Scent', scent)
+      instance.model('Note', gender)
       console.log('REQS', req.body)
       const params = { scentname: req.body.scentname }
 
@@ -161,7 +161,7 @@ export function configureGraphRoutes(
             res.status(200).send({ nodes, edges })
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

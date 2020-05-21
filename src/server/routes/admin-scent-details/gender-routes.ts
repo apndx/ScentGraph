@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkAdmin } from '../../middleware'
 import { gender } from '../../models'
 import { ScentItem } from '../../../common/data-classes'
@@ -15,7 +15,7 @@ export function configureGenderRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Gender", gender)
+      instance.model('Gender', gender)
 
       try {
 
@@ -25,7 +25,7 @@ export function configureGenderRoutes(
         }
 
         Promise.all([
-          instance.create("Gender", {
+          instance.create('Gender', {
             gendername: req.body.itemName
           })
         ])
@@ -33,7 +33,7 @@ export function configureGenderRoutes(
             res.status(200).send(`Gender ${gender.properties().gendername} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -59,7 +59,7 @@ export function configureGenderRoutes(
             res.status(200).send(genders)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -79,7 +79,7 @@ export function configureGenderRoutes(
             res.status(200).send('Gender deleted')
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

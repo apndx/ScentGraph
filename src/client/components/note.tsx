@@ -2,7 +2,7 @@ import * as React from 'react'
 
 export const Note = ({ note }) => (
   <div>
-    <div className="details">
+    <div className='details'>
       {note.name}
     </div>
   </div>

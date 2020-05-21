@@ -1,46 +1,46 @@
 export const scent = {
   scent_id: {
-    type: "uuid",
+    type: 'uuid',
     primary: true
   },
   scentname: {
-    type: "string",
+    type: 'string',
     index: true
   },
   description: {
-    type: "string"
+    type: 'string'
   },
   url: {
-    type: "string"
+    type: 'string'
   },
   has: {
-    type: "relationship",
-    relationship: "HAS",
-    direction: "both",
+    type: 'relationship',
+    relationship: 'HAS',
+    direction: 'both',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
       width: {
-        type: "number",
+        type: 'number',
         default: 50
       }
     }
   },
   belongs: {
-    type: "relationship",
-    relationship: "BELONGS",
-    direction: "both",
+    type: 'relationship',
+    relationship: 'BELONGS',
+    direction: 'both',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       }
     }
   },
   createdAt: {
-    type: "datetime",
+    type: 'datetime',
     default: () => new Date()
   }
 }

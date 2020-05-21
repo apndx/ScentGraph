@@ -1,7 +1,7 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkAdmin } from '../../middleware'
 import { user } from '../../models'
-const bcrypt = require("bcryptjs")
+const bcrypt = require('bcryptjs')
 import { ScentItem } from '../../../common/data-classes'
 import { convertToScentItem } from '../route-helpers'
 
@@ -16,7 +16,7 @@ export function configureUserRoutes(
     `${USERS_PATH}/add`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("User", user)
+      instance.model('User', user)
 
       try {
         if (req.body.password.length < 8) {
@@ -34,7 +34,7 @@ export function configureUserRoutes(
 
           .then((hash: string) => {
             Promise.all([
-              instance.create("User", {
+              instance.create('User', {
                 name: req.body.name,
                 username: req.body.username,
                 passwordHash: hash
@@ -45,7 +45,7 @@ export function configureUserRoutes(
                 res.send(`User ${user.properties().name} created`)
               })
               .catch((e: any) => {
-                console.log("Error :(", e, e.details); // eslint-disable-line no-console
+                console.log('Error :(', e, e.details) // eslint-disable-line no-console
               })
               .then(() => instance.close())
           })
@@ -66,7 +66,7 @@ export function configureUserRoutes(
             res.status(200).send('User deleted')
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -115,7 +115,7 @@ export function configureUserRoutes(
             res.status(200).send(users)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

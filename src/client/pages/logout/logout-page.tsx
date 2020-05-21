@@ -39,10 +39,10 @@ export class Logout extends React.PureComponent<LogoutProps, LogoutState> {
     }
   }
 
-   public render(): JSX.Element {
-     return(
-       <Notification message= {this.state.message}/>
-     )
-   } 
+  public render(): JSX.Element {
+    return (
+      <Notification message={this.state.message} />
+    )
+  }
 
 }

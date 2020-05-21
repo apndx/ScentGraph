@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkLogin } from '../../middleware'
 import { note, scent, brand } from '../../models'
 import { convertToScentItem, promiseForBatch } from '../../routes'
@@ -15,7 +15,7 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Note", note)
+      instance.model('Note', note)
 
       try {
         const existingNote = await instance.cypher('MATCH (note:Note {notename:{itemName}}) return note.notename', req.body)
@@ -24,7 +24,7 @@ export function configureNoteRoutes(
         }
 
         Promise.all([
-          instance.create("Note", {
+          instance.create('Note', {
             notename: req.body.itemName
           })
         ])
@@ -32,7 +32,7 @@ export function configureNoteRoutes(
             res.status(200).send(`Note ${note.properties().notename} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -46,7 +46,7 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/addBatch`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Note", note)
+      instance.model('Note', note)
       const queries = promiseForBatch(instance, req.body)
 
       try {
@@ -79,7 +79,7 @@ export function configureNoteRoutes(
             res.status(200).send(notes)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -110,7 +110,7 @@ export function configureNoteRoutes(
             res.status(200).send(notes)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -124,9 +124,9 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/addtoScent`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("Scent", scent)
-      instance.model("Brand", brand)
-      instance.model("Note", note)
+      instance.model('Scent', scent)
+      instance.model('Brand', brand)
+      instance.model('Note', note)
 
       try {
         const params = { scentname: req.body.name, brandname: req.body.brand, notename: req.body.note }

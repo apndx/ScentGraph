@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkAdmin } from '../../middleware'
 import { timeOfDay } from '../../models'
 import { ScentItem } from '../../../common/data-classes'
@@ -15,7 +15,7 @@ export function configureTimeOfDayRoutes(
     `${ADMIN_DETAILS_PATH}/add`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model("TimeOfDay", timeOfDay)
+      instance.model('TimeOfDay', timeOfDay)
 
       try {
         const existingTime = await instance.cypher('MATCH (time:TimeOfDay {timename:{itemName}}) return time.timename', req.body)
@@ -31,7 +31,7 @@ export function configureTimeOfDayRoutes(
             res.status(200).send(`Time of day ${time.properties().timename} created`)
           })
           .catch((e: any) => {
-            console.log('Error :(', e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -57,7 +57,7 @@ export function configureTimeOfDayRoutes(
             res.status(200).send(times)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -77,7 +77,7 @@ export function configureTimeOfDayRoutes(
             res.status(200).send('Time of day deleted')
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {

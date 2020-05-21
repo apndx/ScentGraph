@@ -1,40 +1,40 @@
 export const note = {
   note_id: {
-    type: "uuid",
+    type: 'uuid',
     primary: true
   },
   notename: {
-    type: "string",
+    type: 'string',
     index: true
   },
   has: {
-    type: "relationship",
-    relationship: "HAS",
-    direction: "in",
+    type: 'relationship',
+    relationship: 'HAS',
+    direction: 'in',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       },
       width: {
-        type: "number",
+        type: 'number',
         default: 50
       }
     }
   },
   belongs: {
-    type: "relationship",
-    relationship: "BELONGS",
-    direction: "out",
+    type: 'relationship',
+    relationship: 'BELONGS',
+    direction: 'out',
     properties: {
       since: {
-        type: "localdatetime",
+        type: 'localdatetime',
         default: () => new Date()
       }
     }
   },
   createdAt: {
-    type: "datetime",
+    type: 'datetime',
     default: () => new Date()
   }
 }

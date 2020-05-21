@@ -1,24 +1,8 @@
-import * as express from "express"
+import * as express from 'express'
 import { checkLogin, authenticateToken } from '../../middleware'
-import { scent, brand, timeOfDay, gender, season, category, user, note } from '../../models'
-import {
-  ScentToCreate,
-  GraphNodeOut,
-  GraphEdgeOut,
-  GraphNodeIn,
-  GraphEdgeIn,
-  ScentItem
-} from '../../../common/data-classes'
-import {
-  nodeConverter,
-  edgeConverter,
-  isUniqueNode,
-  isUniqueEdge,
-  cypherDecider,
-  scentGraphParams,
-  getScentNameAndBrand,
-  scentGraphByNameParams
-} from '../route-helpers'
+import { scent, brand, timeOfDay, gender, season, category, user } from '../../models'
+import { ScentToCreate, ScentItem } from '../../../common/data-classes'
+import { getScentNameAndBrand } from '../route-helpers'
 
 export function configureScentRoutes(
   app: express.Application,
@@ -38,13 +22,13 @@ export function configureScentRoutes(
         username
       }
 
-      instance.model("Scent", scent)
-      instance.model("Brand", brand)
-      instance.model("TimeOfDay", timeOfDay)
-      instance.model("Gender", gender)
-      instance.model("Season", season)
-      instance.model("Category", category)
-      instance.model("User", user)
+      instance.model('Scent', scent)
+      instance.model('Brand', brand)
+      instance.model('TimeOfDay', timeOfDay)
+      instance.model('Gender', gender)
+      instance.model('Season', season)
+      instance.model('Category', category)
+      instance.model('User', user)
 
       try {
         if (scentToBe.scentname.length < 1) {
@@ -57,7 +41,7 @@ export function configureScentRoutes(
           console.log('EXISTING', existingScent.records)
           return res.status(400).json({ error: 'Scent must be unique.' })
         }
-        await instance.create("Scent", {
+        await instance.create('Scent', {
           scentname: req.body.scentname
         })
         await instance.cypher(`
@@ -94,7 +78,7 @@ export function configureScentRoutes(
             res.status(200).send(`Scent ${scentToBe.scentname} created`)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -109,10 +93,10 @@ export function configureScentRoutes(
     async (req: express.Request, res: express.Response) => {
 
       instance.model('Scent', scent)
-      instance.model("Brand", brand)
+      instance.model('Brand', brand)
       const scents: ScentItem[] = []
       try {
-        await instance.cypher(`MATCH (scent:Scent) 
+        await instance.cypher(`MATCH (scent:Scent)
           -[belbrand:BELONGS]->(brand:Brand) RETURN scent, brand`)
           .then((result: any) => {
             result.records.map((row: any) => {
@@ -122,7 +106,7 @@ export function configureScentRoutes(
             res.status(200).send(scents)
           })
           .catch((e: any) => {
-            console.log("Error :(", e, e.details); // eslint-disable-line no-console
+            console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
           .then(() => instance.close())
       } catch (e) {
@@ -131,7 +115,5 @@ export function configureScentRoutes(
       }
     }
   )
-
-
 
 }

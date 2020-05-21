@@ -1,6 +1,6 @@
-import * as express from "express"
+import * as express from 'express'
 const jwt = require('jsonwebtoken')
-const bcrypt = require("bcryptjs")
+const bcrypt = require('bcryptjs')
 import { Token, ClientUser } from '../../../common/data-classes'
 
 export function configureLoginRoutes(
