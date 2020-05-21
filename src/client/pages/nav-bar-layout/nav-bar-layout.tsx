@@ -72,10 +72,6 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
               <Link className='text-info' to='/login'>Login</Link>
             </Nav.Link>
 
-            <Nav.Link href='#' as='span'>
-              <Link className='text-info' to='/info'>Info</Link>
-            </Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
       </div>
@@ -109,6 +105,10 @@ class NavBarLayout extends React.PureComponent<NavBarLayoutProps, EMPTY_STATE> {
               />
             </Link>
           </Navbar.Brand>
+
+          <Nav.Link href='#' as='span'>
+            <Link className='text-info' to='/info'>Info</Link>
+          </Nav.Link>
 
           <Nav.Link href='#' as='span'>
             <Link className='text-info' to='/showScents'>Show Scents</Link>
