@@ -151,13 +151,10 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     const filtered = this.state.filters
     if (filtered.includes(filter)) {
       const edited = filtered.filter(f => f !== filter)
-      console.log('edited', edited)
       this.setState({ filters: edited })
-      console.log('FILTER REM',this.state.filters)
     } else {
       const edited = filtered.concat(filter)
       this.setState({ filters: edited })
-      console.log('FILTER ADD',this.state.filters)
     }
   }
 
