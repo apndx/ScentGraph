@@ -3,7 +3,7 @@ import { SessionStorageItem } from '../../utils'
 import { createItem } from '../../services'
 import { AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
-import { Notification} from '../../components'
+import { Notification } from '../../components'
 
 interface AdminToolsProps {
   history: any,
@@ -43,7 +43,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
     return window.sessionStorage.getItem(SessionStorageItem.LoginRole) === 'admin'
   }
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault()
     const adminContent: AdminContent = {
       itemName: this.state.itemName,
@@ -90,7 +90,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
               name="type"
               as="select" multiple
               placeholder="select"
-              onChange={(event) => { this.handleChange(event) }}>
+              onChange={event => { this.handleChange(event) }}>
               <option>Season</option>
               <option>Time</option>
               <option>Gender</option>
@@ -103,7 +103,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
               type="text"
               name="itemName"
               value={this.state.itemName}
-              onChange={(event) => { this.setState({ itemName: event.target.value }) }}
+              onChange={event => { this.setState({ itemName: event.target.value }) }}
               id='itemName' />
           </Form.Group>
           {this.state.type === 'category' &&
@@ -113,7 +113,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
                 type="text"
                 name="label"
                 value={this.state.label}
-                onChange={(event) => { this.setState({ label: event.target.value }) }}
+                onChange={event => { this.setState({ label: event.target.value }) }}
                 id='label' />
             </Form.Group>}
           <Button disabled={this.isDisabled()} variant="outline-info" type="submit">save</Button>

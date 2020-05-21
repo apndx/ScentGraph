@@ -29,7 +29,7 @@ class App extends React.Component {
     window.addEventListener('storage', this.handleStorageChange)
   }
   componentWillUnmount() {
-    window.removeEventListener('storage', this.handleStorageChange);
+    window.removeEventListener('storage', this.handleStorageChange)
   }
 
   handleStorageChange(e) {

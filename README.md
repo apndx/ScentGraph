@@ -12,9 +12,9 @@ I have used [Fragrantica](https://www.fragrantica.com/) as a big source for insp
 
 <img src="https://github.com/apndx/ScentGraph/blob/master/documentation/scent-graph-show-scents.png" width="800">
 
-## [Hours](https://github.com/apndx/ScentGraph/blob/master/documentation/hourlist.md)
+### [Hours](https://github.com/apndx/ScentGraph/blob/master/documentation/hourlist.md)
 
-## Local Usage
+### Local Usage
 
 For this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with GRAPHENE variables, for example like this:
 
@@ -24,26 +24,20 @@ GRAPHENEDB_BOLT_USER = neo4j
 GRAPHENEDB_BOLT_PASSWORD = supersecretpassword
 ```
 
-Local Neo4J can be started as a Docker instance:
+Local Neo4J can be started as a [Neo4J Docker](https://neo4j.com/developer/docker/) instance. Install and usage instructions for this can be found in the [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) introduction.
+
+### Commands
+
+After cloning the repository these commands can be used in the repository root.
+
+Install dependencies:
 
 ```
-docker pull neo4j:3.5.14
-docker run \
-    --name testneo4j3.5.14 \
-    -p7474:7474 -p7687:7687 \
-    -d \
-    -v $HOME/neo4j/data:/data \
-    -v $HOME/neo4j/logs:/logs \
-    -v $HOME/neo4j/import:/var/lib/neo4j/import \
-    -v $HOME/neo4j/plugins:/plugins \
-    --env NEO4J_AUTH=<your-neo4j-username>/<your-neo4j-password> \
-    neo4j:3.5.14
-
+npm install
 ```
-
-## Commands
 
 Start application in [local mode](http://localhost:3001/):
+
 ```
 npm run start-local
 ```
@@ -56,4 +50,10 @@ To run tests:
 
 ```
 npm run test
+```
+
+To run lint check:
+
+```
+npm run lint
 ```

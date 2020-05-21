@@ -161,7 +161,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
           </div>
         </form>
         <p></p>
-        <p>Select or add a Note:</p>
+        <p>Select or add a Note (at the moment all notes are public and shared):</p>
         <form onSubmit={this.onNoteAdd}>
           {this.state.allNotes &&
             <Autocomplete
