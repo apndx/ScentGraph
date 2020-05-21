@@ -1,0 +1,27 @@
+[
+  {
+    "group": "Category",
+    "id": 100,
+    "label": "Woody aromatic",
+    "labels": ["Category"],
+    "properties": {
+      "created": "Sat Mar 28 2020 22:12",
+      "label": "WOODY",
+      "name": "Woody aromatic",
+      "type": "Category"
+    },
+    "title": "<strong>name:</strong> Woody aromatic<br><strong>type:</strong> Category<br><strong>label:</strong> WOODY<br><strong>created:</strong> Sat Mar 28 2020 22:12<br>"
+  },
+  {
+    "group": "Category",
+    "id": 104,
+    "label": "Woody Aquatic",
+    "labels": ["Category"],
+    "properties": {
+      "label": "WOODY",
+      "name": "Woody Aquatic",
+      "type": "Category"
+    },
+    "title": "<strong>name:</strong> Woody Aquatic<br><strong>type:</strong> Category<br><strong>label:</strong> WOODY<br>"
+  }
+]

@@ -3,17 +3,7 @@
     "identity": { "low": 100, "high": 0 },
     "labels": ["Category"],
     "properties": {
-      "createdAt": {
-        "year": { "low": 2020, "high": 0 },
-        "month": { "low": 3, "high": 0 },
-        "day": { "low": 29, "high": 0 },
-        "hour": { "low": 17, "high": 0 },
-        "minute": { "low": 46, "high": 0 },
-        "second": { "low": 46, "high": 0 },
-        "nanosecond": { "low": 298000000, "high": 0 },
-        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
-        "timeZoneId": null
-      },
+      "createdAt": "2020-03-28T22:12:47.076000000+02:00",
       "categoryname": "Woody aromatic",
       "label": "WOODY",
       "category_id": "5ed0833b-48b8-46c7-81ce-64de4d08a05d"
@@ -23,17 +13,6 @@
     "identity": { "low": 104, "high": 0 },
     "labels": ["Category"],
     "properties": {
-      "createdAt": {
-        "year": { "low": 2020, "high": 0 },
-        "month": { "low": 4, "high": 0 },
-        "day": { "low": 5, "high": 0 },
-        "hour": { "low": 0, "high": 0 },
-        "minute": { "low": 12, "high": 0 },
-        "second": { "low": 46, "high": 0 },
-        "nanosecond": { "low": 314000000, "high": 0 },
-        "timeZoneOffsetSeconds": { "low": 10800, "high": 0 },
-        "timeZoneId": null
-      },
       "categoryname": "Woody Aquatic",
       "label": "WOODY",
       "category_id": "62ab4808-0ff4-48fb-819b-be94d39ad92d"
