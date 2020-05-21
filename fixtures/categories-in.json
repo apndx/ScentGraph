@@ -3,7 +3,7 @@
     "identity": { "low": 100, "high": 0 },
     "labels": ["Category"],
     "properties": {
-      "createdAt": "2020-03-28T22:12:47.076000000+02:00",
+      "createdAt": "2020-03-28T22:12:47.076000000",
       "categoryname": "Woody aromatic",
       "label": "WOODY",
       "category_id": "5ed0833b-48b8-46c7-81ce-64de4d08a05d"
