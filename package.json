@@ -56,7 +56,8 @@
     "react-router-dom": "^5.1.2",
     "request-promise": "^4.2.5",
     "ts-node": "^8.6.2",
-    "vis-react": "^0.5.1"
+    "vis-react": "^0.5.1",
+    "typescript": "^3.9.3"
   },
   "devDependencies": {
     "@types/react-autocomplete": "^1.8.5",
