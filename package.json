@@ -8,7 +8,7 @@
     "build-client": "parcel build ./src/client/index.html",
     "start-server": "ts-node -r dotenv/config --project ./config/tsconfig-server.json ./src/server/index.ts",
     "start-local": "cross-env NODE_ENV=local API_URL=\"http://localhost:3000\" concurrently npm:watch-client npm:start-server",
-    "test": "cross-env NODE_ENV=test jest -i -c ./config/jest/jest-config.json",
+    "test": "cross-env NODE_ENV=test jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
     "tsc": "tsc",
     "watch-client": "parcel watch ./src/client/index.html",
     "parcel-server-client": "parcel ./src/client/index.tsx",
@@ -45,7 +45,6 @@
     "express": "^4.17.1",
     "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.25.3",
     "neo4j-driver": "^4.0.1",
     "neode": "^0.3.7",
     "parcel-bundler": "^1.12.4",
@@ -57,8 +56,8 @@
     "react-router-dom": "^5.1.2",
     "request-promise": "^4.2.5",
     "ts-node": "^8.6.2",
-    "vis-react": "^0.5.1",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "vis-react": "^0.5.1"
   },
   "devDependencies": {
     "@types/react-autocomplete": "^1.8.5",

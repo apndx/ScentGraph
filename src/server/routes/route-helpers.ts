@@ -10,7 +10,6 @@ import {
   NodePropertiesOut
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
-import * as moment from 'moment'
 
 export function convertToScentItem(node: GraphNodeIn): ScentItem {
   return {
@@ -48,12 +47,15 @@ export function toSmallInteger(numberToConvert: NeoInteger): number {
 }
 
 export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
+  const date: Date = new Date(node.properties.createdAt)
+  const hours = date.getHours()
+  const mins = date.getMinutes()
   const nodeProperties: NodePropertiesOut = {
     ...(node.properties && { name: extractName(node.properties) }),
     ...(node.labels && { type: node.labels[0] }),
     ...(node.properties.label && { label: node.properties.label }),
     ...(node.properties.createdAt &&
-      { created: moment(node.properties.createdAt).format('DD.MM.YYYY HH:mm') }),
+      { created: `${date.toDateString()} ${hours}:${mins}` }),
     ...(node.labels[0] === 'Scent' && { notes: 'Double click to show' })
   }
 
@@ -99,7 +101,7 @@ export function scentGraphByNameParams(item: AdminContent): any {
   const scentArray = item.itemName.split(' - ')
   const scentname = scentArray[0]
   const brandname = scentArray[1]
-  return {scentname, brandname}
+  return { scentname, brandname }
 }
 
 export function cypherDecider(item: AdminContent): string {
