@@ -48,8 +48,8 @@ export function toSmallInteger(numberToConvert: NeoInteger): number {
 
 export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
   const date: Date = new Date(node.properties.createdAt)
-  const hours = date.getHours()
-  const mins = date.getMinutes()
+  const hours = timeHelper(date.getHours())
+  const mins = timeHelper(date.getMinutes())
   const nodeProperties: NodePropertiesOut = {
     ...(node.properties && { name: extractName(node.properties) }),
     ...(node.labels && { type: node.labels[0] }),
@@ -67,6 +67,14 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
     properties: nodeProperties,
     labels: node.labels
   })
+}
+
+export function timeHelper(time: number): string {
+  const timeString = time.toString()
+  if (timeString.length === 1) {
+    return `0${timeString}`
+  }
+  return timeString
 }
 
 export function extractName(properties: any): string {
