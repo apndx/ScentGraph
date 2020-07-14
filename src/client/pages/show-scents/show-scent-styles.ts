@@ -188,5 +188,5 @@ export const userStyle = {
 export const scentStyle = {
   'backgroundColor': 'transparent',
   'color': 'rgba(72, 128, 143)',
-  'borderColor': 'rgba(72, 128. 143)'
+  'borderColor': 'rgba(72, 128, 143)'
 }

@@ -1,4 +1,4 @@
-import { scentGraphParams, nodeConverter } from './route-helpers'
+import { scentGraphParams, nodeConverter, timeHelper } from './route-helpers'
 import { AdminContent, GraphNodeIn, GraphNodeOut } from '../../common/data-classes'
 import { loadFixtureFile } from '../../common/test-utils'
 
@@ -22,5 +22,12 @@ describe('Route helper', () => {
     const categoryOut = loadFixtureFile<GraphNodeOut[]>('categories-out.json')[1]
     expect(nodeConverter(categoryIn)).toEqual(categoryOut)
   })
+
+  it('should add 0 to hours and minutes that are length 1', async () => {
+    const categoryIn = loadFixtureFile<GraphNodeIn[]>('categories-in.json')[8]
+    const categoryOut = loadFixtureFile<GraphNodeOut[]>('categories-out.json')[2]
+    expect(nodeConverter(categoryIn)).toEqual(categoryOut)
+  })
+
 
 })
