@@ -1,4 +1,4 @@
-# [ScentGraph](https://scentgraph.herokuapp.com/)
+ScentGraph
 
 [![Build Status](https://travis-ci.org/apndx/ScentGraph.svg?branch=master)](https://travis-ci.org/apndx/ScentGraph)
 
