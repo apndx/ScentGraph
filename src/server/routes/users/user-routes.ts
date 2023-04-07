@@ -19,10 +19,10 @@ export function configureUserRoutes(
       instance.model('User', user)
 
       try {
-        if (req.body.password.length < 8) {
-          return res.status(400).json({ error: 'Password must be at least 8 characters long.' })
+        if (req.body.password.length < 12) {
+          return res.status(400).json({ error: 'Password must be at least 12 characters long.' })
         }
-        const existingUser = await instance.cypher('MATCH (user:User {username:{username}}) return user.username', req.body)
+        const existingUser = await instance.cypher('MATCH (user:User {username:$username}) return user.username', req.body)
         if (existingUser.records.length > 0) {
           return res.status(400).json({ error: 'Username must be unique.' })
         }
@@ -61,7 +61,7 @@ export function configureUserRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (user:User {username:{username}}) DELETE user', req.body)
+        await instance.cypher('MATCH (user:User {username:$username}) DELETE user', req.body)
           .then(() => {
             res.status(200).send('User deleted')
           })
@@ -80,12 +80,12 @@ export function configureUserRoutes(
     `${USERS_PATH}/role`, checkAdmin,
     async (req: express.Request, res: express.Response) => {
       try {
-        const existingUser = await instance.cypher('MATCH (user:User {username:{username}}) return user.username', req.body)
+        const existingUser = await instance.cypher('MATCH (user:User {username:$username}) return user.username', req.body)
         if (existingUser.records.length < 1) {
           return res.status(400).json({ error: 'User not found' })
         } else {
           await instance.cypher(
-            `MERGE (user:User {username:{username}})
+            `MERGE (user:User {username:$username})
             ON MATCH SET user.role = user.role
             return user.username`, req.body)
             .then(() => {
@@ -106,7 +106,7 @@ export function configureUserRoutes(
       instance.model('User', user)
       const users: ScentItem[] = []
       try {
-        const result = await instance.cypher('MATCH (user:User {username:{username}}) return user', req.body)
+        const result = await instance.cypher('MATCH (user:User {username:$username}) return user', req.body)
           .then((result: any) => {
             result.records.map((row: any) => {
               users.push(convertToScentItem(row.get('user')))

@@ -34,8 +34,8 @@ export function configureScentRoutes(
         if (scentToBe.scentname.length < 1) {
           return res.status(400).json({ error: 'Empty name is not allowed.' })
         }
-        const existingScent = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
-        -[:BELONGS]->(brand:Brand {brandname:{brandname}})
+        const existingScent = await instance.cypher(`MATCH (scent:Scent {scentname:$scentname})
+        -[:BELONGS]->(brand:Brand {brandname:$brandname})
         return scent.scentname`, scentToBe)
         if (existingScent.records.length > 0) {
           console.log('EXISTING', existingScent.records)

@@ -14,7 +14,7 @@ export function loadServerConfig(): ServerConfig {
     serverPort: parseInt(process.env.PORT as string, 10) || 3001,
     publicPath: '../../dist',
     apiUrl: process.env.API_URL || `http://localhost:3000`,
-    neo4jUrl: process.env.NEO4J_URL || 'bolt://localhost:7687'
+    neo4jUrl: process.env.AURA_BOLT_URL || 'bolt://localhost:7687'
   }
   return serverConfig
 }

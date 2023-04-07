@@ -18,7 +18,7 @@ export function configureSeasonRoutes(
       instance.model('Season', season)
 
       try {
-        const existingSeason = await instance.cypher('MATCH (season:Season {seasonname:{itemName}}) return season.seasonname', req.body)
+        const existingSeason = await instance.cypher('MATCH (season:Season {seasonname:$itemName}) return season.seasonname', req.body)
         if (existingSeason.records.length > 0) {
           return res.status(400).json({ error: 'Season must be unique.' })
         }
@@ -73,7 +73,7 @@ export function configureSeasonRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (season:Season {seasonname:{itemName}}) DELETE season', req.body)
+        await instance.cypher('MATCH (season:Season {seasonname:$itemName}) DELETE season', req.body)
           .then(() => {
             res.status(200).send('Season deleted')
           })

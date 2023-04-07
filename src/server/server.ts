@@ -33,3 +33,14 @@ export function stopServer(
   neodeInstance.close()
   server.close()
 }
+
+export async function verifyDriver(
+  driver: neo4j.Driver
+) {
+    try {
+      await driver.getServerInfo()
+      console.log('Driver created')
+    } catch (error) {
+      console.log(`connectivity verification failed. ${error}`)
+    }
+  }

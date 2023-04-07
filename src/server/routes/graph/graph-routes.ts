@@ -141,7 +141,7 @@ export function configureGraphRoutes(
 
       try {
         await instance.cypher(
-          `MATCH (scent:Scent {scentname:{scentname}})-[has:HAS]->(note:Note)
+          `MATCH (scent:Scent {scentname:$scentname})-[has:HAS]->(note:Note)
               return note, has`, params)
           .then((result: any) => {
             result.records.map((row: any) => {

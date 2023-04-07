@@ -19,7 +19,7 @@ export function configureCategoryRoutes(
 
       try {
 
-        const existingCategory = await instance.cypher('MATCH (category:Category {categoryname:{itemName}}) return category.categoryname', req.body)
+        const existingCategory = await instance.cypher('MATCH (category:Category {categoryname:$itemName}) return category.categoryname', req.body)
         if (existingCategory.records.length > 0) {
           return res.status(400).json({ error: 'Category must be unique.' })
         }
@@ -75,7 +75,7 @@ export function configureCategoryRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (category:Category {categoryname:{itemName}}) DELETE category', req.body)
+        await instance.cypher('MATCH (category:Category {categoryname:$itemName}) DELETE category', req.body)
           .then(() => {
             res.status(200).send('Category deleted')
           })

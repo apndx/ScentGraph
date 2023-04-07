@@ -18,7 +18,7 @@ export function configureNoteRoutes(
       instance.model('Note', note)
 
       try {
-        const existingNote = await instance.cypher('MATCH (note:Note {notename:{itemName}}) return note.notename', req.body)
+        const existingNote = await instance.cypher('MATCH (note:Note {notename:$itemName}) return note.notename', req.body)
         if (existingNote.records.length > 0) {
           return res.status(400).json({ error: 'Note must be unique.' })
         }
@@ -98,8 +98,8 @@ export function configureNoteRoutes(
       const notes: ScentItem[] = []
       const params = { scentname: req.body.name, brandname: req.body.brand }
       try {
-        await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
-        -[:BELONGS]->(brand:Brand {brandname:{brandname}})
+        await instance.cypher(`MATCH (scent:Scent {scentname:$scentname})
+        -[:BELONGS]->(brand:Brand {brandname:$brandname})
         MATCH (note:Note)-[:BELONGS]->(scent)
         return scent, note`, params)
           .then((result: any) => {
@@ -130,16 +130,16 @@ export function configureNoteRoutes(
 
       try {
         const params = { scentname: req.body.name, brandname: req.body.brand, notename: req.body.note }
-        const scentHasNoteAlready = await instance.cypher(`MATCH (scent:Scent {scentname:{scentname}})
-        -[:BELONGS]->(brand:Brand {brandname:{brandname}})
-        MATCH (note:Note {notename:{notename}})-[:BELONGS]->(scent)
+        const scentHasNoteAlready = await instance.cypher(`MATCH (scent:Scent {scentname:$scentname})
+        -[:BELONGS]->(brand:Brand {brandname:$brandname})
+        MATCH (note:Note {notename:$notename})-[:BELONGS]->(scent)
         return scent, brand, note`, params)
         if (scentHasNoteAlready.records.length > 0) {
           console.log('EXISTING', scentHasNoteAlready.records)
           return res.status(400).json({ error: 'Scent already has this note.' })
         }
         await instance.cypher(`
-        MATCH (scent:Scent {scentname:{scentname}})-[belbrand:BELONGS]->(brand:Brand {brandname:{brandname}})
+        MATCH (scent:Scent {scentname:$scentname})-[belbrand:BELONGS]->(brand:Brand {brandname:$brandname})
         MATCH (note:Note{notename:$notename})
         MERGE (note)-[belongs:BELONGS]->(scent)-[has:HAS]->(note)
         RETURN type(belongs), type(has), scent, note`, params)

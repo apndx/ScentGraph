@@ -19,7 +19,7 @@ export function configureGenderRoutes(
 
       try {
 
-        const existingGender = await instance.cypher('MATCH (gender:Gender {gendername:{itemName}}) return gender.gendername', req.body)
+        const existingGender = await instance.cypher('MATCH (gender:Gender {gendername:$itemName}) return gender.gendername', req.body)
         if (existingGender.records.length > 0) {
           return res.status(400).json({ error: 'Gender must be unique.' })
         }
@@ -74,7 +74,7 @@ export function configureGenderRoutes(
     async (req: express.Request, res: express.Response) => {
 
       try {
-        await instance.cypher('MATCH (gender:Gender {gendername:{itemName}}) DELETE gender', req.body)
+        await instance.cypher('MATCH (gender:Gender {gendername:$itemName}) DELETE gender', req.body)
           .then(() => {
             res.status(200).send('Gender deleted')
           })

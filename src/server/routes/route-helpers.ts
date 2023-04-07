@@ -124,8 +124,8 @@ export function cypherDecider(item: AdminContent): string {
 
 export function getScentfromNameCypher(): string {
   return `
-    MATCH (scent:Scent{scentname:{scentname}}) -[belcategory:BELONGS]->(category:Category)
-    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand{brandname:{brandname}})
+    MATCH (scent:Scent{scentname:$scentname}) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand{brandname:$brandname})
     MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
     MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
@@ -183,7 +183,7 @@ export function getallScentsCypher(item: AdminContent): string {
 export function batchHelper(notes: string[]): NeodeBatchQueryItem[] {
   return notes.map((note: string) => {
     return {
-      query: `MERGE (note:Note {notename: {notename}}) RETURN note`,
+      query: `MERGE (note:Note {notename:$notename}) RETURN note`,
       params: { notename: note }
     }
   })

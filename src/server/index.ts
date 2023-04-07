@@ -1,5 +1,5 @@
 import { loadServerConfig, configureNeo4jDriver, configureNeode } from './config'
-import { startServer, stopServer } from './server'
+import { startServer, stopServer, verifyDriver } from './server'
 import * as dotenv from 'dotenv'
 
 const config = loadServerConfig()
@@ -8,14 +8,15 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
-const neo4jUser = process.env.NEO4J_USERNAME
-const neo4jPass = process.env.NEO4J_PASSWORD
-const driver = configureNeo4jDriver(config.neo4jUrl, neo4jUser, neo4jPass)
+const neodeUser = process.env.AURA_USER || ''
+const neodePass =process.env.AURA_PASSWORD || ''
 
-const neodeUrl = process.env.GRAPHENEDB_BOLT_URL
-const neodeUser = process.env.GRAPHENEDB_BOLT_USER
-const neodePass =process.env.GRAPHENEDB_BOLT_PASSWORD
-const neodeInstance = configureNeode(neodeUrl, neodeUser, neodePass)
+const driver = configureNeo4jDriver(config.neo4jUrl, neodeUser ,neodePass)
+
+
+const neodeInstance = configureNeode(config.neo4jUrl, neodeUser, neodePass)
+
+const driverVerification = verifyDriver(driver)
 
 const server = startServer(config, driver, neodeInstance)
 server.then(instance => {

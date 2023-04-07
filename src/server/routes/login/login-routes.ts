@@ -16,7 +16,8 @@ export function configureLoginRoutes(
       const body = req.body
 
       try {
-        const result = await instance.cypher('MATCH (user:User {username:{username}}) return user', req.body)
+        const result = await instance.cypher('MATCH (user:User {username:$username}) return user', req.body)
+        console.log(result)
         const loginUser = result.records[0].get('user')
         const passwordCorrect = loginUser === null ? false :
           await bcrypt.compare(body.password, loginUser.properties.passwordHash)

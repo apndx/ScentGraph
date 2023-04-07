@@ -1,7 +1,10 @@
 build:
   docker:
-    web: Dockerfile
+    web: './ScentGraph/graphene'
+    graphene: './ScentGraph/graphene'
   config:
-    NODE_ENV: production  
-    PORT: 3000
-    
+    NODE_ENV: production
+    GRAPHENEDB_BOLT_URL: bolt://graphene
+release:
+  image: web
+  image: graphene
