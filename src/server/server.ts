@@ -9,7 +9,6 @@ import { configureRoutes } from './routes'
 export async function startServer(
   config: ServerConfig,
   driver: neo4j.Driver,
-  neodeInstance: any
 ): Promise<http.Server> {
   const app = express()
   app.use(bodyParser.json())
@@ -17,7 +16,7 @@ export async function startServer(
   console.log(`Public files served from ${publicFilesPath}`)
   app.use(express.static(publicFilesPath))
 
-  configureRoutes(app, neodeInstance, config)
+  configureRoutes(app, driver, config)
   const server = app.listen(config.serverPort)
   console.log(`Server listening on port ${config.serverPort}`)
   return server
@@ -26,11 +25,9 @@ export async function startServer(
 export function stopServer(
   server: http.Server,
   driver: neo4j.Driver,
-  neodeInstance: any
 ) {
   console.log('Shutting down server')
   driver.close()
-  neodeInstance.close()
   server.close()
 }
 

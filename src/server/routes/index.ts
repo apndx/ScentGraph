@@ -1,4 +1,5 @@
 import * as express from 'express'
+import * as neo4j from 'neo4j-driver'
 import { configureUserRoutes } from './users/user-routes'
 import { configureLoginRoutes } from './login/login-routes'
 import { configureScentRoutes } from './scents/scent-routes'
@@ -18,19 +19,19 @@ const API_PATH = '/api'
 
 export function configureRoutes(
   app: express.Application,
-  neode: any,
+  driver: neo4j.Driver,
   config: ServerConfig
 ): void {
-  configureUserRoutes(app, neode, API_PATH)
-  configureLoginRoutes(app, neode, API_PATH)
-  configureScentRoutes(app, neode, API_PATH)
-  configureTimeOfDayRoutes(app, neode, API_PATH)
-  configureSeasonRoutes(app, neode, API_PATH)
-  configureGenderRoutes(app, neode, API_PATH)
-  configureCategoryRoutes(app, neode, API_PATH)
-  configureBrandRoutes(app, neode, API_PATH)
-  configureNoteRoutes(app, neode, API_PATH)
-  configureGraphRoutes(app, neode, API_PATH)
+  configureUserRoutes(app, driver, API_PATH)
+  configureLoginRoutes(app, driver, API_PATH)
+  configureScentRoutes(app, driver, API_PATH)
+  configureTimeOfDayRoutes(app, driver, API_PATH)
+  configureSeasonRoutes(app, driver, API_PATH)
+  configureGenderRoutes(app, driver, API_PATH)
+  configureCategoryRoutes(app, driver, API_PATH)
+  configureBrandRoutes(app, driver, API_PATH)
+  configureNoteRoutes(app, driver, API_PATH)
+  configureGraphRoutes(app, driver, API_PATH)
   configureRouteNotFoundMiddleware(config, app, API_PATH)  // this should be last
 }
 
