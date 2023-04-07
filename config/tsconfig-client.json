@@ -18,7 +18,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
-    "allowJs": true
+    "allowJs": true,
+    "esModuleInterop": true,
   },
   "include": ["src/client/**/*ts"]
 }

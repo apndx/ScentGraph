@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import * as neo4j from 'neo4j-driver'
 import * as path from 'path'
 import * as http from 'http'
@@ -38,7 +38,7 @@ export async function verifyDriver(
   driver: neo4j.Driver
 ) {
     try {
-      await driver.getServerInfo()
+      await driver.verifyConnectivity()
       console.log('Driver created')
     } catch (error) {
       console.log(`connectivity verification failed. ${error}`)
