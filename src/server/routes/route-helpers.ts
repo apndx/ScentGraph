@@ -193,7 +193,7 @@ export function promiseForBatch(session: any, notes: string[]) {
   return notes.map((note: string) => {
     return session.run(`
     CREATE (note:Note {
-      notename: $noteName
+      notename: $notename
     })
     RETURN note
     `,

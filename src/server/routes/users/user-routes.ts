@@ -38,23 +38,26 @@ export function configureUserRoutes(
             Promise.all([
               session.run(`
                 CREATE (user:User {
+                  user_id: randomUuid(),
                   name: $name,
                   username: $username,
-                  passwordHash: $passwordHash
+                  passwordhash: $passwordhash
                 })
+                SET user.created_at = datetime()
                 RETURN user
                 `,
                 { name: req.body.name,
                   username: req.body.username,
-                  passwordHash: hash }
+                  passwordhash: hash,
+                  created_at: new Date() }
                 )
               ])
-              .then(([user]) => {
+              .then(() => {
                 console.log(`User ${req.body.username} created`)
                 res.send(`User ${req.body.username} created`)
               })
               .catch((e: any) => {
-                console.log('Error :(', e, e.details) // eslint-disable-line no-console
+                console.log('Error : ', e) // eslint-disable-line no-console
               })
               .then(() => session.close())
           })
@@ -102,8 +105,8 @@ export function configureUserRoutes(
         } else {
           await session.run(
             `MERGE (user:User {username:$username})
-            ON MATCH SET user.role = user.role
-            return user.username`, req.body)
+             ON MATCH SET user.role = user.role
+             return user.username`, req.body)
             .then(() => {
               res.status(200).send(`User ${req.body.username} is now ${req.body.role}`)
             })

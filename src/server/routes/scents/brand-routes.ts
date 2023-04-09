@@ -29,8 +29,10 @@ export function configureBrandRoutes(
         Promise.all([
           session.run(`
           CREATE (brand:Brand {
-            brandname: $brandName
+            brandname: $brandName,
+            brand_id: randomUuid()
           })
+          SET brand.created_at = datetime()
           RETURN brand
           `,
           { brandName: req.body.itemName }

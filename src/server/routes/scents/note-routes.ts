@@ -29,8 +29,10 @@ export function configureNoteRoutes(
         Promise.all([
             session.run(`
             CREATE (note:Note {
-              notename: $noteName
+              notename: $noteName,
+              note_id: randomUuid()
             })
+            SET note.created_at = datetime()
             RETURN note
             `,
             { noteName: req.body.itemName })

@@ -26,8 +26,10 @@ export function configureSeasonRoutes(
         Promise.all([
           session.run(`
           CREATE (season:Season {
-            seasonname: $seasonName
+            seasonname: $seasonName,
+            season_id: randomUuid()
           })
+          SET season.created_at = datetime()
           RETURN season
           `,
           { seasonName: req.body.itemName }

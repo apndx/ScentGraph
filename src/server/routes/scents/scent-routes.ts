@@ -27,7 +27,7 @@ export function configureScentRoutes(
           return scent.scentname`
 
         const existingScent = await session.run(getScentCypher,
-          { scentname: req.body.scentname, brandName: req.body.brandname })
+          { scentname: req.body.scentname, brandname: req.body.brandname })
 
         if (existingScent.records.length > 0) {
           console.log('EXISTING', existingScent.records)
@@ -36,8 +36,10 @@ export function configureScentRoutes(
 
         await session.run(`
             CREATE (scent:Scent {
-              scentname: $scentname
+              scentname: $scentname,
+              scent_id: randomUuid()
             })
+            SET scent.created_at = datetime()
             RETURN scent
             `,
           { scentname: req.body.scentname })
@@ -46,7 +48,7 @@ export function configureScentRoutes(
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (time:TimeOfDay{timename:$timename})
             MERGE (scent)-[belongs:BELONGS]->(time)-[has:HAS]->(scent)
-            RETURN type(belongs), type(has), scent`,
+            RETURN scent`,
             {
               scentname: req.body.scentname,
               timename: req.body.timename
@@ -56,7 +58,7 @@ export function configureScentRoutes(
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (gender:Gender{gendername:$gendername})
             MERGE (scent)-[belongs:BELONGS]->(gender)-[has:HAS]->(scent)
-            RETURN type(belongs), type(has), scent`,
+            RETURN scent`,
             {
               scentname: req.body.scentname,
               gendername: req.body.gendername,
@@ -66,7 +68,7 @@ export function configureScentRoutes(
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (season:Season{seasonname:$seasonname})
             MERGE (scent)-[belongs:BELONGS]->(season)-[has:HAS]->(scent)
-            RETURN type(belongs), type(has), scent`,
+            RETURN scent`,
             {
               scentname: req.body.scentname,
               seasonname: req.body.seasonname,
@@ -76,7 +78,7 @@ export function configureScentRoutes(
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (category:Category{categoryname:$categoryname})
             MERGE (scent)-[belongs:BELONGS]->(category)-[has:HAS]->(scent)
-            RETURN type(belongs), type(has), scent`,
+            RETURN scent`,
             {
               scentname: req.body.scentname,
               categoryname: req.body.categoryname,
@@ -86,7 +88,7 @@ export function configureScentRoutes(
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (brand:Brand{brandname:$brandname})
             MERGE (scent)-[belongs:BELONGS]->(brand)-[has:HAS]->(scent)
-            RETURN type(belongs), type(has), scent`,
+            RETURN scent`,
             {
               scentname: req.body.scentname,
               brandname: req.body.brandname,
@@ -96,7 +98,7 @@ export function configureScentRoutes(
             MATCH (scent:Scent{scentname:$scentname})
             MATCH (user:User{username:$username})
             MERGE (user)-[added:ADDED]->(scent)
-            RETURN type(belongs), type(has), scent`,
+            RETURN scent`,
             {
               scentname: req.body.scentname,
               username: username,
@@ -106,7 +108,7 @@ export function configureScentRoutes(
           res.status(200).send(`Scent ${req.body.scentname} created`)
         })
         .catch((e: any) => {
-          console.log('Error :(', e, e.details) // eslint-disable-line no-console
+          console.log('Error :(', e) // eslint-disable-line no-console
         })
         .then(() => session.close())
       } catch (e) {

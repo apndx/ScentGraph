@@ -22,7 +22,7 @@ export function configureLoginRoutes(
         const result = await session.run(getUserCypher, { username: body.username })
         const loginUser = result.records[0].get('user')
         const passwordCorrect = loginUser === null ? false :
-          await bcrypt.compare(body.password, loginUser.properties.passwordHash)
+          await bcrypt.compare(body.password, loginUser.properties.passwordhash)
 
         if (!(loginUser && passwordCorrect)) {
           return res.status(401).json({ error: 'invalid username or password' })

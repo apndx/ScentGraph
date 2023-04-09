@@ -29,8 +29,10 @@ export function configureGenderRoutes(
         Promise.all([
           session.run(`
             CREATE (gender:Gender {
-              gendername: $genderName
+              gendername: $genderName,
+              gender_id: randomUuid()
             })
+            SET gender.created_at = datetime()
             RETURN gender
             `,
             { genderName: req.body.itemName }

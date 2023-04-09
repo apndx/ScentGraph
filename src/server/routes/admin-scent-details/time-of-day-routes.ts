@@ -28,14 +28,16 @@ export function configureTimeOfDayRoutes(
         Promise.all([
             session.run(`
           CREATE (time:TimeOfDay {
-            timename: $timeName
+            timename: $timeName,
+            time_id: randomUuid()
           })
+          SET time.created_at = datetime()
           RETURN time
           `,
           { timeName: req.body.itemName }
         )
         ])
-          .then(([time]) => {
+          .then(() => {
             res.status(200).send(`Time of day ${req.body.itemName} created`)
           })
           .catch((e: any) => {

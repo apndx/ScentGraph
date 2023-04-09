@@ -29,16 +29,18 @@ export function configureCategoryRoutes(
         Promise.all([
           session.run(`
             CREATE (category:Category {
+              category_id: randomUuid(),
               categoryname: $categoryName,
               label: $label
             })
+            SET category.created_at = datetime()
             RETURN category
             `,
             { categoryName: req.body.itemName,
               label: req.body.label }
           )
         ])
-          .then(([category]) => {
+          .then(() => {
             res.status(200).send(`Category ${req.body.itemName} created`)
           })
           .catch((e: any) => {
