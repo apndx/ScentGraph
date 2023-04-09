@@ -21,6 +21,7 @@ export function configureGenderRoutes(
 
         const getGenderCypher = 'MATCH (gender:Gender {gendername:$itemName}) return gender.gendername'
         const existingGender = await session.run(getGenderCypher, { itemName: req.body.itemName })
+
         if (existingGender.records.length > 0) {
           return res.status(400).json({ error: 'Gender must be unique.' })
         }
@@ -58,8 +59,8 @@ export function configureGenderRoutes(
       const session = driver.session()
       const genders: ScentItem[] = []
       try {
-        const getGendersCypher = 'MATCH (category:Category) RETURN category'
-        session.run('MATCH (gender:Gender) RETURN gender')
+        const getGendersCypher = 'MATCH (gender:Gender) RETURN gender'
+        session.run(getGendersCypher)
           .then((result: neo4j.QueryResult) => {
             result.records.map((row: any) => {
               genders.push(convertToScentItem(row.get('gender')))
