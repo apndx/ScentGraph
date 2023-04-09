@@ -1,6 +1,7 @@
 import { doTestRequest, mockApiRequest, cleanTestSuite } from '../../utils/test-utils'
 
 describe('Season route', () => {
+  jest.setTimeout(30000)
   beforeAll(cleanTestSuite)
   it('should create a new season', async () => {
 

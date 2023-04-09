@@ -10,7 +10,7 @@ describe (`server config`, () => {
             serverPort: 8000,
             publicPath: '../../dist',
             apiUrl: 'http://localhost:5000',
-            neo4jUrl: 'bolt://localhost:7687'
+            neo4jUrl: process.env.AURA_BOLT_URL
         })
     })
 })

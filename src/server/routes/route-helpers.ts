@@ -109,7 +109,7 @@ export function scentGraphByNameParams(item: AdminContent): any {
   const scentArray = item.itemName.split(' - ')
   const scentname = scentArray[0]
   const brandname = scentArray[1]
-  return { scentname, brandname }
+  return { scentname: scentname, brandname: brandname }
 }
 
 export function cypherDecider(item: AdminContent): string {
@@ -124,8 +124,8 @@ export function cypherDecider(item: AdminContent): string {
 
 export function getScentfromNameCypher(): string {
   return `
-    MATCH (scent:Scent{scentname:{scentname}}) -[belcategory:BELONGS]->(category:Category)
-    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand{brandname:{brandname}})
+    MATCH (scent:Scent{scentname:$scentname}) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand{brandname:$brandname})
     MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
     MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
@@ -144,7 +144,7 @@ export function getScentFromCypher(item: AdminContent): string {
     MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
     MATCH (scent:Scent)<-[addedby:ADDED]-(user:User)
-    WHERE toLower(${type}.${name}) = toLower({${name}})
+    WHERE toLower(${type}.${name}) = toLower($${name})
     return scent, category, brand, season, time, gender, user,
     belcategory, belbrand, belseason, beltime, belgender, addedby`
 }
@@ -160,7 +160,7 @@ export function getScentFromNoteCypher(item: AdminContent): string {
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
     MATCH (scent:Scent) -[hasnote:HAS]->(note:Note)
     MATCH (scent:Scent)<-[addedby:ADDED]-(user:User)
-    WHERE toLower(${type}.${name}) = toLower({${name}})
+    WHERE toLower(${type}.${name}) = toLower($${name})
     return scent, category, brand, season, time, gender, note, user,
     belcategory, belbrand, belseason, beltime, belgender, hasnote, addedby`
 }
@@ -175,7 +175,7 @@ export function getallScentsCypher(item: AdminContent): string {
     MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
     MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
     OPTIONAL MATCH (scent:Scent) -[hasnote:HAS]->(note:Note)
-    WHERE toLower(${type}.${name}) = toLower({${name}})
+    WHERE toLower(${type}.${name}) = toLower($${name})
     return scent, category, brand, season, time, gender, note,
     belcategory, belbrand, belseason, beltime, belgender, hasnote`
 }
@@ -183,7 +183,7 @@ export function getallScentsCypher(item: AdminContent): string {
 export function batchHelper(notes: string[]): NeodeBatchQueryItem[] {
   return notes.map((note: string) => {
     return {
-      query: `MERGE (note:Note {notename: {notename}}) RETURN note`,
+      query: `MERGE (note:Note {notename:$notename}) RETURN note`,
       params: { notename: note }
     }
   })

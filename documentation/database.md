@@ -1,6 +1,6 @@
 # ScentGraph Database
 
-ScentGraph has Neo4J graph database, and more precicely [GrapheneDB](https://elements.heroku.com/addons/graphenedb) in Heroku.
+ScentGraph has Neo4J graph database, and more precicely [AuraDB](https://neo4j.com/cloud/platform/aura-graph-database/).
 
 The database queries are done using [Cypher](https://neo4j.com/developer/cypher-query-language/) and [neode](https://www.npmjs.com/package/neode).
 
@@ -8,13 +8,13 @@ The queries used in ScentGraph can be found in project [routes](https://github.c
 
 The database has some constraints:
 ```
-CREATE CONSTRAINT ON (season:Season) ASSERT season.seasonname IS UNIQUE
-CREATE CONSTRAINT ON (brand:Brand) ASSERT brand.brandname IS UNIQUE
-CREATE CONSTRAINT ON (note:Note) ASSERT note.notename IS UNIQUE
-CREATE CONSTRAINT ON (time:TimeOfDay) ASSERT time.timename IS UNIQUE
-CREATE CONSTRAINT ON (category:Category) ASSERT category.categoryname IS UNIQUE
-CREATE CONSTRAINT ON (gender:Gender) ASSERT gender.gendername IS UNIQUE
-CREATE CONSTRAINT ON (user:User) ASSERT user.username IS UNIQUE
+CREATE CONSTRAINT FOR (season:Season) REQUIRE season.seasonname IS UNIQUE
+CREATE CONSTRAINT FOR (brand:Brand) REQUIRE brand.brandname IS UNIQUE
+CREATE CONSTRAINT FOR (note:Note) REQUIRE note.notename IS UNIQUE
+CREATE CONSTRAINT FOR (time:TimeOfDay) REQUIRE time.timename IS UNIQUE
+CREATE CONSTRAINT FOR (category:Category) REQUIRE category.categoryname IS UNIQUE
+CREATE CONSTRAINT FOR (gender:Gender) REQUIRE gender.gendername IS UNIQUE
+CREATE CONSTRAINT FOR (user:User) REQUIRE user.username IS UNIQUE
 
 ```
 
@@ -55,7 +55,7 @@ To exit the cypher cell:
 
 The container can be stopped (without destroying it):
 ```
-docker stop testneo4j3.5.14 
+docker stop testneo4j3.5.14
 ```
 
 Starting the container again:

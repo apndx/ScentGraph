@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { scent, brand, timeOfDay, gender, season, category, user, note } from '../../models'
+import * as neo4j from 'neo4j-driver'
 import {
   GraphNodeOut,
   GraphEdgeOut,
@@ -18,7 +18,7 @@ import {
 
 export function configureGraphRoutes(
   app: express.Application,
-  instance: any,
+  driver: neo4j.Driver,
   apiPath: string
 ): void {
 
@@ -28,24 +28,21 @@ export function configureGraphRoutes(
     `${GRAPH_PATH}/allFrom`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Scent', scent)
-      instance.model('Category', category)
-      instance.model('Brand', brand)
-      instance.model('Season', season)
-      instance.model('TimeOfDay', timeOfDay)
-      instance.model('Gender', gender)
-      instance.model('Note', gender)
-      instance.model('User', user)
+      const session = driver.session()
+
       console.log('REQS', req.body)
       const cypher: string = cypherDecider(req.body)
       const params = req.body.type === 'scent' ? scentGraphByNameParams(req.body)
         : scentGraphParams(req.body)
 
+      console.log(cypher, params)
+
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
 
       try {
-        await instance.cypher(cypher, params)
+
+        session.run(cypher, params)
           .then((result: any) => {
             result.records.map((row: any) => {
 
@@ -119,7 +116,7 @@ export function configureGraphRoutes(
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong when fetching scents' })
@@ -131,17 +128,17 @@ export function configureGraphRoutes(
     `${GRAPH_PATH}/scentNotesForGraph`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Scent', scent)
-      instance.model('Note', gender)
       console.log('REQS', req.body)
       const params = { scentname: req.body.scentname }
 
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
 
+      const session = driver.session()
+
       try {
-        await instance.cypher(
-          `MATCH (scent:Scent {scentname:{scentname}})-[has:HAS]->(note:Note)
+        session.run(
+          `MATCH (scent:Scent {scentname:$scentname})-[has:HAS]->(note:Note)
               return note, has`, params)
           .then((result: any) => {
             result.records.map((row: any) => {
@@ -163,7 +160,7 @@ export function configureGraphRoutes(
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong when fetching notes' })
