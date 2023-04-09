@@ -28,13 +28,11 @@ export function configureTimeOfDayRoutes(
         Promise.all([
             session.run(`
           CREATE (time:TimeOfDay {
-            timename: $timeName,
-            label: $label
+            timename: $timeName
           })
           RETURN time
           `,
-          { timeName: req.body.itemName,
-            label: req.body.label }
+          { timeName: req.body.itemName }
         )
         ])
           .then(([time]) => {

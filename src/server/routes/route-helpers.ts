@@ -189,9 +189,15 @@ export function batchHelper(notes: string[]): NeodeBatchQueryItem[] {
   })
 }
 
-export function promiseForBatch(instance: any, notes: string[]) {
+export function promiseForBatch(session: any, notes: string[]) {
   return notes.map((note: string) => {
-    return (instance.create('Note', { notename: note }))
+    return session.run(`
+    CREATE (note:Note {
+      notename: $noteName
+    })
+    RETURN note
+    `,
+    { notename: note })
   })
 }
 

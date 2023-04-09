@@ -26,13 +26,11 @@ export function configureSeasonRoutes(
         Promise.all([
           session.run(`
           CREATE (season:Season {
-            seasonname: $seasonName,
-            label: $label
+            seasonname: $seasonName
           })
           RETURN season
           `,
-          { seasonName: req.body.itemName,
-            label: req.body.label }
+          { seasonName: req.body.itemName }
         )
         ])
           .then(() => {

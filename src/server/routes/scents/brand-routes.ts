@@ -29,16 +29,14 @@ export function configureBrandRoutes(
         Promise.all([
           session.run(`
           CREATE (brand:Brand {
-            brandname: $brandName,
-            label: $label
+            brandname: $brandName
           })
           RETURN brand
           `,
-          { brandName: req.body.itemName,
-            label: req.body.label }
+          { brandName: req.body.itemName }
         )
         ])
-          .then(([brand]) => {
+          .then(() => {
             res.status(200).send(`Brand ${req.body.itemName} created`)
           })
           .catch((e: any) => {

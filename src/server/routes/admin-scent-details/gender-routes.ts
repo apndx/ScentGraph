@@ -29,13 +29,11 @@ export function configureGenderRoutes(
         Promise.all([
           session.run(`
             CREATE (gender:Gender {
-              gendername: $genderName,
-              label: $label
+              gendername: $genderName
             })
             RETURN gender
             `,
-            { genderName: req.body.itemName,
-              label: req.body.label }
+            { genderName: req.body.itemName }
           )
         ])
           .then(() => {

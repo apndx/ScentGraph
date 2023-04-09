@@ -1,12 +1,12 @@
 import * as express from 'express'
+import * as neo4j from 'neo4j-driver'
 import { checkLogin } from '../../middleware'
-import { note, scent, brand } from '../../models'
 import { convertToScentItem, promiseForBatch } from '../../routes'
 import { ScentItem } from '../../../common/data-classes'
 
 export function configureNoteRoutes(
   app: express.Application,
-  instance: any,
+  driver: neo4j.Driver,
   apiPath: string
 ): void {
   const SCENT_DETAILS_PATH = `${apiPath}/note`
@@ -15,26 +15,33 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Note', note)
+      const session = driver.session()
 
       try {
-        const existingNote = await instance.cypher('MATCH (note:Note {notename:$itemName}) return note.notename', req.body)
+
+        const existingNoteCypher = 'MATCH (note:Note {notename:$itemName}) return note.notename'
+        const existingNote = await session.run(existingNoteCypher, { itemName: req.body.itemName })
+
         if (existingNote.records.length > 0) {
           return res.status(400).json({ error: 'Note must be unique.' })
         }
 
         Promise.all([
-          instance.create('Note', {
-            notename: req.body.itemName
-          })
-        ])
-          .then(([note]) => {
-            res.status(200).send(`Note ${note.properties().notename} created`)
+            session.run(`
+            CREATE (note:Note {
+              notename: $noteName
+            })
+            RETURN note
+            `,
+            { noteName: req.body.itemName })
+          ])
+          .then(() => {
+            res.status(200).send(`Note ${req.body.itemName} created`)
           })
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: `Something went wrong in creating a note, ${e}` })
@@ -46,8 +53,9 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/addBatch`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Note', note)
-      const queries = promiseForBatch(instance, req.body)
+      const session = driver.session()
+
+      const queries = promiseForBatch(session, req.body)
 
       try {
         Promise.all(queries)
@@ -55,7 +63,7 @@ export function configureNoteRoutes(
             console.log(`Notes added`)
             res.status(200).send(`Notes added`)
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: `Something went wrong in note batch creation, ${e}` })
@@ -67,10 +75,11 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/all`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Note', note)
+      const session = driver.session()
       const notes: ScentItem[] = []
       try {
-        const result = await instance.cypher('MATCH (note:Note) RETURN note')
+        const getNotesCypher = 'MATCH (note:Note) RETURN note'
+        session.run(getNotesCypher)
           .then((result: any) => {
             result.records.map((row: any) => {
               notes.push(convertToScentItem(row.get('note')))
@@ -81,7 +90,7 @@ export function configureNoteRoutes(
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong when fetching notes' })
@@ -92,16 +101,17 @@ export function configureNoteRoutes(
   app.post(
     `${SCENT_DETAILS_PATH}/allForScent`, checkLogin,
     async (req: express.Request, res: express.Response) => {
-      instance.model('Note', note)
-      instance.model('Scent', scent)
-      instance.model('Brand', brand)
+
+      const session = driver.session()
       const notes: ScentItem[] = []
       const params = { scentname: req.body.name, brandname: req.body.brand }
       try {
-        await instance.cypher(`MATCH (scent:Scent {scentname:$scentname})
-        -[:BELONGS]->(brand:Brand {brandname:$brandname})
-        MATCH (note:Note)-[:BELONGS]->(scent)
-        return scent, note`, params)
+          session.run(`
+            MATCH (scent:Scent {scentname:$scentname})
+            -[:BELONGS]->(brand:Brand {brandname:$brandname})
+            MATCH (note:Note)-[:BELONGS]->(scent)
+            return scent, note`,
+            params)
           .then((result: any) => {
             result.records.map((row: any) => {
               notes.push(convertToScentItem(row.get('note')))
@@ -112,7 +122,7 @@ export function configureNoteRoutes(
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong when fetching notes' })
@@ -124,21 +134,23 @@ export function configureNoteRoutes(
     `${SCENT_DETAILS_PATH}/addtoScent`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Scent', scent)
-      instance.model('Brand', brand)
-      instance.model('Note', note)
+      const session = driver.session()
 
       try {
         const params = { scentname: req.body.name, brandname: req.body.brand, notename: req.body.note }
-        const scentHasNoteAlready = await instance.cypher(`MATCH (scent:Scent {scentname:$scentname})
+
+        const scentHasNoteCypher = `MATCH (scent:Scent {scentname:$scentname})
         -[:BELONGS]->(brand:Brand {brandname:$brandname})
         MATCH (note:Note {notename:$notename})-[:BELONGS]->(scent)
-        return scent, brand, note`, params)
+        return scent, brand, note`
+
+        const scentHasNoteAlready = await session.run(scentHasNoteCypher, params)
+
         if (scentHasNoteAlready.records.length > 0) {
           console.log('EXISTING', scentHasNoteAlready.records)
           return res.status(400).json({ error: 'Scent already has this note.' })
         }
-        await instance.cypher(`
+        session.run(`
         MATCH (scent:Scent {scentname:$scentname})-[belbrand:BELONGS]->(brand:Brand {brandname:$brandname})
         MATCH (note:Note{notename:$notename})
         MERGE (note)-[belongs:BELONGS]->(scent)-[has:HAS]->(note)
