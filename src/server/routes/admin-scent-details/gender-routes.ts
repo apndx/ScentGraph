@@ -84,7 +84,7 @@ export function configureGenderRoutes(
     async (req: express.Request, res: express.Response) => {
       const session = driver.session()
       try {
-        session.run('MATCH (gender:Gender {gendername:$itemName}) DELETE gender', req.body.itemName)
+        session.run('MATCH (gender:Gender {gendername:$itemName}) DELETE gender', { itemName : req.body.itemName })
           .then(() => {
             res.status(200).send('Gender deleted')
           })

@@ -82,7 +82,7 @@ export function configureSeasonRoutes(
       const session = driver.session()
       try {
         const deleteSeasonCypher = 'MATCH (season:Season {seasonname:$itemName}) DELETE season'
-        session.run(deleteSeasonCypher, req.body.itemName)
+        session.run(deleteSeasonCypher, { itemName : req.body.itemName })
           .then(() => {
             res.status(200).send('Season deleted')
           })

@@ -91,7 +91,7 @@ export function configureCategoryRoutes(
 
       try {
         const deleteCategoryCypher = 'MATCH (category:Category {categoryname:$itemName}) DELETE category'
-        await session.run(deleteCategoryCypher, req.body)
+        await session.run(deleteCategoryCypher, { itemName : req.body.itemName })
           .then(() => {
             res.status(200).send('Category deleted')
           })

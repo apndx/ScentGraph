@@ -84,7 +84,7 @@ export function configureTimeOfDayRoutes(
       const session = driver.session()
       try {
         const deleteTimeCypher = 'MATCH (time:TimeOfDay {timename:$itemName}) DELETE time'
-        session.run(deleteTimeCypher, req.body.itemName)
+        session.run(deleteTimeCypher, { itemName : req.body.itemName })
           .then(() => {
             res.status(200).send('Time of day deleted')
           })

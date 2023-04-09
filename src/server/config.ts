@@ -5,8 +5,6 @@ export interface ServerConfig {
   serverPort: number
   publicPath: string
   neo4jUrl: string
-  neo4jUser: string
-  neo4jPass: string
 }
 
 export function loadServerConfig(): ServerConfig {
@@ -16,8 +14,6 @@ export function loadServerConfig(): ServerConfig {
     publicPath: '../../dist',
     apiUrl: process.env.API_URL || `http://localhost:3000`,
     neo4jUrl: process.env.AURA_BOLT_URL || 'bolt://localhost:7687',
-    neo4jUser: process.env.AURA_USERNAME || 'neo4j',
-    neo4jPass: process.env.AURA_PASSWORD || ''
   }
   return serverConfig
 }
