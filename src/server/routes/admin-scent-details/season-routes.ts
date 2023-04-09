@@ -35,8 +35,8 @@ export function configureSeasonRoutes(
             label: req.body.label }
         )
         ])
-          .then(([season]) => {
-            console.log(`Season ${season.properties().seasonname} created`)
+          .then(() => {
+            console.log(`Season ${req.body.itemName} created`)
             res.status(200).send(`Season ${req.body.itemName} created`)
           })
           .catch((e: any) => {
