@@ -1,8 +1,8 @@
 import * as express from 'express'
+import * as neo4j from 'neo4j-driver'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 import { Token, ClientUser } from '../../../common/data-classes'
-import * as neo4j from 'neo4j-driver'
 
 export function configureLoginRoutes(
   app: express.Application,

@@ -1,12 +1,12 @@
 import * as express from 'express'
+import * as neo4j from 'neo4j-driver'
 import { checkLogin } from '../../middleware'
-import { brand } from '../../models'
 import { convertToScentItem } from '../../routes'
 import { ScentItem } from '../../../common/data-classes'
 
 export function configureBrandRoutes(
   app: express.Application,
-  instance: any,
+  driver: neo4j.Driver,
   apiPath: string
 ): void {
   const SCENT_DETAILS_PATH = `${apiPath}/brand`
@@ -15,27 +15,36 @@ export function configureBrandRoutes(
     `${SCENT_DETAILS_PATH}/add`, checkLogin,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Brand', brand)
+      const session = driver.session()
 
       try {
 
-        const existingBrand = await instance.cypher('MATCH (brand:Brand {brandname:$itemName}) return brand.brandname', req.body)
+        const getBrandCypher = 'MATCH (brand:Brand {brandname:$itemName}) return brand.brandname'
+        const existingBrand = await session.run(getBrandCypher, { itemName: req.body.itemName })
+
         if (existingBrand.records.length > 0) {
           return res.status(400).json({ error: 'Brand must be unique.' })
         }
 
         Promise.all([
-          instance.create('Brand', {
-            brandname: req.body.itemName
+          session.run(`
+          CREATE (brand:Brand {
+            brandname: $brandName,
+            label: $label
           })
+          RETURN brand
+          `,
+          { brandName: req.body.itemName,
+            label: req.body.label }
+        )
         ])
           .then(([brand]) => {
-            res.status(200).send(`Brand ${brand.properties().brandname} created`)
+            res.status(200).send(`Brand ${req.body.itemName} created`)
           })
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong in creating a brand' })
@@ -47,10 +56,11 @@ export function configureBrandRoutes(
     `${SCENT_DETAILS_PATH}/all`,
     async (req: express.Request, res: express.Response) => {
 
-      instance.model('Brand', brand)
+      const session = driver.session()
       const brands: ScentItem[] = []
       try {
-        const result = await instance.cypher('MATCH (brand:Brand) RETURN brand')
+        const getBrandsCypher = 'MATCH (brand:Brand) RETURN brand'
+        session.run(getBrandsCypher)
           .then((result: any) => {
             result.records.map((row: any) => {
               brands.push(convertToScentItem(row.get('brand')))
@@ -61,7 +71,7 @@ export function configureBrandRoutes(
           .catch((e: any) => {
             console.log('Error :(', e, e.details) // eslint-disable-line no-console
           })
-          .then(() => instance.close())
+          .then(() => session.close())
       } catch (e) {
         console.log(e)
         res.status(500).json({ error: 'Something went wrong when fetching brands' })
