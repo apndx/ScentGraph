@@ -1,6 +1,6 @@
-import * as nock from 'nock'
+import nock from 'nock'
 import { Token } from '../../common/data-classes'
-import * as request from 'request-promise'
+import request from 'request-promise'
 
 const jwt = require('jsonwebtoken')
 const username = 'da-test-dude'

@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import * as neo4j from 'neo4j-driver'
 import * as path from 'path'
 import * as http from 'http'
