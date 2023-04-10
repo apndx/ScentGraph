@@ -1,8 +1,6 @@
-ScentGraph
+[ScentGraph](https://scent-graph.herokuapp.com/)
 
-[![Build Status](https://travis-ci.org/apndx/ScentGraph.svg?branch=master)](https://travis-ci.org/apndx/ScentGraph)
-
-ScentGraph is a project for Helsinki University FullStack course. ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application will be hosted in Heroku. The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries will be done using Cypher and [neode](https://www.npmjs.com/package/neode). [Travis](https://travis-ci.org/) is used for CI and automated testing.
+ScentGraph is a project for Helsinki University FullStack course. ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application will be hosted in Heroku. The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries will be done using Cypher. GitHub actions are used for CI and automated testing.
 
 In ScentGraph users can add scents to the database. The scents can belong to various categories and the relations of scents, their categories and several scent properties can be visualized in a graph form.
 
@@ -12,19 +10,22 @@ I have used [Fragrantica](https://www.fragrantica.com/) as a big source for insp
 
 <img src="https://github.com/apndx/ScentGraph/blob/master/documentation/scent-graph-show-scents.png" width="800">
 
-### [Hours](https://github.com/apndx/ScentGraph/blob/master/documentation/hourlist.md)
-
 ### Local Usage
 
-For this application a local Neo4j instance should be running. You should also have .env file where url, username and password for Neo4J are defined with GRAPHENE variables, for example like this:
+For this application [an Aura DB instance](https://neo4j.com/cloud/platform/aura-graph-database/) should be running. You should also have .env file where url, username and password for Aura DB are defined:
+```
+AURA_BOLT_URL = neo4j+s://yourdbidentifier.databases.neo4j.io
+AURA_USER = neo4j
+AURA_PASSWORD = supersecretpassword
+```
 
+Optionally, a local Neo4J can be started as a [Neo4J Docker](https://neo4j.com/developer/docker/) instance. Install and usage instructions for this can be found in the [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) introduction. For local use, the credential envs should be saved as:
 ```
 GRAPHENEDB_BOLT_URL = bolt://localhost:7687
 GRAPHENEDB_BOLT_USER = neo4j
 GRAPHENEDB_BOLT_PASSWORD = supersecretpassword
 ```
 
-Local Neo4J can be started as a [Neo4J Docker](https://neo4j.com/developer/docker/) instance. Install and usage instructions for this can be found in the [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) introduction.
 
 ### Commands
 
