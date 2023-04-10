@@ -15,7 +15,7 @@ export default async () => {
     // @ts-ignore
     global.__APP_CONFIG__ = config
 
-    const neoDriver = configureNeo4jDriver(process.env.AURA_BOLT_URL, process.env.AURA_USER, process.env.AURA_PASSWORD)
+    const neoDriver = configureNeo4jDriver(process.env.NEO4J_URL, process.env.AURA_USER, process.env.AURA_PASSWORD)
     // @ts-ignore
     global.__NEO4J_DRIVER__ = neoDriver
     // @ts-ignore
