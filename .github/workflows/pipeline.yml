@@ -15,5 +15,7 @@ jobs:
           node-version: '12'
       - name: Install dependencies
         run: npm install
-      - name: Check style
-        run: npm run lint
+      - name: Build
+        run: npm run build-client
+      - name: Test and check style
+        run: npm run test
