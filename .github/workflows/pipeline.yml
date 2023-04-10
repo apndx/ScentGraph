@@ -17,5 +17,9 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build-client
+      - name: Setup Neo4j
+        uses: baptouuuu/setup-neo4j@v1.2.0
+        with:
+          tag: '3.5.14'
       - name: Test and check style
         run: npm run test
