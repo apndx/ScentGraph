@@ -13,6 +13,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '12'
+      - name: Create env file
+        run: |
+          touch .env
+          echo SECRET=${{ secrets.SECRET }} >> .env
       - name: Install dependencies
         run: npm install
       - name: Build
