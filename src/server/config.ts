@@ -29,9 +29,9 @@ export function configureNeo4jDriver(
 
 function getUrl(env: string | undefined) {
   switch(env) {
-    case 'local':
+    case 'local': case 'test-local':
       return process.env.GRAPHENEDB_BOLT_URL
-    case 'dev': case 'test':
+    case 'dev': case 'test-dev':
       return process.env.AURA_BOLT_URL
     default:
       return 'bolt://localhost:7687'

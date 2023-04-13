@@ -47,10 +47,16 @@ npm run start-local
 
 At the moment some server and client helper functions are being unit tested. Also there is one route integration test. To run the integration test, a local Neo4j instance should be running. The application frontend use has been manually tested on Crome browser.
 
-To run tests:
+To run tests against a local Neo4j:
 
 ```
-npm run test
+npm run test-local
+```
+
+To run tests against an Aura DB Neo4j:
+
+```
+npm run test-dev
 ```
 
 To run lint check:

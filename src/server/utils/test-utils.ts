@@ -6,10 +6,11 @@ const jwt = require('jsonwebtoken')
 const username = 'da-test-dude'
 const role = 'admin'
 const user_id = 'da-user-id'
-
 const secret = process.env.SECRET || ''
+const port = process.env.PORT || 3002
+const apiUrl = process.env.API_URL || 'http://localhost:5000'
 const userForToken: Token = { username, user_id, role }
-const token = jwt.sign(userForToken, process.env.SECRET)
+const token = jwt.sign(userForToken, secret)
 export const MOCK_AUTHORIZATION = `bearer ${token}`
 
 export async function doTestRequest(
@@ -19,7 +20,7 @@ export async function doTestRequest(
   query?: object,
   authorization: string = MOCK_AUTHORIZATION
 ): Promise<request.RequestPromise> {
-  const uri = `http://localhost:${process.env.PORT}/${apiPath}`
+  const uri = `http://localhost:${port}/${apiPath}`
   return request({
     json: true,
     method,
@@ -38,7 +39,7 @@ export async function doTestRequest(
 
 
 export function mockApiRequest(): nock.Scope {
-  return nock(`${process.env.API_URL}`, {
+  return nock(`${apiUrl}`, {
     reqheaders: {
       'user-agent' : 'scent-graph',
       'Authorization': MOCK_AUTHORIZATION,
