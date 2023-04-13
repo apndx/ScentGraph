@@ -1,10 +1,10 @@
-import  { loadServerConfig } from './config'
+import  { getUrl, loadServerConfig } from './config'
 
 
 describe (`server config`, () => {
     it(`should load config`, () => {
         const config = loadServerConfig()
-        const neo4jUrl = process.env.AURA_BOLT_URL || 'bolt://localhost:7687'
+        const neo4jUrl = getUrl(process.env.NODE_ENV) || 'bolt://localhost:7687'
         const env = process.env.NODE_ENV || 'test-local'
 
         expect(config).toEqual({

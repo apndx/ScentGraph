@@ -22,4 +22,4 @@ jobs:
         with:
           tag: '3.5.14'
       - name: Test and check style
-        run: npm run test
+        run: npm run test-local
