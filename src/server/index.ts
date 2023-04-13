@@ -26,8 +26,10 @@ function getUser(env: string | undefined) {
   switch(env) {
     case 'local':
       return process.env.GRAPHENEDB_BOLT_USER
-    case 'dev': case 'test':
+    case 'dev':
       return process.env.AURA_USERNAME
+    case 'ci':
+      return process.env.CI_BOLT_USER
     default:
       return 'neo4j'
   }
@@ -37,8 +39,10 @@ function getPass(env: string | undefined) {
   switch(env) {
     case 'local':
       return process.env.GRAPHENEDB_BOLT_PASSWORD
-    case 'dev': case 'test':
+    case 'dev':
       return process.env.AURA_PASSWORD
+    case 'ci':
+      return process.env.CI_BOLT_PASSWORD
     default:
       return ''
   }

@@ -16,7 +16,11 @@ jobs:
       - name: Create env file
         run: |
           touch .env
+          echo NODE_ENV=ci >> .env
           echo SECRET=${{ secrets.SECRET }} >> .env
+          echo CI_BOLT_URL=${{ secrets.CI_BOLT_URL }} >> .env
+          echo CI_BOLT_USER=${{ secrets.CI_BOLT_USER }} >> .env
+          echo CI_BOLT_PASSWORD=${{ secrets.CI_BOLT_PASSWORD }} >> .env
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -25,5 +29,7 @@ jobs:
         uses: baptouuuu/setup-neo4j@v1.2.0
         with:
           tag: '3.5.14'
+          password: ${{ secrets.CI_BOLT_PASSWORD }}
+
       - name: Test and check style
         run: npm run test-local

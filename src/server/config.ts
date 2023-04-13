@@ -33,6 +33,8 @@ export function getUrl(env: string | undefined) {
       return process.env.GRAPHENEDB_BOLT_URL
     case 'dev': case 'test-dev':
       return process.env.AURA_BOLT_URL
+    case 'ci':
+        return process.env.CI_BOLT_URL
     default:
       return 'bolt://localhost:7687'
   }
