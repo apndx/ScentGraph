@@ -7,11 +7,12 @@ const config = loadServerConfig()
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
-const neo4jUser = process.env.AURA_USERNAME || 'neo4j'
-const neo4jPass = process.env.AURA_PASSWORD || ''
+
+const neo4jUser = getUser(process.env.NODE_ENV) || 'neo4j'
+const neo4jPass = getPass(process.env.NODE_ENV) || ''
 
 const driver = configureNeo4jDriver(config.neo4jUrl, neo4jUser, neo4jPass)
-const driverVerification = verifyDriver(driver)
+verifyDriver(driver)
 
 const server = startServer(config, driver)
 server.then(instance => {
@@ -19,3 +20,26 @@ server.then(instance => {
     stopServer(instance, driver)
   })
 })
+
+
+function getUser(env: string | undefined) {
+  switch(env) {
+    case 'local':
+      return process.env.GRAPHENEDB_BOLT_USER
+    case 'dev': case 'test':
+      return process.env.AURA_USERNAME
+    default:
+      return 'neo4j'
+  }
+}
+
+function getPass(env: string | undefined) {
+  switch(env) {
+    case 'local':
+      return process.env.GRAPHENEDB_BOLT_PASSWORD
+    case 'dev': case 'test':
+      return process.env.AURA_PASSWORD
+    default:
+      return ''
+  }
+}

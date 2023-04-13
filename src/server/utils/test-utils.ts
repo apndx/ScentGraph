@@ -7,6 +7,7 @@ const username = 'da-test-dude'
 const role = 'admin'
 const user_id = 'da-user-id'
 
+const secret = process.env.SECRET || ''
 const userForToken: Token = { username, user_id, role }
 const token = jwt.sign(userForToken, process.env.SECRET)
 export const MOCK_AUTHORIZATION = `bearer ${token}`
