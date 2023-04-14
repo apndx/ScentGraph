@@ -59,6 +59,14 @@ To run tests against an Aura DB Neo4j:
 npm run test-dev
 ```
 
+To run browser tests:
+
+```
+npm run cypress-open
+```
+   "cypress-open": "cypress open",
+    "test-e2e": "cypress run",
+
 To run lint check:
 
 ```

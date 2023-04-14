@@ -20,7 +20,7 @@
     "declaration": true,
     "allowJs": true,
     "esModuleInterop": true,
-    "types": ["cypress"]
+    "types": ["cypress", "node"]
   },
-  "include": ["src/client/**/*ts"]
+  "include": ["**/*.ts"]
 }
