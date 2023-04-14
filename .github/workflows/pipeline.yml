@@ -32,4 +32,4 @@ jobs:
           password: ${{ secrets.CI_BOLT_PASSWORD }}
 
       - name: Test and check style
-        run: npm run test-local
+        run: npm run test-ci

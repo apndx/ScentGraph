@@ -11,6 +11,7 @@
     "start-dev": "cross-env NODE_ENV=dev API_URL=\"http://localhost:3000\" concurrently npm:watch-client npm:start-server",
     "test-local": "cross-env NODE_ENV=test-local jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
     "test-dev": "cross-env NODE_ENV=test-dev jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
+    "test-ci": "cross-env NODE_ENV=ci jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
     "tsc": "tsc",
     "watch-client": "parcel watch ./src/client/index.html",
     "parcel-server-client": "parcel ./src/client/index.tsx",
