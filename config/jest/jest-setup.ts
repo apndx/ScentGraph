@@ -17,7 +17,6 @@ export default async () => {
 
     const neoUser = getUser(process.env.NODE_ENV)
     const neoPass= getPass(process.env.NODE_ENV)
-
     const neoDriver = configureNeo4jDriver(process.env.NEO4J_URL, neoUser, neoPass)
     // @ts-ignore
     global.__NEO4J_DRIVER__ = neoDriver
@@ -41,10 +40,10 @@ function getUrl(env: string | undefined) {
 
   function getUser(env: string | undefined) {
     switch(env) {
-      case 'local':
+      case 'test-local':
         return process.env.GRAPHENEDB_BOLT_USER
-      case 'dev':
-        return process.env.AURA_USERNAME
+      case 'test-dev':
+        return process.env.AURA_USER
       case 'ci':
         return process.env.CI_BOLT_USER
       default:
@@ -54,9 +53,9 @@ function getUrl(env: string | undefined) {
 
   function getPass(env: string | undefined) {
     switch(env) {
-      case 'local':
+      case 'test-local':
         return process.env.GRAPHENEDB_BOLT_PASSWORD
-      case 'dev':
+      case 'test-dev':
         return process.env.AURA_PASSWORD
       case 'ci':
         return process.env.CI_BOLT_PASSWORD

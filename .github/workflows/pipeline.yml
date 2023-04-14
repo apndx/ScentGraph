@@ -28,7 +28,6 @@ jobs:
       - name: Setup Neo4j
         uses: baptouuuu/setup-neo4j@v1.2.0
         with:
-          tag: '3.5.14'
           password: ${{ secrets.CI_BOLT_PASSWORD }}
 
       - name: Test and check style
