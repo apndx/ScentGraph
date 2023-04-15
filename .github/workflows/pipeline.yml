@@ -34,3 +34,9 @@ jobs:
           command: npm run cypress-run
           start: npm run start-ci
           wait-on: http://localhost:3004
+      - name: Heroku Deployment
+        uses: akhileshns/heroku-deploy@v3.12.13
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "scent-graph" #Must be unique in Heroku
+          heroku_email: "heli.huhtilainen@helsinki.fi"
