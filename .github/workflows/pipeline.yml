@@ -40,3 +40,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "scent-graph" #Must be unique in Heroku
           heroku_email: "heli.huhtilainen@helsinki.fi"
+          healthcheck: "https://scent-graph.herokuapp.com/api/health"
+          checkstring: "ok"
+          delay: 5

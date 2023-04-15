@@ -14,6 +14,7 @@ import {
 } from './admin-scent-details'
 import { ServerConfig } from '../config'
 import { configureRouteNotFoundMiddleware } from '../../server/middleware'
+import { configureMonitoringRoutes } from './monitoring/monitoring-routes'
 
 const API_PATH = '/api'
 
@@ -32,6 +33,7 @@ export function configureRoutes(
   configureBrandRoutes(app, driver, API_PATH)
   configureNoteRoutes(app, driver, API_PATH)
   configureGraphRoutes(app, driver, API_PATH)
+  configureMonitoringRoutes(app, API_PATH)
   configureRouteNotFoundMiddleware(config, app, API_PATH)  // this should be last
 }
 
