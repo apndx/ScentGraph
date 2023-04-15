@@ -33,4 +33,4 @@ jobs:
         with:
           command: npm run cypress-run
           start: npm run start-ci
-          wait-on: http://localhost:3000
+          wait-on: http://localhost:3004
