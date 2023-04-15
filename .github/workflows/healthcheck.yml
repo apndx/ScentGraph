@@ -1,0 +1,23 @@
+name: Health check
+
+on:
+  schedule:
+    - cron: '00,15 20 * * *' #  20:00 and 20:15 GMT, 23:00 and 23:15 EET @ summertime
+
+jobs:
+  health_check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v3.1
+        with:
+          # Check the following URL
+          url: https://scent-graph.herokuapp.com/api/health
+          # Follow redirects, or just report success on 3xx status codes
+          follow-redirect: false # Optional, defaults to "false"
+          # Fail this action after this many failed attempts
+          max-attempts: 3 # Optional, defaults to 1
+          # Delay between retries
+          retry-delay: 5s # Optional, only applicable to max-attempts > 1
+          # Retry all errors, including 404. This option might trigger curl upgrade.
+          retry-all: false # Optional, defaults to "false"
