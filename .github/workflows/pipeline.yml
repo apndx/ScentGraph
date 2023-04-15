@@ -43,3 +43,4 @@ jobs:
           healthcheck: "https://scent-graph.herokuapp.com/api/health"
           checkstring: "ok"
           delay: 5
+          rollbackonhealthcheckfailed: true
