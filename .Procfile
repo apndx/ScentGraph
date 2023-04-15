@@ -1,1 +1,1 @@
-web: ts-node --project ./config/tsconfig-server.json ./src/server/index.tss
+webb: ts-node --project ./config/tsconfig-server.json ./src/server/index.ts
