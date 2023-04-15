@@ -26,7 +26,7 @@ function getUser(env: string | undefined) {
   switch(env) {
     case 'local':
       return process.env.GRAPHENEDB_BOLT_USER
-    case 'dev':
+    case 'dev': case 'production':
       return process.env.AURA_USERNAME
     case 'ci':
       return process.env.CI_BOLT_USER
@@ -39,7 +39,7 @@ function getPass(env: string | undefined) {
   switch(env) {
     case 'local':
       return process.env.GRAPHENEDB_BOLT_PASSWORD
-    case 'dev':
+    case 'dev': case 'production':
       return process.env.AURA_PASSWORD
     case 'ci':
       return process.env.CI_BOLT_PASSWORD

@@ -31,7 +31,7 @@ export function getUrl(env: string | undefined) {
   switch(env) {
     case 'local': case 'test-local':
       return process.env.GRAPHENEDB_BOLT_URL
-    case 'dev': case 'test-dev':
+    case 'dev': case 'test-dev': case 'production':
       return process.env.AURA_BOLT_URL
     case 'ci':
         return process.env.CI_BOLT_URL
