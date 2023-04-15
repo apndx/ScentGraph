@@ -21,6 +21,7 @@ jobs:
           echo CI_BOLT_URL=${{ secrets.CI_BOLT_URL }} >> .env
           echo CI_BOLT_USER=${{ secrets.CI_BOLT_USER }} >> .env
           echo CI_BOLT_PASSWORD=${{ secrets.CI_BOLT_PASSWORD }} >> .env
+          echo PORT=${{ secrets.CI_PORT }} >> .env
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -31,5 +32,5 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           command: npm run cypress-run
-          start: npm run start-dev
+          start: npm run start-ci
           wait-on: http://localhost:3000

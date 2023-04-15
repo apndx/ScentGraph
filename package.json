@@ -9,6 +9,7 @@
     "start-server": "ts-node -r dotenv/config --project ./config/tsconfig-server.json ./src/server/index.ts",
     "start-local": "cross-env NODE_ENV=local API_URL=\"http://localhost:3000\" concurrently npm:watch-client npm:start-server",
     "start-dev": "cross-env NODE_ENV=dev API_URL=\"http://localhost:3000\" concurrently npm:watch-client npm:start-server",
+    "start-ci": "cross-env NODE_ENV=ci API_URL=\"http://localhost:3000\" concurrently npm:watch-client npm:start-server",
     "test-local": "cross-env NODE_ENV=test-local jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
     "test-dev": "cross-env NODE_ENV=test-dev jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
     "test-ci": "cross-env NODE_ENV=ci jest -i -c ./config/jest/jest-config.json && tslint \"src/**/{*.ts, *.tsx}\"",
