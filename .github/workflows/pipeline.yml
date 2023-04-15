@@ -27,3 +27,9 @@ jobs:
         run: npm run build-client
       - name: Test and check style
         run: npm run test-ci
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v5
+        with:
+          command: npm run cypress-run
+          start: npm run start-dev
+          wait-on: http://localhost:3000
