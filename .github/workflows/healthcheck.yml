@@ -2,7 +2,7 @@ name: Health check
 
 on:
   schedule:
-    - cron: '00,15 20 * * *' #  20:00 and 20:15 GMT, 23:00 and 23:15 EET @ summertime
+    - cron: '00 20 * * *' #  20:00 GMT, 23:00 EET @ summertime
 
 jobs:
   health_check:
