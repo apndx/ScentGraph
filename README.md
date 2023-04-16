@@ -1,6 +1,6 @@
-[ScentGraph](https://scent-graph.herokuapp.com/)
+#[ScentGraph](https://scent-graph.herokuapp.com/)
 
-ScentGraph is a project for Helsinki University FullStack course. ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application will be hosted in Heroku. The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries will be done using Cypher. GitHub actions are used for CI and automated testing.
+ScentGraph is a project for Helsinki University [Full Stack course](https://fullstackopen.com/en/). In 2020 it my Full Stack course project, and in 2023 it was used as a base for [Full Stack Part 11](https://fullstackopen.com/en/part11) exercise [11.20](https://fullstackopen.com/en/part11/expanding_further#exercises-11-19-11-21). ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application is hosted in [Heroku](https://scent-graph.herokuapp.com/). The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries are done using Cypher. GitHub actions are used for CI and automated testing.
 
 In ScentGraph users can add scents to the database. The scents can belong to various categories and the relations of scents, their categories and several scent properties can be visualized in a graph form.
 
@@ -18,14 +18,7 @@ AURA_BOLT_URL = neo4j+s://yourdbidentifier.databases.neo4j.io
 AURA_USER = neo4j
 AURA_PASSWORD = supersecretpassword
 ```
-
-Optionally, a local Neo4J can be started as a [Neo4J Docker](https://neo4j.com/developer/docker/) instance. Install and usage instructions for this can be found in the [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) introduction. For local use, the credential envs should be saved as:
-```
-GRAPHENEDB_BOLT_URL = bolt://localhost:7687
-GRAPHENEDB_BOLT_USER = neo4j
-GRAPHENEDB_BOLT_PASSWORD = supersecretpassword
-```
-
+More details for setting up the database for ScentGraph can be found in the [database.md](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md).
 
 ### Commands
 
@@ -37,21 +30,15 @@ Install dependencies:
 npm install
 ```
 
-Start application in [local mode](http://localhost:3001/):
+Start application in [dev mode](http://localhost:3001/):
 
 ```
-npm run start-local
+npm run start-dev
 ```
 
 ### Testing
 
-At the moment some server and client helper functions are being unit tested. Also there is one route integration test. To run the integration test, a local Neo4j instance should be running. The application frontend use has been manually tested on Crome browser.
-
-To run tests against a local Neo4j:
-
-```
-npm run test-local
-```
+At the moment some server and client helper functions are being unit tested. Also there is one route integration test. To run the integration test, an Aura DB instance should be running. The application frontend use has been manually tested on Crome browser, and there is a very simple browser test done with cypress.
 
 To run tests against an Aura DB Neo4j:
 
@@ -59,13 +46,17 @@ To run tests against an Aura DB Neo4j:
 npm run test-dev
 ```
 
-To run browser tests:
+To run browser tests with the GUI:
 
 ```
 npm run cypress-open
 ```
-   "cypress-open": "cypress open",
-    "test-e2e": "cypress run",
+
+To run browser tests with the CLI:
+
+```
+npm run cypress-run
+```
 
 To run lint check:
 
