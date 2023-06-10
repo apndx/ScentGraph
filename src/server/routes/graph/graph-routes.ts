@@ -30,12 +30,9 @@ export function configureGraphRoutes(
 
       const session = driver.session()
 
-      console.log('REQS', req.body)
       const cypher: string = cypherDecider(req.body)
       const params = req.body.type === 'scent' ? scentGraphByNameParams(req.body)
         : scentGraphParams(req.body)
-
-      console.log(cypher, params)
 
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
@@ -110,7 +107,6 @@ export function configureGraphRoutes(
                 edges.push(edgeConverter(addedBy))
               }
             })
-            console.log(nodes, edges)
             res.status(200).send({ nodes, edges })
           })
           .catch((e: any) => {
@@ -128,7 +124,6 @@ export function configureGraphRoutes(
     `${GRAPH_PATH}/scentNotesForGraph`,
     async (req: express.Request, res: express.Response) => {
 
-      console.log('REQS', req.body)
       const params = { scentname: req.body.scentname }
 
       const nodes: GraphNodeOut[] = []
@@ -154,7 +149,6 @@ export function configureGraphRoutes(
               }
 
             })
-            console.log(nodes, edges)
             res.status(200).send({ nodes, edges })
           })
           .catch((e: any) => {

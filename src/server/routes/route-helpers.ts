@@ -47,14 +47,14 @@ export function toSmallInteger(numberToConvert: NeoInteger): number {
 }
 
 export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
-  const date: Date = new Date(node.properties.createdAt)
+  const date: Date = new Date(node.properties.created_at)
   const hours = timeHelper(date.getHours())
   const mins = timeHelper(date.getMinutes())
   const nodeProperties: NodePropertiesOut = {
     ...(node.properties && { name: extractName(node.properties) }),
     ...(node.labels && { type: node.labels[0] }),
     ...(node.properties.label && { label: node.properties.label }),
-    ...(node.properties.createdAt &&
+    ...(node.properties.created_at &&
       { created: `${date.toDateString()} ${hours}:${mins}` }),
     ...(node.labels[0] === 'Scent' && { notes: 'Double click to show' })
   }
