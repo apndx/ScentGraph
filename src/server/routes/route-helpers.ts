@@ -1,3 +1,4 @@
+import { AnyAaaaRecord } from 'dns'
 import {
   GraphNodeIn,
   GraphEdgeIn,
@@ -7,7 +8,9 @@ import {
   GraphEdgeOut,
   AdminContent,
   NeodeBatchQueryItem,
-  NodePropertiesOut
+  NodePropertiesOut,
+  Season,
+  TimeOfDay
 } from '../../common/data-classes'
 import * as neo4j from 'neo4j-driver'
 
@@ -112,12 +115,33 @@ export function scentGraphByNameParams(item: AdminContent): any {
   return { scentname: scentname, brandname: brandname }
 }
 
+export function scentGraphCurrentParams(): any {
+  const season = seasonDecider()
+  const time = timeDecider()
+  return { seasonname: season, timename: time }
+}
+
+export function paramDecider(item: AdminContent): any {
+  const type = item.type
+  switch (type) {
+    case 'scent':
+      return scentGraphByNameParams(item)
+    case 'current':
+      return scentGraphCurrentParams()
+    default:
+      return scentGraphParams(item)
+  }
+}
+
 export function cypherDecider(item: AdminContent): string {
   if (item.type === 'note') {
     return getScentFromNoteCypher(item)
   } else if (item.type === 'scent') {
     return getScentfromNameCypher()
-  } else {
+  } else if (item.type === 'current') {
+    return getCurrentScentCypher()
+  }
+  else {
     return getScentFromCypher(item)
   }
 }
@@ -180,6 +204,21 @@ export function getallScentsCypher(item: AdminContent): string {
     belcategory, belbrand, belseason, beltime, belgender, hasnote`
 }
 
+
+export function getCurrentScentCypher(): string {
+  return `
+	MATCH (scent:Scent) -[belcategory:BELONGS]->(category:Category)
+    MATCH (scent:Scent) -[belbrand:BELONGS]->(brand:Brand)
+    MATCH (scent:Scent) -[belseason:BELONGS]->(season:Season)
+    MATCH (scent:Scent) -[beltime:BELONGS]->(time:TimeOfDay)
+    MATCH (scent:Scent) -[belgender:BELONGS]->(gender:Gender)
+    MATCH (scent:Scent)<-[addedby:ADDED]-(user:User)
+    WHERE toLower(season.seasonname) = toLower($seasonname)
+    AND toLower(time.timename) = toLower($timename)
+    return scent, category, brand, season, time, gender, user,
+    belcategory, belbrand, belseason, beltime, belgender, addedby`
+}
+
 export function batchHelper(notes: string[]): NeodeBatchQueryItem[] {
   return notes.map((note: string) => {
     return {
@@ -203,4 +242,16 @@ export function nodeTitleBuilder(properties: any): string {
     }
   }
   return title
+}
+
+function seasonDecider(): Season {
+    // Northern hemisphere (Winter as Dec/Jan/Feb etc...)
+  const getSeason = (d: Date) => Math.floor((d.getMonth() / 12 * 4)) % 4
+  return [Season.Winter, Season.Spring, Season.Summer, Season.Autumn][getSeason(new Date())]
+}
+
+function timeDecider(): TimeOfDay {
+    // Breakpoints at 05:00 AM and 17:00 PM
+  const hours: number = new Date().getHours()
+  return (hours > 4 && hours < 17) ? TimeOfDay.Day : TimeOfDay.Night
 }

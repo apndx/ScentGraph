@@ -17,3 +17,15 @@ export interface ScentItem {
   brand?: string,
   note?: string
 }
+
+export enum Season {
+  Winter = "Winter",
+  Spring = "Spring",
+  Summer = "Summer",
+  Autumn = "Autumn"
+}
+
+export enum TimeOfDay {
+  Day = "Day",
+  Night = "Night",
+}
