@@ -12,8 +12,7 @@ import { ScentItem } from '../../../common/data-classes'
 import { getAll } from '../../services'
 import Autocomplete from 'react-autocomplete'
 import { Button } from 'react-bootstrap'
-import { ScentGraph } from './scent-graph'
-import { Notification } from '../../components'
+import { ScentGraph, Notification } from './../../components'
 import {
   categoryStyle,
   brandStyle,
@@ -237,7 +236,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
           <div>
             <p></p>
             <ScentGraph
-              containerId={'category-scents'}
+              containerId={'show-scents'}
               backgroundColor={'#e4e6e1'}
               nameToGraph={this.state.nameToGraph}
               type={this.state.type}

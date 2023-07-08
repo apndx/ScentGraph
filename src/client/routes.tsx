@@ -1,5 +1,6 @@
 export enum ClientRoutePath {
     FrontPage = '/',
+    Current = '/',
     UserCreation = '/newUser',
     ScentCreation = '/addScent',
     NoteCreation = '/addNotes',

@@ -12,8 +12,7 @@ import {
   isUniqueNode,
   isUniqueEdge,
   cypherDecider,
-  scentGraphParams,
-  scentGraphByNameParams
+  paramDecider
 } from '../route-helpers'
 
 export function configureGraphRoutes(
@@ -31,8 +30,7 @@ export function configureGraphRoutes(
       const session = driver.session()
 
       const cypher: string = cypherDecider(req.body)
-      const params = req.body.type === 'scent' ? scentGraphByNameParams(req.body)
-        : scentGraphParams(req.body)
+      const params = paramDecider(req.body)
 
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
@@ -41,7 +39,9 @@ export function configureGraphRoutes(
 
         session.run(cypher, params)
           .then((result: any) => {
-            result.records.map((row: any) => {
+
+            const records = req.body.type === 'current' ? [result.records[Math.floor(Math.random() * result.records.length)]] : result.records
+            records.map((row: any) => {
 
               const scent: GraphNodeIn = row.get('scent') || null
               const category: GraphNodeIn = row.get('category') || null
