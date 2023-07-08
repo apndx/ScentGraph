@@ -19,13 +19,13 @@ export interface ScentItem {
 }
 
 export enum Season {
-  Winter = "Winter",
-  Spring = "Spring",
-  Summer = "Summer",
-  Autumn = "Autumn"
+  Winter = 'Winter',
+  Spring = 'Spring',
+  Summer = 'Summer',
+  Autumn = 'Autumn'
 }
 
 export enum TimeOfDay {
-  Day = "Day",
-  Night = "Night",
+  Day = 'Day',
+  Night = 'Night',
 }

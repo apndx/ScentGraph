@@ -1,4 +1,4 @@
-import { AdminContent } from "../../common/data-classes"
+import { AdminContent } from '../../common/data-classes'
 
 export function getScentfromNameCypher(): string {
   return `
