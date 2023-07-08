@@ -10,7 +10,8 @@ import {
   AdminTools,
   ScentCreate,
   ShowScents,
-  NoteCreate
+  NoteCreate,
+  Current
 } from './pages'
 import 'bootstrap/dist/css/bootstrap.css'
 import { SessionStorageItem } from '../client/utils'
@@ -46,6 +47,7 @@ class App extends React.Component {
       <BrowserRouter >
         <Route path={ClientRoutePath.FrontPage} component={FrontPage} />
         <Switch>
+        <Route exact path={ClientRoutePath.Current} component={Current} />
           <Route exact path={ClientRoutePath.NoteCreation} component={NoteCreate} />
           <Route exact path={ClientRoutePath.ScentCreation} component={ScentCreate} />
           <Route exact path={ClientRoutePath.ShowCategoryScents} component={ShowScents} />

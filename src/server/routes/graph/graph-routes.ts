@@ -41,8 +41,6 @@ export function configureGraphRoutes(
           .then((result: any) => {
 
             const records = req.body.type === 'current' ? [result.records[Math.floor(Math.random() * result.records.length)]] : result.records
-            console.log(req.body)
-            console.log(records)
             records.map((row: any) => {
 
               const scent: GraphNodeIn = row.get('scent') || null

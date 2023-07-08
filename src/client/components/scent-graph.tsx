@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Graph from 'vis-react'
-import { getScentsFrom, notesForGraph } from '../../services'
-import { GraphResult, AdminContent, GraphNodeOut } from '../../../common/data-classes'
-import { groupStyles } from './show-scent-styles'
-import { isUniqueGraphNode, isUniqueGraphEdge } from '../../utils'
+import { getScentsFrom, notesForGraph } from '../services'
+import { GraphResult, AdminContent, GraphNodeOut } from '../../common/data-classes'
+import { groupStyles } from '../pages/show-scents/show-scent-styles'
+import { isUniqueGraphNode, isUniqueGraphEdge } from '../utils'
 
 export interface ScentGraphState {
   errorMessage?: string,
@@ -27,7 +27,7 @@ export interface ScentGraphProps {
   filters: string[]
 }
 
-export class ScentGraph extends React.PureComponent<ScentGraphProps, ScentGraphState> {
+export class ScentGraph extends React.Component<ScentGraphProps, ScentGraphState> {
   private events: { doubleClick }
   private options: {
     layout: { hierarchical: boolean }

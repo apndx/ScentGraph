@@ -13,8 +13,8 @@ interface FrontPageLocation extends Location {
   message: string
 }
 
-export class FrontPage extends React.PureComponent<FrontPageProps, EMPTY_STATE> {
- 
+export class FrontPage extends React.Component<FrontPageProps, EMPTY_STATE> {
+
   constructor(props) {
     super(props)
   }
@@ -27,7 +27,7 @@ export class FrontPage extends React.PureComponent<FrontPageProps, EMPTY_STATE> 
         </div>
         <div className='container'>
           <Notification message={this.props.location.message} />
-          <h1>ScentGraph</h1>
+          <h1>Welcome to ScentGraph</h1>
         </div>
       </div>
     )

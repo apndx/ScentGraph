@@ -1,6 +1,7 @@
-import { nodeConverter, paramDecider, seasonDecider, timeDecider } from './route-helpers'
+import { nodeConverter, paramDecider } from './route-helpers'
 import { AdminContent, GraphNodeIn, GraphNodeOut } from '../../common/data-classes'
 import { loadFixtureFile } from '../../common/test-utils'
+import { seasonDecider, timeDecider } from '../../common/utils'
 
 describe('Param decider', () => {
 
