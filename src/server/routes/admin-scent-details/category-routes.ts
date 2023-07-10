@@ -69,7 +69,6 @@ export function configureCategoryRoutes(
             result.records.map((row: any) => {
               categories.push(convertToScentItem(row.get('category')))
             })
-            console.log(categories)
             res.status(200).send(categories)
           })
           .catch((e: any) => {

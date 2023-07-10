@@ -47,7 +47,7 @@ class App extends React.Component {
       <BrowserRouter >
         <Route path={ClientRoutePath.FrontPage} component={FrontPage} />
         <Switch>
-        <Route exact path={ClientRoutePath.Current} component={Current} />
+          <Route exact path={ClientRoutePath.Current} component={Current} />
           <Route exact path={ClientRoutePath.NoteCreation} component={NoteCreate} />
           <Route exact path={ClientRoutePath.ScentCreation} component={ScentCreate} />
           <Route exact path={ClientRoutePath.ShowCategoryScents} component={ShowScents} />

@@ -58,6 +58,7 @@ export function nodeConverter(node: GraphNodeIn): GraphNodeOut {
     ...(node.properties.label && { label: node.properties.label }),
     ...(node.properties.created_at &&
       { created: `${date.toDateString()} ${hours}:${mins}` }),
+    ...(node.properties.url && { url: node.properties.url }),
     ...(node.labels[0] === 'Scent' && { notes: 'Double click to show' })
   }
 

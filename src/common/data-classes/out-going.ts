@@ -23,5 +23,6 @@ export interface NodePropertiesOut {
   name?: string,
   type?: string,
   created?: string,
-  label?: string
+  label?: string,
+  url?: string
 }
