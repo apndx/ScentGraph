@@ -64,7 +64,6 @@ export function configureTimeOfDayRoutes(
             result.records.map((row: any) => {
               times.push(convertToScentItem(row.get('time')))
             })
-            console.log(times)
             res.status(200).send(times)
           })
           .catch((e: any) => {

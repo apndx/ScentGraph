@@ -17,6 +17,7 @@ export function configureScentRoutes(
 
       const session = driver.session()
       const username = authenticateToken(req).username
+      const url = req.body.url ? req.body.url : ''
 
       try {
         if (req.body.scentname.length < 1) {
@@ -37,12 +38,16 @@ export function configureScentRoutes(
         await session.run(`
             CREATE (scent:Scent {
               scentname: $scentname,
+              url: $url,
               scent_id: randomUuid()
             })
             SET scent.created_at = datetime()
             RETURN scent
             `,
-          { scentname: req.body.scentname })
+          {
+            scentname: req.body.scentname,
+            url: url
+          })
 
         await session.run(`
             MATCH (scent:Scent{scentname:$scentname})

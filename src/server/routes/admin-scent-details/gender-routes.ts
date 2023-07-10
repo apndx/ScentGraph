@@ -65,7 +65,6 @@ export function configureGenderRoutes(
             result.records.map((row: any) => {
               genders.push(convertToScentItem(row.get('gender')))
             })
-            console.log(genders)
             res.status(200).send(genders)
           })
           .catch((e: any) => {

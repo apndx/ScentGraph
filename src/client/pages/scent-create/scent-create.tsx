@@ -41,6 +41,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       gendername: '',
       timename: '',
       categoryname: '',
+      url: '',
       allBrands: [],
       allNotes: [],
       allCategories: []
@@ -99,7 +100,8 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       seasonname: this.state.seasonname,
       gendername: this.state.gendername,
       timename: this.state.timename,
-      categoryname: this.state.categoryname
+      categoryname: this.state.categoryname,
+      url: this.state.url
     }
 
     if (!this.brandNames(this.state.allBrands).includes(this.state.brandname)) {
@@ -144,7 +146,8 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
       seasonname: '',
       gendername: '',
       timename: '',
-      categoryname: ''
+      categoryname: '',
+      url: ''
     })
     this.props.history.push({
       pathname: '/',
@@ -167,9 +170,16 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               value={this.state.scentname}
               onChange={event => { this.setState({ scentname: event.target.value }) }}
               id='scentname' />
+            <Form.Label> Fragrantica URL (optional) </Form.Label>
+            <Form.Control
+              type='text'
+              name='url'
+              value={this.state.url}
+              onChange={event => { this.setState({ url: event.target.value }) }}
+              id='url' />
           </Form.Group>
           <Form.Group controlId='scentForm.SeasonSelect'>
-            <Form.Label> Choose Season </Form.Label>
+            <Form.Label> Choose season </Form.Label>
             <Form.Control
               name='season'
               as='select' multiple
@@ -182,7 +192,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
             </Form.Control>
           </Form.Group>
           <Form.Group controlId='scentForm.TimeSelect'>
-            <Form.Label> Choose Time of Day </Form.Label>
+            <Form.Label> Choose time of day </Form.Label>
             <Form.Control
               name='timename'
               as='select' multiple
@@ -193,7 +203,7 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
             </Form.Control>
           </Form.Group>
           <Form.Group controlId='scentForm.genderSelect'>
-            <Form.Label> Choose Gender </Form.Label>
+            <Form.Label> Choose gender </Form.Label>
             <Form.Control
               name='gendername'
               as='select' multiple
@@ -204,7 +214,8 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
               <option>Unisex</option>
             </Form.Control>
           </Form.Group>
-          <p>Select Category:</p>
+
+          <p>Select category</p>
           {this.state.allCategories &&
             <Autocomplete
               value={this.state.categoryname}
@@ -227,7 +238,8 @@ export class ScentCreate extends React.PureComponent<ScentCreateProps, ScentCrea
                 >{item.name}</div>
               )}
             />}
-          <p>Select or add Brand:</p>
+
+          <p>Select or add brand</p>
           {this.state.allBrands &&
             <Autocomplete
               value={this.state.brandname}

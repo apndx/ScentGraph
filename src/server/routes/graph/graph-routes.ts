@@ -31,7 +31,6 @@ export function configureGraphRoutes(
 
       const cypher: string = cypherDecider(req.body)
       const params = paramDecider(req.body)
-
       const nodes: GraphNodeOut[] = []
       const edges: GraphEdgeOut[] = []
 
