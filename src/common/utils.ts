@@ -7,7 +7,7 @@ return [Season.Winter, Season.Spring, Season.Summer, Season.Autumn][getSeason(ne
 }
 
 export function timeDecider(): TimeOfDay {
-  // Breakpoints at 05:00 AM and 17:00 PM
-const hours: number = new Date().getHours()
-return (hours > 4 && hours < 17) ? TimeOfDay.Day : TimeOfDay.Night
+  // Breakpoints at 02:00 AM and 14:00 PM UTC
+const hours: number = new Date().getUTCHours()
+return (hours > 1 && hours < 14) ? TimeOfDay.Day : TimeOfDay.Night
 }
