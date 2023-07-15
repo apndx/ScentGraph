@@ -3,8 +3,9 @@ import { createScent, getAll, createItem } from '../../services'
 import { ScentToCreate, ScentItem, AdminContent } from '../../../common/data-classes'
 import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
-import { matchInput, sortNames } from '../../utils'
+import { matchInput } from '../../utils'
 import { Notification } from '../../components'
+import { brandNames, categoryNames, sortByName } from './scent-create-util'
 
 interface Props {
   history: any,
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const ScentCreate: React.FC<Props> = ({
-  history, location, match
+  history
 }) => {
 
   const [message, setMessage] = React.useState('')
@@ -25,8 +26,8 @@ const ScentCreate: React.FC<Props> = ({
   const [categoryname, setCategoryname] = React.useState('')
   const [url, setUrl] = React.useState('')
   const [allBrands, setAllBrands] = React.useState([])
-  const [allNotes, setAllNotes] =React.useState([])
   const [allCategories, setAllCategories] = React.useState([])
+  const [timer, setTimer] = React.useState<NodeJS.Timeout|undefined>(undefined)
 
 
   React.useEffect(() => {
@@ -44,18 +45,16 @@ const ScentCreate: React.FC<Props> = ({
         setAllBrands(allBrands)
       })
     }
-    const fetchNoteData = async () => {
-      const notes = await getAll('note').then(notes => {
-        const allNotes = sortByName(notes)
-        setAllNotes(allNotes)
-      })
-    }
+
     // call the function
     fetchCategoryData()
     fetchBrandData()
-    fetchNoteData()
-      // make sure to catch any error
-      .catch(console.error);;
+
+      .catch(console.error)
+
+      return function cleanup() {
+        setTimer(undefined)
+      };
 
   }, [])
 
@@ -74,9 +73,12 @@ const ScentCreate: React.FC<Props> = ({
 
   const handleMessage = async (message) => {
     setMessage(message)
-    setTimeout(() => {
+
+    const timer = setTimeout(() => {
       setMessage('')
     }, 20000)
+
+    setTimer(timer)
   }
 
   const afterScentCreation = () => {
@@ -254,15 +256,3 @@ const ScentCreate: React.FC<Props> = ({
 }
 
 export default ScentCreate
-
-function sortByName(response: any) {
-  return response.sort((a, b) => { return sortNames(a.name, b.name) })
-}
-
-function categoryNames(items: ScentItem[]): string[] {
-  return items.map(item => item.name)
-}
-
-function brandNames(items: ScentItem[]): string[] {
-  return items.map(item => item.name)
-}
