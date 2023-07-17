@@ -27,7 +27,6 @@ export class FrontPage extends React.Component<FrontPageProps, EMPTY_STATE> {
         </div>
         <div className='container'>
           <Notification message={this.props.location.message} />
-          <h1>Welcome to ScentGraph</h1>
         </div>
       </div>
     )

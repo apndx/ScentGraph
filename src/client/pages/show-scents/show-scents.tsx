@@ -172,7 +172,7 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Show Scents by
+        <h2 className='label'>Show Scents by
           <> {' '}
             <Button style={scentStyle} onClick={() => this.handleClick('scent')}>Name</Button>{' '}
             <Button style={categoryStyle} onClick={() => this.handleClick('category')}>Category</Button>{' '}
@@ -245,6 +245,12 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
             />
           </div>
         }
+        <style jsx>{`
+        .label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+      `}</style>
       </div>
     )
   }

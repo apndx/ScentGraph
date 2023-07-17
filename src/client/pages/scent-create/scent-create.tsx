@@ -144,17 +144,17 @@ const ScentCreate: React.FC<Props> = ({
   return (
     <div className='container'>
       <Notification message={message} />
-      <h2>Add a Scent</h2>
+      <h2 className='label'>Add a Scent</h2>
       <form onSubmit={onSubmit}>
         <Form.Group>
-          <Form.Label> Scent name </Form.Label>
+          <Form.Label className='label'> Scent name </Form.Label>
           <Form.Control
             type='text'
             name='scentname'
             value={scentname}
             onChange={event => { setScentname(event.target.value) }}
             id='scentname' />
-          <Form.Label> Fragrantica URL (optional) </Form.Label>
+          <Form.Label className='label'> Fragrantica URL (optional) </Form.Label>
           <Form.Control
             type='text'
             name='url'
@@ -163,7 +163,7 @@ const ScentCreate: React.FC<Props> = ({
             id='url' />
         </Form.Group>
         <Form.Group controlId='scentForm.SeasonSelect'>
-          <Form.Label> Choose season </Form.Label>
+          <Form.Label className='options-label'> Choose season </Form.Label>
           <Form.Control
             name='season'
             as='select' multiple
@@ -176,7 +176,7 @@ const ScentCreate: React.FC<Props> = ({
           </Form.Control>
         </Form.Group>
         <Form.Group controlId='scentForm.TimeSelect'>
-          <Form.Label> Choose time of day </Form.Label>
+          <Form.Label className='options-label'> Choose time of day </Form.Label>
           <Form.Control
             name='timename'
             as='select' multiple
@@ -187,7 +187,7 @@ const ScentCreate: React.FC<Props> = ({
           </Form.Control>
         </Form.Group>
         <Form.Group controlId='scentForm.genderSelect'>
-          <Form.Label> Choose gender </Form.Label>
+          <Form.Label className='options-label'> Choose gender </Form.Label>
           <Form.Control
             name='gendername'
             as='select' multiple
@@ -199,7 +199,7 @@ const ScentCreate: React.FC<Props> = ({
           </Form.Control>
         </Form.Group>
 
-        <p>Select category</p>
+        <p className='label'>Select category</p>
         {allCategories &&
           <Autocomplete
             value={categoryname}
@@ -223,7 +223,7 @@ const ScentCreate: React.FC<Props> = ({
             )}
           />}
 
-        <p>Select or add brand</p>
+        <p className='label'>Select or add brand</p>
         {allBrands &&
           <Autocomplete
             value={brandname}
@@ -251,6 +251,17 @@ const ScentCreate: React.FC<Props> = ({
           <Button disabled={isDisabled} variant='outline-info' type='submit'>save</Button>
         </div>
       </form>
+      <style jsx>{`
+        .label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+
+        .options-label {
+          margin-bottom: 4px;
+        }
+
+      `}</style>
     </div >
   )
 }

@@ -130,8 +130,8 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Attach a Note to a Scent</h2>
-        <p>Select a Scent:</p>
+        <h2 className='label'>Attach a Note to a Scent</h2>
+        <p className='label'>Select a Scent</p>
         <form onSubmit={this.onScentWasChosen}>
           {this.state.allScents &&
             <Autocomplete
@@ -161,7 +161,7 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
           </div>
         </form>
         <p></p>
-        <p>Select or add a Note (at the moment all notes are public and shared):</p>
+        <p className='label'>Select or add a Note (at the moment all notes are public and shared):</p>
         <form onSubmit={this.onNoteAdd}>
           {this.state.allNotes &&
             <Autocomplete
@@ -202,6 +202,12 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
             }
           </div>
         }
+        <style jsx>{`
+        .label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+      `}</style>
       </div>
     )
   }
