@@ -46,7 +46,7 @@ const ScentCreate: React.FC<Props> = ({
       })
     }
 
-    // call the function
+    // call the functions
     fetchCategoryData()
     fetchBrandData()
 
@@ -259,6 +259,10 @@ const ScentCreate: React.FC<Props> = ({
 
         .options-label {
           margin-bottom: 4px;
+        }
+
+        .container {
+          margin-left: 60px;
         }
 
       `}</style>

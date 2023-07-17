@@ -207,6 +207,10 @@ export class NoteCreate extends React.PureComponent<NoteCreateProps, NoteCreateS
           margin-top: 12px;
           margin-bottom: 4px;
         }
+
+        .container {
+          margin-left: 60px;
+        }
       `}</style>
       </div>
     )

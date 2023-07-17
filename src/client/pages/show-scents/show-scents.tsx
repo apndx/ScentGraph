@@ -250,6 +250,10 @@ export class ShowScents extends React.PureComponent<DEFAULT_PROPS, ShowScentsSta
           margin-top: 12px;
           margin-bottom: 4px;
         }
+
+        .container {
+          margin-left: 60px;
+        }
       `}</style>
       </div>
     )

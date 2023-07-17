@@ -128,6 +128,9 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
           margin-bottom: 4px;
         }
 
+        .container {
+          margin-left: 60px;
+        }
       `}</style>
       </div >
     )
