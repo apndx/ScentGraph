@@ -82,10 +82,10 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Add an item for scent creation</h2>
+        <h2 className='options-label'>Add an item for scent creation</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group controlId='adminForm.TypeSelect'>
-            <Form.Label> Choose Item type </Form.Label>
+            <Form.Label className='options-label'> Choose Item type </Form.Label>
             <Form.Control
               name='type'
               as='select' multiple
@@ -98,7 +98,7 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
             </Form.Control>
           </Form.Group>
           <Form.Group>
-            <Form.Label> Item name </Form.Label>
+            <Form.Label className='label'> Item name </Form.Label>
             <Form.Control
               type='text'
               name='itemName'
@@ -118,6 +118,20 @@ export class AdminTools extends React.PureComponent<AdminToolsProps, AdminToolsS
             </Form.Group>}
           <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>save</Button>
         </form>
+        <style jsx>{`
+        .label {
+          margin-bottom: 4px;
+        }
+
+        .options-label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+
+        .container {
+          margin-left: 60px;
+        }
+      `}</style>
       </div >
     )
   }

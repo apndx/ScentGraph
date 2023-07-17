@@ -73,11 +73,11 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Add a new user</h2>
+        <h2 className='label'>Add a new user</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>
 
-            <Form.Label> Name </Form.Label>
+            <Form.Label className='label'> Name </Form.Label>
             <Form.Control
               type='text'
               name='name'
@@ -86,7 +86,7 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
               id='name'
             />
 
-            <Form.Label> Username </Form.Label>
+            <Form.Label className='label'> Username </Form.Label>
             <Form.Control
               type='text'
               name='username'
@@ -95,7 +95,7 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
               id='username'
             />
 
-            <Form.Label> Password </Form.Label>
+            <Form.Label className='label'> Password </Form.Label>
             <Form.Control
               type='password'
               name='password'
@@ -104,9 +104,24 @@ export class UserCreate extends React.PureComponent<UserCreateProps, UserCreateS
               id='password'
             />
 
-            <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>save</Button>
+            <Button className='button' disabled={this.isDisabled()} variant='outline-info' type='submit'>save</Button>
           </Form.Group>
         </form>
+        <style jsx>{`
+        .label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+
+        .container {
+          margin-left: 60px;
+        }
+
+        .button {
+          margin-top: 16px;
+        }
+
+      `}</style>
       </div>
     )
   }

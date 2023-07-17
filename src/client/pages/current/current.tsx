@@ -34,6 +34,7 @@ export class Current extends React.Component<DEFAULT_PROPS, CurrentState> {
     return (
       <div>
         <div className='container'>
+        <h1 className='label'>Welcome to ScentGraph</h1>
           <Notification message={this.state.message} />
           <p>Here is a random sample from the scent collection for a {season} {time} </p>
           {this.state.nameToGraph &&
@@ -50,6 +51,17 @@ export class Current extends React.Component<DEFAULT_PROPS, CurrentState> {
             </div>
           }
         </div>
+        <style jsx>{`
+        .label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+
+        .container {
+          margin-left: 60px;
+        }
+
+      `}</style>
       </div>
     )
   }

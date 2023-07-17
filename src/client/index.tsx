@@ -8,11 +8,11 @@ import {
   Login,
   Logout,
   AdminTools,
-  ScentCreate,
   ShowScents,
   NoteCreate,
   Current
 } from './pages'
+import ScentCreate from './pages/scent-create/scent-create'
 import 'bootstrap/dist/css/bootstrap.css'
 import { SessionStorageItem } from '../client/utils'
 import { ExternalRedirect } from '../client/components'

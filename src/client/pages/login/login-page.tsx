@@ -67,10 +67,10 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
     return (
       <div className='container'>
         <Notification message={this.state.message} />
-        <h2>Login</h2>
+        <h2 className='label'>Login</h2>
         <form onSubmit={this.onSubmit}>
           <Form.Group>
-            <Form.Label> Username </Form.Label>
+            <Form.Label className='label'> Username </Form.Label>
             <Form.Control
               type='text'
               name='username'
@@ -79,7 +79,7 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
               id='username'
             />
 
-            <Form.Label> Password </Form.Label>
+            <Form.Label className='label'> Password </Form.Label>
             <Form.Control
               type='password'
               name='password'
@@ -91,6 +91,17 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
             <Button disabled={this.isDisabled()} variant='outline-info' type='submit'>Submit</Button>
           </Form.Group>
         </form>
+        <style jsx>{`
+        .label {
+          margin-top: 12px;
+          margin-bottom: 4px;
+        }
+
+        .container {
+          margin-left: 60px;
+        }
+
+      `}</style>
       </div>
     )
   }
