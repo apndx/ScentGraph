@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap'
 import Autocomplete from 'react-autocomplete'
 import { matchInput } from '../../utils'
 import { Notification } from '../../components'
-import { brandNames, categoryNames, sortByName } from './scent-create-util'
+import { getItemNames, sortByName } from './scent-create-util'
 
 interface Props {
   history: any,
@@ -99,7 +99,7 @@ const ScentCreate: React.FC<Props> = ({
 
   const isDisabled =
     scentname === '' || brandname === '' ||
-    allCategories && !categoryNames(allCategories).includes(categoryname)
+    allCategories && !getItemNames(allCategories).includes(categoryname)
 
   const onSubmit = async event => {
     event.preventDefault()
@@ -114,7 +114,7 @@ const ScentCreate: React.FC<Props> = ({
       url
     }
 
-    if (!brandNames(allBrands).includes(brandname)) {
+    if (!getItemNames(allBrands).includes(brandname)) {
       const newBrand: AdminContent = {
         itemName: brandname,
         type: 'brand'
