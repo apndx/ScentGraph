@@ -251,7 +251,7 @@ const ScentCreate: React.FC<Props> = ({
           <Button disabled={isDisabled} variant='outline-info' type='submit'>save</Button>
         </div>
       </form>
-      <style jsx>{`
+      <style jsx="true">{`
         .label {
           margin-top: 12px;
           margin-bottom: 4px;

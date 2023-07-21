@@ -61,7 +61,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "request-promise": "^4.2.5",
-    "ts-node": "^8.6.2",
+    "ts-node": "^10.9.1",
     "typescript": "^3.9.3",
     "vis-react": "^0.5.1"
   },
