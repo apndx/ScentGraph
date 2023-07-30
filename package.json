@@ -1,6 +1,6 @@
 {
   "name": "scentgraph",
-  "version": "2.0.30",
+  "version": "2.0.32",
   "description": "ScentGraph is a project for Helsinki University FullStack course. React and TypeScript are used for the front end, Node for the backend and Neo4J for the graph database. The database queries will be done using Cypher.",
   "scripts": {
     "postinstall": "npm run build-client",
@@ -80,7 +80,7 @@
     "jest": "^25.0.0",
     "less": "^3.10.3",
     "nock": "^12.0.3",
-    "nodemon": "^2.0.2",
+    "nodemon": "^3.0.1",
     "ts-jest": "^25.2.0",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3",
