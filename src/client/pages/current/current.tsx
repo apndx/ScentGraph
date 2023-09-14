@@ -28,7 +28,7 @@ export class Current extends React.Component<DEFAULT_PROPS, CurrentState> {
   }
 
   public render(): JSX.Element {
-    const season = seasonDecider()
+    const season = seasonDecider(new Date())
     const time = timeDecider()
 
     return (

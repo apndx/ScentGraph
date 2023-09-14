@@ -116,7 +116,7 @@ export function scentGraphByNameParams(item: AdminContent): any {
 }
 
 export function scentGraphCurrentParams(): any {
-  const season = seasonDecider()
+  const season = seasonDecider(new Date())
   const time = timeDecider()
   return { seasonname: season, timename: time }
 }
