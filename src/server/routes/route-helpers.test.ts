@@ -15,7 +15,7 @@ describe('Param decider', () => {
   it('should create correct params for current item', async () => {
     const item: AdminContent = { type: 'current', itemName: 'current' }
     const params = paramDecider(item)
-    const season = seasonDecider()
+    const season = seasonDecider(new Date())
     const time = timeDecider()
     const expected = { seasonname: season, timename: time }
     expect(params).toEqual(expected)
