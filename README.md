@@ -22,7 +22,7 @@ More details for setting up the database for ScentGraph can be found in the [dat
 
 ### Commands
 
-After cloning the repository these commands can be used in the repository root.
+After cloning the repository these commands can be used in the repository root. The project works at least with the Node version v12.22.3.
 
 Install dependencies:
 
