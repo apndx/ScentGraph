@@ -30,7 +30,7 @@ Install dependencies:
 npm install
 ```
 
-Start application in [dev mode](http://localhost:3001/):
+Start application in [dev mode](http://localhost:3004/):
 
 ```
 npm run start-dev
