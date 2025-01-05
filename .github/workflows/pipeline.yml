@@ -12,7 +12,7 @@ jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: '12'
@@ -37,17 +37,12 @@ jobs:
           command: npm run cypress-run
           start: npm run start-ci
           wait-on: http://localhost:3004
-      - name: Heroku Deployment
+      - name: Fly Deploy
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
-        uses: akhileshns/heroku-deploy@v3.12.13
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "scent-graph" #Must be unique in Heroku
-          heroku_email: "heli.huhtilainen@helsinki.fi"
-          healthcheck: "https://scent-graph.herokuapp.com/api/health"
-          checkstring: "ok"
-          delay: 5
-          rollbackonhealthcheckfailed: true
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: The build has succeeded
         if: ${{ success() }}
         uses: rjstone/discord-webhook-notify@v1
@@ -55,9 +50,9 @@ jobs:
           severity: info
           color: '#1ABC9C'
           username: ScentGraphBuildBot
-          avatarUrl: https://scent-graph.herokuapp.com/eye.2cefb131.jpg
+          avatarUrl: https://scentgraph.fly.dev/eye.2cefb131.jpg
           text: A new version of ScentGraph deployed
-          description: To https://scent-graph.herokuapp.com/ by ${{ github.actor }}
+          description: To https://scentgraph.fly.dev/ by ${{ github.actor }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: The build has failed
         if: ${{ failure() }}
@@ -66,7 +61,7 @@ jobs:
           severity: error
           color: '#ff00aa'
           username: ScentGraphBuildBot
-          avatarUrl: https://scent-graph.herokuapp.com/eye.2cefb131.jpg
+          avatarUrl: https://scentgraph.fly.dev/eye.2cefb131.jpg
           text: Build failed
           description: Commits
           details: ${{ toJson(github.event.commits.*.url) }}
@@ -75,7 +70,7 @@ jobs:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: '0'
       - name: Bump version and push tag
