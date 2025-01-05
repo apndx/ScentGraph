@@ -1,6 +1,6 @@
-# [ScentGraph](https://scent-graph.herokuapp.com/)
+# [ScentGraph](https://scentgraph.fly.dev/)
 
-ScentGraph is a project for Helsinki University [Full Stack course](https://fullstackopen.com/en/). In 2020 it my Full Stack course project, and in 2023 it was used as a base for [Full Stack Part 11](https://fullstackopen.com/en/part11) exercise [11.20](https://fullstackopen.com/en/part11/expanding_further#exercises-11-19-11-21). ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application is hosted in [Heroku](https://scent-graph.herokuapp.com/). The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries are done using Cypher. GitHub actions are used for CI and automated testing.
+ScentGraph is a project for Helsinki University [Full Stack course](https://fullstackopen.com/en/). In 2020 it my Full Stack course project, and in 2023 it was used as a base for [Full Stack Part 11](https://fullstackopen.com/en/part11) exercise [11.20](https://fullstackopen.com/en/part11/expanding_further#exercises-11-19-11-21). ScentGraph is done using React and TypeScript for the front end, Node and TypeScript for the backend and [Neo4J](https://neo4j.com/) for graph database. The web application is hosted in [Fly.io](https://scentgraph.fly.dev/). The [database](https://github.com/apndx/ScentGraph/blob/master/documentation/database.md) queries are done using Cypher. GitHub actions are used for CI and automated testing.
 
 In ScentGraph users can add scents to the database. The scents can belong to various categories and the relations of scents, their categories and several scent properties can be visualized in a graph form.
 

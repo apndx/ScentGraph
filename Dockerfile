@@ -1,5 +1,5 @@
-# specify base image
-FROM node:8
+# Use an official Node.js runtime as a parent image
+FROM node:14
 
 # set working directory
 RUN mkdir -p /app
@@ -13,6 +13,6 @@ COPY . .
 # build
 RUN npm run build-client
 
-EXPOSE 3000
+EXPOSE 3004
 
 CMD ["npm", "start"]
