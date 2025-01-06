@@ -20,6 +20,16 @@ primary_region = 'arn'
   min_machines_running = 0
   processes = ['app']
 
+[[http_service.checks]]
+  grace_period = '10s'
+  interval = '30s'
+  method = 'GET'
+  timeout = '5s'
+  path = 'https://scentgraph.fly.dev/api/health'
+
+[deploy]
+  strategy = 'canary'
+
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'
