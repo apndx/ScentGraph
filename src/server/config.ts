@@ -10,7 +10,7 @@ export interface ServerConfig {
 export function loadServerConfig(): ServerConfig {
   const serverConfig = {
     env: process.env.NODE_ENV || 'local',
-    serverPort: parseInt(process.env.PORT as string, 10) || 3001,
+    serverPort: parseInt(process.env.PORT as string, 10) || 3004,
     publicPath: '../../dist',
     apiUrl: process.env.API_URL || `http://localhost:3000`,
     neo4jUrl: getUrl(process.env.NODE_ENV) || 'bolt://localhost:7687',
