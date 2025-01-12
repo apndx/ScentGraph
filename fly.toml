@@ -25,7 +25,7 @@ primary_region = 'arn'
   interval = '30s'
   method = 'GET'
   timeout = '5s'
-  path = 'https://scentgraph.fly.dev/api/health'
+  path = 'api/health'
 
 [deploy]
   strategy = 'canary'
