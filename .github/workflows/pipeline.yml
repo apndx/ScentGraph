@@ -59,7 +59,7 @@ jobs:
           description: To https://scentgraph.fly.dev/ by ${{ github.actor }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: The build has failed
-        if: ${{ failure() && env.DEPLOYMENT_DONE == 'true' }}
+        if: ${{ github.event_name == 'push' && failure() }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: error
