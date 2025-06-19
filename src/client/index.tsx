@@ -10,7 +10,8 @@ import {
   AdminTools,
   ShowScents,
   NoteCreate,
-  Current
+  Current,
+  ExcelPage,
 } from './pages'
 import ScentCreate from './pages/scent-create/scent-create'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -50,6 +51,7 @@ class App extends React.Component {
           <Route exact path={ClientRoutePath.Current} component={Current} />
           <Route exact path={ClientRoutePath.NoteCreation} component={NoteCreate} />
           <Route exact path={ClientRoutePath.ScentCreation} component={ScentCreate} />
+          <Route exact path={ClientRoutePath.ScentExcel} component={ExcelPage} />
           <Route exact path={ClientRoutePath.ShowCategoryScents} component={ShowScents} />
           <Route exact path={ClientRoutePath.UserCreation} component={UserCreate} />
           <Route exact path={ClientRoutePath.AdminTools} component={AdminTools} />
