@@ -3,6 +3,7 @@ export enum ClientRoutePath {
     Current = '/',
     UserCreation = '/newUser',
     ScentCreation = '/addScent',
+    ScentExcel = '/scentExcel',
     NoteCreation = '/addNotes',
     ShowCategoryScents = '/showScents',
     AdminTools = '/adminTools',
